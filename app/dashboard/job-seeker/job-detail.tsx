@@ -6,6 +6,15 @@ import { useEffect, useState } from "react"
 import { Button } from "../../../components/ui/button"
 import { ArrowLeft, MapPin, Clock, Briefcase, CheckCircle, Building } from "lucide-react"
 import ApplyModal from "./apply-modal"
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuLabel
+} from "@/components/ui/dropdown-menu" // adjust path if needed
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 
 interface JobDetail {
   id: string
@@ -170,12 +179,39 @@ export default function JobDetailPage({ jobId, onBack }: JobDetailPageProps) {
             <span className="text-xl font-semibold text-[#00A8A8]">CareerLinker</span>
           </div>
 
-          <div className="flex items-center gap-4">
-            <span className="text-[#2B2D42]">Welcome, {session.user.name}</span>
-            <Button onClick={() => signOut()} variant="outline" size="sm">
-              Sign Out
-            </Button>
-          </div>
+          <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <div className="flex items-center gap-2 cursor-pointer">
+                  <Avatar className="w-8 h-8">
+                    <AvatarFallback>{session.user.name?.[0] || "U"}</AvatarFallback>
+                  </Avatar>
+                  <span className="text-[#2B2D42]">{session.user.name}</span>
+                </div>
+              </DropdownMenuTrigger>
+
+              <DropdownMenuContent className="w-48 mt-2">
+                <DropdownMenuLabel>Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => router.push("/account/change-password")}>
+                  Change Password
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => {
+                    const confirmed = confirm("Are you sure you want to delete your account?")
+                    if (confirmed) {
+                      // You can later implement DELETE call to your backend here
+                      alert("Delete account logic goes here")
+                    }
+                  }}
+                  className="text-red-600"
+                >
+                  Delete Account
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/" })}>
+                  Sign Out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
         </div>
       </nav>
 

@@ -6,6 +6,15 @@ import { useEffect, useState } from "react"
 import { Button } from "../../../components/ui/button"
 import { Search, Filter, MapPin, Clock, Briefcase, RefreshCw } from "lucide-react"
 import JobDetailPage from "./job-detail"
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuLabel
+} from "@/components/ui/dropdown-menu" // adjust path if needed
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 
 interface Job {
   id: string
@@ -196,12 +205,46 @@ export default function JobSeekerDashboard() {
             </div>
             <span className="text-xl font-semibold text-[#00A8A8]">CareerLinker</span>
           </div>
-
           <div className="flex items-center gap-4">
-            <span className="text-[#2B2D42]">Welcome, {session.user.name}</span>
-            <Button onClick={() => signOut()} variant="outline" size="sm">
-              Sign Out
-            </Button>
+            <button
+              className="px-4 py-2 bg-[#00A8A8] text-white rounded-lg hover:bg-[#009494] transition-colors"
+              onClick={() => router.push("/dashboard/job-seeker/applications")}
+            >
+              Applied
+            </button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <div className="flex items-center gap-2 cursor-pointer">
+                  <Avatar className="w-8 h-8">
+                    <AvatarFallback>{session.user.name?.[0] || "U"}</AvatarFallback>
+                  </Avatar>
+                  <span className="text-[#2B2D42]">{session.user.name}</span>
+                </div>
+              </DropdownMenuTrigger>
+
+              <DropdownMenuContent className="w-48 mt-2">
+                <DropdownMenuLabel>Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => router.push("/account/change-password")}>
+                  Change Password
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => {
+                    const confirmed = confirm("Are you sure you want to delete your account?")
+                    if (confirmed) {
+                      // You can later implement DELETE call to your backend here
+                      alert("Delete account logic goes here")
+                    }
+                  }}
+                  className="text-red-600"
+                >
+                  Delete Account
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/" })}>
+                  Sign Out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </nav>
@@ -296,10 +339,8 @@ export default function JobSeekerDashboard() {
             >
               <option value="All">Filter by Location</option>
               <option value="Remote">Remote</option>
-              <option value="San Francisco">San Francisco</option>
-              <option value="New York">New York</option>
-              <option value="Austin">Austin</option>
-              <option value="Seattle">Seattle</option>
+              <option value="Faisalabad">Faisalabad</option>
+              <option value="Lahore">Lahore</option>
             </select>
           </div>
         </div>

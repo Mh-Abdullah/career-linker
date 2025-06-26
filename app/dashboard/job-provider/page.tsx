@@ -6,6 +6,15 @@ import { useEffect, useState } from "react"
 import { Button } from "../../../components/ui/button"
 import DashboardView from "./dashboard-view"
 import JobsView from "./jobs-view"
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 interface Job {
   id: string
@@ -27,7 +36,20 @@ interface Job {
 }
 
 export default function JobProviderDashboard() {
-  const { data: session, status } = useSession()
+  interface SessionUser {
+    id: string
+    email: string
+    name: string
+    userType: string
+    image?: string
+  }
+
+  interface CustomSession {
+    user: SessionUser
+    // add other session properties if needed
+  }
+
+  const { data: session, status } = useSession() as { data: CustomSession | null, status: string }
   const router = useRouter()
   const [jobs, setJobs] = useState<Job[]>([])
   const [currentView, setCurrentView] = useState<"dashboard" | "jobs">("dashboard")
@@ -111,32 +133,60 @@ export default function JobProviderDashboard() {
               <Button
                 variant={currentView === "jobs" ? "default" : "ghost"}
                 onClick={() => setCurrentView("jobs")}
-                className={currentView === "jobs" ? "bg-[#00A8A8] text-white" : "text-[#2B2D42] hover:text-[#00A8A8]"}
+                className={
+                  currentView === "jobs" ? "bg-[#00A8A8] text-white" : "text-[#2B2D42] hover:text-[#00A8A8]"
+                }
               >
                 Manage Jobs
               </Button>
             </div>
 
-            <div className="flex items-center gap-4">
-              <span className="text-[#2B2D42]">Welcome, {session.user.name}</span>
-              <Button onClick={() => signOut()} variant="outline" size="sm">
-                Sign Out
-              </Button>
-            </div>
+            {/* Account Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <div className="flex items-center gap-2 cursor-pointer">
+                  <Avatar className="w-8 h-8">
+                    <AvatarFallback>{session.user.name?.[0] || "U"}</AvatarFallback>
+                  </Avatar>
+                  <span className="text-[#2B2D42]">{session.user.name}</span>
+                </div>
+              </DropdownMenuTrigger>
+
+              <DropdownMenuContent className="w-48 mt-2">
+                <DropdownMenuLabel>Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => router.push("/account/change-password")}>
+                  Change Password
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => {
+                    const confirmed = confirm("Are you sure you want to delete your account?")
+                    if (confirmed) {
+                      // You can later implement DELETE call to your backend here
+                      alert("Delete account logic goes here")
+                    }
+                  }}
+                  className="text-red-600"
+                >
+                  Delete Account
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/" })}>
+                  Sign Out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </nav>
 
       {/* Main Content */}
       <div className="container mx-auto px-6 py-8">
-        {/* Loading State */}
         {isLoading && (
           <div className="text-center py-12">
             <div className="text-[#2B2D42]/60 text-lg">Loading jobs...</div>
           </div>
         )}
 
-        {/* Error State */}
         {error && (
           <div className="text-center py-12">
             <div className="text-red-600 text-lg mb-4">{error}</div>
@@ -146,11 +196,22 @@ export default function JobProviderDashboard() {
           </div>
         )}
 
-        {/* Content Views */}
         {!isLoading && !error && (
           <>
-            {currentView === "dashboard" && <DashboardView jobs={jobs} onJobCreated={fetchJobs} />}
-            {currentView === "jobs" && <JobsView jobs={jobs} onJobCreated={fetchJobs} onJobUpdated={fetchJobs} />}
+            {currentView === "dashboard" && (
+              <DashboardView
+                jobs={jobs}
+                onJobCreated={fetchJobs}
+                onManageJobs={() => setCurrentView("jobs")}
+              />
+            )}
+            {currentView === "jobs" && (
+              <JobsView
+                jobs={jobs}
+                onJobCreated={fetchJobs}
+                onJobUpdated={fetchJobs}
+              />
+            )}
           </>
         )}
       </div>

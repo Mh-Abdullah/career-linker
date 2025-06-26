@@ -27,9 +27,10 @@ interface Job {
 interface DashboardViewProps {
   jobs: Job[]
   onJobCreated: () => void
+  onManageJobs: () => void // Add this prop
 }
 
-export default function DashboardView({ jobs, onJobCreated }: DashboardViewProps) {
+export default function DashboardView({ jobs, onJobCreated, onManageJobs }: DashboardViewProps) {
   const [showCreateModal, setShowCreateModal] = useState(false)
 
   const totalApplications = jobs.reduce((total, job) => total + job._count.applications, 0)
@@ -200,6 +201,11 @@ export default function DashboardView({ jobs, onJobCreated }: DashboardViewProps
             Post New Job
           </Button>
           <Button
+            onClick={() => {
+              if (typeof window !== 'undefined') {
+                window.location.href = '/dashboard/job-provider/applications';
+              }
+            }}
             variant="outline"
             className="h-20 flex flex-col items-center justify-center border-[#00A8A8] text-[#00A8A8] hover:bg-[#00A8A8] hover:text-white"
           >
@@ -207,6 +213,7 @@ export default function DashboardView({ jobs, onJobCreated }: DashboardViewProps
             View All Applications
           </Button>
           <Button
+            onClick={onManageJobs}
             variant="outline"
             className="h-20 flex flex-col items-center justify-center border-[#00A8A8] text-[#00A8A8] hover:bg-[#00A8A8] hover:text-white"
           >
