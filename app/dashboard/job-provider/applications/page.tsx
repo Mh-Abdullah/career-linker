@@ -34,6 +34,13 @@ interface Application {
       salaryExpectation?: string
     }
   }
+  // Add job info for all-applications view
+  job?: {
+    id: string
+    title: string
+    company: string
+    location: string
+  }
 }
 
 interface Job {
@@ -49,8 +56,6 @@ export default function JobApplicationsPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const jobId = searchParams.get("jobId")
-
-  console.log("JobApplicationsPage - jobId from searchParams:", jobId)
 
   const [applications, setApplications] = useState<Application[]>([])
   const [job, setJob] = useState<Job | null>(null)
@@ -72,14 +77,34 @@ export default function JobApplicationsPage() {
     }
 
     if (!jobId) {
-      setError("No job ID provided")
-      setIsLoading(false)
+      // Fetch all applications for all jobs posted by this provider
+      fetchAllApplications()
+      setJob(null)
       return
     }
 
     fetchApplications()
     fetchJobDetails()
   }, [session, status, router, jobId])
+
+  const fetchAllApplications = async () => {
+    try {
+      setIsLoading(true)
+      setError("")
+      const response = await fetch("/api/job-provider/applications")
+      if (response.ok) {
+        const applicationsData = await response.json()
+        setApplications(applicationsData)
+      } else {
+        const errorData = await response.json().catch(() => ({ error: "Unknown error" }))
+        setError(`Failed to load applications: ${errorData.error || response.statusText}`)
+      }
+    } catch (error) {
+      setError(`Network error: ${error instanceof Error ? error.message : "Unknown error"}`)
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   const fetchApplications = async () => {
     if (!jobId) return
@@ -283,6 +308,15 @@ export default function JobApplicationsPage() {
                     }`}
                     onClick={() => setSelectedApplication(application)}
                   >
+                    {/* Show job info if jobId is not present (all applications view) */}
+                    {!jobId && (
+                      <div className="mb-2">
+                        <span className="text-xs text-[#00A8A8] font-semibold bg-[#00A8A8]/10 px-2 py-1 rounded mr-2">
+                          {application.job?.title}
+                        </span>
+                        <span className="text-xs text-[#2B2D42]/60">{application.job?.company}</span>
+                      </div>
+                    )}
                     <div className="flex justify-between items-start mb-4">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-[#00A8A8]/10 rounded-full flex items-center justify-center">

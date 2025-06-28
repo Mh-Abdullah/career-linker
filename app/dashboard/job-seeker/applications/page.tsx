@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Briefcase, Clock, RefreshCw, ArrowLeft } from "lucide-react"
 import JobDetailPage from "../job-detail"
+import ChangePasswordDialog from "../change-password-dialog"
 
 import {
   DropdownMenu,
@@ -42,6 +43,7 @@ export default function AppliedJobsPage({ setSelectedJobId, setCurrentView }: { 
   const [applications, setApplications] = useState<Application[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState("")
+  const [showChangePassword, setShowChangePassword] = useState(false)
 
   useEffect(() => {
     if (status === "loading") return
@@ -49,7 +51,11 @@ export default function AppliedJobsPage({ setSelectedJobId, setCurrentView }: { 
       router.push("/auth/signin")
       return
     }
-    fetchApplications()
+    // Only fetch applications on initial mount or after reload, not on every navigation or tab switch
+    if (applications.length === 0 && typeof document !== "undefined" && document.visibilityState === "visible") {
+      fetchApplications()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session, status, router])
 
   const fetchApplications = async () => {
@@ -109,13 +115,25 @@ export default function AppliedJobsPage({ setSelectedJobId, setCurrentView }: { 
               <DropdownMenuContent className="w-48 mt-2">
                 <DropdownMenuLabel>Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => router.push("/account/change-password")}>Change Password</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setShowChangePassword(true)}>
+                  Change Password
+                </DropdownMenuItem>
                 <DropdownMenuItem
-                  onClick={() => {
+                  onClick={async () => {
                     const confirmed = confirm("Are you sure you want to delete your account?")
                     if (confirmed) {
-                      // You can later implement DELETE call to your backend here
-                      alert("Delete account logic goes here")
+                      try {
+                        const res = await fetch("/api/auth/delete-account", { method: "DELETE" })
+                        if (res.ok) {
+                          alert("Your account has been deleted.")
+                          signOut({ callbackUrl: "/" })
+                        } else {
+                          const data = await res.json()
+                          alert(data.error || "Failed to delete account.")
+                        }
+                      } catch (err) {
+                        alert("Network error. Please try again.")
+                      }
                     }
                   }}
                   className="text-red-600"
@@ -199,6 +217,7 @@ export default function AppliedJobsPage({ setSelectedJobId, setCurrentView }: { 
           </div>
         )}
       </div>
+      <ChangePasswordDialog open={showChangePassword} onClose={() => setShowChangePassword(false)} />
     </div>
   )
 }

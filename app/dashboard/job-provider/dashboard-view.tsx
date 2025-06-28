@@ -4,6 +4,8 @@ import { useState } from "react"
 import { Button } from "../../../components/ui/button"
 import { Plus, Users, Eye, Calendar, TrendingUp, Briefcase } from "lucide-react"
 import CreateJobModal from "./create-job-modal"
+import { signOut } from "next-auth/react"
+import ChangePasswordDialog from "./change-password-dialog"
 
 interface Job {
   id: string
@@ -32,6 +34,7 @@ interface DashboardViewProps {
 
 export default function DashboardView({ jobs, onJobCreated, onManageJobs }: DashboardViewProps) {
   const [showCreateModal, setShowCreateModal] = useState(false)
+  const [showChangePassword, setShowChangePassword] = useState(false)
 
   const totalApplications = jobs.reduce((total, job) => total + job._count.applications, 0)
   const activeJobs = jobs.filter((job) => job.isActive).length
@@ -190,27 +193,15 @@ export default function DashboardView({ jobs, onJobCreated, onManageJobs }: Dash
       </div>
 
       {/* Quick Actions */}
-      <div className="bg-white rounded-lg border border-gray-200 p-6">
+      <div className="bg-white rounded-lg border border-gray-200 p-6 ">
         <h2 className="text-xl font-semibold text-[#2B2D42] mb-4">Quick Actions</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
           <Button
             onClick={handleCreateJob}
             className="h-20 bg-[#00A8A8] hover:bg-[#009494] text-white flex flex-col items-center justify-center"
           >
             <Plus className="h-6 w-6 mb-2" />
             Post New Job
-          </Button>
-          <Button
-            onClick={() => {
-              if (typeof window !== 'undefined') {
-                window.location.href = '/dashboard/job-provider/applications';
-              }
-            }}
-            variant="outline"
-            className="h-20 flex flex-col items-center justify-center border-[#00A8A8] text-[#00A8A8] hover:bg-[#00A8A8] hover:text-white"
-          >
-            <Users className="h-6 w-6 mb-2" />
-            View All Applications
           </Button>
           <Button
             onClick={onManageJobs}
@@ -229,6 +220,9 @@ export default function DashboardView({ jobs, onJobCreated, onManageJobs }: Dash
         onClose={() => setShowCreateModal(false)}
         onJobCreated={handleJobCreated}
       />
+
+      {/* Change Password Dialog */}
+      <ChangePasswordDialog open={showChangePassword} onClose={() => setShowChangePassword(false)} />
     </div>
   )
 }

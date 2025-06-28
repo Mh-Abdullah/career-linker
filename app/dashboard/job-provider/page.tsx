@@ -15,6 +15,7 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import ChangePasswordDialog from "./change-password-dialog"
 
 interface Job {
   id: string
@@ -55,7 +56,9 @@ export default function JobProviderDashboard() {
   const [currentView, setCurrentView] = useState<"dashboard" | "jobs">("dashboard")
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState("")
+  const [showChangePassword, setShowChangePassword] = useState(false)
 
+  // Only fetch jobs on initial mount or after reload, not on every navigation or tab switch
   useEffect(() => {
     if (status === "loading") return
 
@@ -69,7 +72,11 @@ export default function JobProviderDashboard() {
       return
     }
 
-    fetchJobs()
+    // Only fetch jobs if jobs array is empty and the page is visible (not on tab switch)
+    if (jobs.length === 0 && document.visibilityState === "visible") {
+      fetchJobs()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session, status, router])
 
   const fetchJobs = async () => {
@@ -155,15 +162,25 @@ export default function JobProviderDashboard() {
               <DropdownMenuContent className="w-48 mt-2">
                 <DropdownMenuLabel>Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => router.push("/account/change-password")}>
+                <DropdownMenuItem onClick={() => setShowChangePassword(true)}>
                   Change Password
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                  onClick={() => {
+                  onClick={async () => {
                     const confirmed = confirm("Are you sure you want to delete your account?")
                     if (confirmed) {
-                      // You can later implement DELETE call to your backend here
-                      alert("Delete account logic goes here")
+                      try {
+                        const res = await fetch("/api/auth/delete-account", { method: "DELETE" })
+                        if (res.ok) {
+                          alert("Your account has been deleted.")
+                          signOut({ callbackUrl: "/" })
+                        } else {
+                          const data = await res.json()
+                          alert(data.error || "Failed to delete account.")
+                        }
+                      } catch (err) {
+                        alert("Network error. Please try again.")
+                      }
                     }
                   }}
                   className="text-red-600"
@@ -215,6 +232,8 @@ export default function JobProviderDashboard() {
           </>
         )}
       </div>
+
+      <ChangePasswordDialog open={showChangePassword} onClose={() => setShowChangePassword(false)} />
     </div>
   )
 }
