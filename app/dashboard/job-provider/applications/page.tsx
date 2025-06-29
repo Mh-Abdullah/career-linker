@@ -243,7 +243,7 @@ export default function JobApplicationsPage() {
       {/* Navigation */}
       <nav className="bg-white border-b border-gray-200">
         <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center">
+          <div className="flex items-center cursor-pointer" onClick={() => router.push("/dashboard/job-provider")}>
             <div className="w-10 h-10 bg-[#00A8A8] rounded-lg flex items-center justify-center mr-3">
               <span className="text-white font-bold">CL</span>
             </div>
@@ -501,7 +501,12 @@ export default function JobApplicationsPage() {
                       <option value="REJECTED">Rejected</option>
                     </select>
                     <Button
-                      onClick={() => window.open(`mailto:${selectedApplication.user.email}`)}
+                      onClick={() =>
+                        window.open(
+                          `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(selectedApplication.user.email)}`,
+                          "_blank"
+                        )
+                      }
                       className="bg-[#00A8A8] hover:bg-[#009494] text-white"
                     >
                       <Mail className="h-4 w-4 mr-1" />

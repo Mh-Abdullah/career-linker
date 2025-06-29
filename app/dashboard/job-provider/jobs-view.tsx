@@ -73,6 +73,14 @@ export default function JobsView({ jobs, onJobCreated, onJobUpdated }: JobsViewP
     setFilteredJobs(filtered)
   }, [searchTerm, statusFilter, jobs])
 
+  // Polling to refresh jobs every 10 seconds for live application count
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      onJobUpdated()
+    }, 10000) // 10 seconds
+    return () => clearInterval(interval)
+  }, [onJobUpdated])
+
   const formatJobType = (jobType: string) => {
     return jobType
       .replace("_", " ")

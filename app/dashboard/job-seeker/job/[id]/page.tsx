@@ -5,6 +5,15 @@ import { useRouter, useParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import { Button } from "../../../../../components/ui/button"
 import { ArrowLeft, MapPin, Clock, Briefcase, CheckCircle, Building } from "lucide-react"
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuLabel,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 interface JobDetail {
   id: string
@@ -22,72 +31,6 @@ interface JobDetail {
   isActive: boolean
 }
 
-// Mock job data - in real app, this would come from API
-const mockJobDetails: { [key: string]: JobDetail } = {
-  "1": {
-    id: "1",
-    title: "Senior React Developer",
-    company: "TechCorp Solutions",
-    location: "San Francisco, CA",
-    salary: "$80,000 - $120,000",
-    jobType: "FULL_TIME",
-    skills: "React, TypeScript, Node.js",
-    description:
-      "Our company is a leading tech firm specializing in cutting-edge web applications. We are dedicated to pushing the boundaries of digital innovation and creating products that impact millions of users worldwide.",
-    requirements: [
-      "Proficiency in React and modern JavaScript/TypeScript",
-      "Strong understanding of web development best practices",
-      "Experience with state management libraries (Redux, Zustand)",
-      "Knowledge of testing frameworks and methodologies",
-    ],
-    tasks: [
-      "Develop and maintain high-quality React applications",
-      "Collaborate with cross-functional teams to design and implement new features",
-      "Optimize application performance and user experience",
-      "Mentor junior developers and contribute to code reviews",
-    ],
-    benefits: [
-      "Competitive salary and performance bonuses",
-      "Flexible work hours and remote work options",
-      "Professional development opportunities and conference attendance",
-      "Health insurance and comprehensive wellness programs",
-    ],
-    createdAt: "2024-01-15T10:00:00Z",
-    isActive: true,
-  },
-  "2": {
-    id: "2",
-    title: "UI/UX Designer",
-    company: "Design Studio Pro",
-    location: "New York, NY",
-    salary: "$70,000 - $95,000",
-    jobType: "FULL_TIME",
-    skills: "Figma, Adobe XD, Prototyping",
-    description:
-      "We are a creative design agency focused on delivering exceptional user experiences for web and mobile applications. Our team works with Fortune 500 companies to create innovative digital solutions.",
-    requirements: [
-      "Proficiency in design tools like Figma, Adobe XD, and Sketch",
-      "Strong portfolio demonstrating UI/UX design skills",
-      "Understanding of user-centered design principles",
-      "Experience with prototyping and user testing",
-    ],
-    tasks: [
-      "Create wireframes, mockups, and interactive prototypes",
-      "Conduct user research and usability testing",
-      "Collaborate with developers to ensure design implementation",
-      "Maintain and evolve design systems and style guides",
-    ],
-    benefits: [
-      "Competitive salary with annual reviews",
-      "Creative freedom and flexible work environment",
-      "Access to latest design tools and software",
-      "Health, dental, and vision insurance coverage",
-    ],
-    createdAt: "2024-01-14T14:30:00Z",
-    isActive: true,
-  },
-}
-
 export default function JobDetailPage() {
   const { data: session, status } = useSession()
   const router = useRouter()
@@ -95,6 +38,8 @@ export default function JobDetailPage() {
   const jobId = params.id as string
   const [job, setJob] = useState<JobDetail | null>(null)
   const [isApplying, setIsApplying] = useState(false)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState("")
 
   useEffect(() => {
     if (status === "loading") return
@@ -109,13 +54,52 @@ export default function JobDetailPage() {
       return
     }
 
-    // Load job details
-    const jobDetail = mockJobDetails[jobId]
-    if (jobDetail) {
-      setJob(jobDetail)
-    } else {
-      router.push("/dashboard/job-seeker")
+    // Fetch job details from API
+    const fetchJob = async () => {
+      setLoading(true)
+      setError("")
+      try {
+        const res = await fetch(`/api/jobs/${jobId}`)
+        if (res.ok) {
+          const data = await res.json()
+          // Ensure requirements, tasks, and benefits are arrays
+          const parseArray = (val: any) => {
+            if (Array.isArray(val)) return val
+            if (typeof val === 'string') {
+              try {
+                const arr = JSON.parse(val)
+                if (Array.isArray(arr)) return arr
+              } catch {}
+              // fallback: split by newlines or commas
+              return val.split(/\r?\n|,/).map((s: string) => s.trim()).filter(Boolean)
+            }
+            return []
+          }
+          setJob({
+            id: data.id,
+            title: data.title,
+            company: data.company || data.postedBy?.jobProviderProfile?.companyName || data.postedBy?.name || "",
+            location: data.location,
+            salary: data.salary,
+            jobType: data.jobType,
+            skills: data.skills,
+            description: data.description,
+            requirements: parseArray(data.requirements),
+            tasks: parseArray(data.tasks),
+            benefits: parseArray(data.benefits),
+            createdAt: data.createdAt,
+            isActive: data.isActive,
+          })
+        } else {
+          setError("Job not found.")
+        }
+      } catch (err) {
+        setError("Failed to load job details.")
+      } finally {
+        setLoading(false)
+      }
     }
+    fetchJob()
   }, [session, status, router, jobId])
 
   const handleApply = async () => {
@@ -133,10 +117,17 @@ export default function JobDetailPage() {
       .replace(/\b\w/g, (l) => l.toUpperCase())
   }
 
-  if (status === "loading" || !job) {
+  if (status === "loading" || loading) {
     return (
       <div className="min-h-screen bg-[#F5F7FA] flex items-center justify-center">
         <div className="text-[#2B2D42]">Loading...</div>
+      </div>
+    )
+  }
+  if (error || !job) {
+    return (
+      <div className="min-h-screen bg-[#F5F7FA] flex items-center justify-center">
+        <div className="text-red-600 text-lg">{error || "Job not found."}</div>
       </div>
     )
   }
@@ -147,21 +138,59 @@ export default function JobDetailPage() {
 
   return (
     <div className="min-h-screen bg-[#F5F7FA]">
-      {/* Navigation */}
       <nav className="bg-white border-b border-gray-200">
         <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center">
+          <div className="flex items-center cursor-pointer" onClick={() => router.push("/dashboard/job-seeker")}> 
             <div className="w-10 h-10 bg-[#00A8A8] rounded-lg flex items-center justify-center mr-3">
               <span className="text-white font-bold">CL</span>
             </div>
             <span className="text-xl font-semibold text-[#00A8A8]">CareerLinker</span>
           </div>
-
           <div className="flex items-center gap-4">
-            <span className="text-[#2B2D42]">Welcome, {session.user.name}</span>
-            <Button onClick={() => signOut()} variant="outline" size="sm">
-              Sign Out
-            </Button>
+            <button
+              className="px-4 py-2 bg-[#00A8A8] text-white rounded-lg hover:bg-[#009494] transition-colors"
+              onClick={() => router.push("/dashboard/job-seeker")}
+            >
+              Jobs
+            </button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <div className="flex items-center gap-2 cursor-pointer">
+                  <Avatar className="w-8 h-8">
+                    <AvatarFallback>{session?.user?.name?.[0] || "U"}</AvatarFallback>
+                  </Avatar>
+                  <span className="text-[#2B2D42]">{session?.user?.name}</span>
+                </div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-48 mt-2">
+                <DropdownMenuLabel>Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => router.push("/dashboard/job-seeker")}>Jobs</DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={async () => {
+                    const confirmed = confirm("Are you sure you want to delete your account?")
+                    if (confirmed) {
+                      try {
+                        const res = await fetch("/api/auth/delete-account", { method: "DELETE" })
+                        if (res.ok) {
+                          alert("Your account has been deleted.")
+                          signOut({ callbackUrl: "/" })
+                        } else {
+                          const data = await res.json()
+                          alert(data.error || "Failed to delete account.")
+                        }
+                      } catch (err) {
+                        alert("Network error. Please try again.")
+                      }
+                    }
+                  }}
+                  className="text-red-600"
+                >
+                  Delete Account
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/" })}>Sign Out</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </nav>

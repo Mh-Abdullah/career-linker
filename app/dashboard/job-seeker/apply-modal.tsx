@@ -118,14 +118,29 @@ export default function ApplyModal({ isOpen, onClose, jobId, jobTitle, companyNa
 
     try {
       const file = validFiles[0]
-      const mockUrl = `/uploads/resume/${Date.now()}_${file.name}`
+      const formData = new FormData()
+      formData.append("resume", file)
+
+      const response = await fetch("/api/upload/resume", {
+        method: "POST",
+        body: formData,
+      })
+
+      if (!response.ok) {
+        throw new Error("Failed to upload file.")
+      }
+
+      const data = await response.json()
+      if (!data.url) {
+        throw new Error("No URL returned from server.")
+      }
 
       const uploadedFile: UploadedFile = {
         name: file.name,
         size: file.size,
         type: file.type,
         file: file,
-        url: mockUrl,
+        url: data.url,
       }
 
       setUploadedFiles([uploadedFile])
