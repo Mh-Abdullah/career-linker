@@ -5,6 +5,7 @@ import { useRouter, useParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import { Button } from "../../../../../components/ui/button"
 import { ArrowLeft, Download, Eye, Mail, Phone, Calendar, FileText, User } from "lucide-react"
+import { SimplePieChart } from "@/components/simple-pie-chart"
 
 interface Application {
   id: string
@@ -313,7 +314,7 @@ export default function JobApplicationsPage() {
               )}
             </div>
 
-            {/* Application Details */}
+            {/* Application Details Column */}
             <div className="lg:sticky lg:top-8">
               {selectedApplication ? (
                 <div className="bg-white rounded-lg border border-gray-200 p-6">

@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import { Button } from "../../../../components/ui/button"
 import { ArrowLeft, Download, Eye, Mail, Phone, Calendar, FileText, User } from "lucide-react"
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
 interface Application {
   id: string
@@ -49,6 +50,7 @@ interface Job {
   company: string
   location: string
   createdAt: string
+  description?: string // Added to fix error
 }
 
 export default function JobApplicationsPage() {
@@ -62,6 +64,9 @@ export default function JobApplicationsPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState("")
   const [selectedApplication, setSelectedApplication] = useState<Application | null>(null)
+
+  // State for extracted resume text
+  const [resumeText, setResumeText] = useState<string>("");
 
   useEffect(() => {
     if (status === "loading") return
@@ -209,6 +214,56 @@ export default function JobApplicationsPage() {
       document.body.removeChild(link)
     }
   }
+
+  // Helper: Calculate a simple relevance score (placeholder, replace with real logic or API)
+  function calculateResumeRelevance(resumeText: string, jobDescription: string): number {
+    if (!resumeText || !jobDescription) return 0;
+    // Simple keyword overlap (case-insensitive, split by space)
+    const resumeWords = new Set(resumeText.toLowerCase().split(/\W+/));
+    const jobWords = new Set(jobDescription.toLowerCase().split(/\W+/));
+    let matchCount = 0;
+    jobWords.forEach(word => {
+      if (resumeWords.has(word)) matchCount++;
+    });
+    return jobWords.size > 0 ? Math.round((matchCount / jobWords.size) * 100) : 0;
+  }
+
+  // Extract resume text from PDF when selectedApplication changes
+  useEffect(() => {
+    async function extractResumeTextFromPDF(url: string) {
+      try {
+        // Use the correct import path for pdfjs-dist v4+
+        const pdfjsLib = await import('pdfjs-dist');
+        // Use local worker file for better compatibility
+        pdfjsLib.GlobalWorkerOptions.workerSrc = '/_next/static/pdf.worker.min.js';
+        const loadingTask = pdfjsLib.getDocument(url);
+        const pdf = await loadingTask.promise;
+        let text = "";
+        for (let i = 1; i <= pdf.numPages; i++) {
+          const page = await pdf.getPage(i);
+          const content = await page.getTextContent();
+          text += content.items.map((item: any) => item.str).join(" ") + " ";
+        }
+        console.log('[Resume Extraction] Extracted text:', text);
+        setResumeText(text);
+      } catch (err) {
+        console.error('[Resume Extraction] Error extracting PDF text:', err);
+        setResumeText("");
+      }
+    }
+    if (selectedApplication) {
+      // Prefer direct resume, fallback to jobSeekerProfile.resume
+      const resumeUrl = selectedApplication.resume || selectedApplication.user.jobSeekerProfile?.resume || "";
+      // Try to extract if it's a PDF (case-insensitive, anywhere in URL)
+      if (resumeUrl && /\.pdf(\?|$)/i.test(resumeUrl)) {
+        extractResumeTextFromPDF(resumeUrl);
+      } else {
+        setResumeText("");
+      }
+    } else {
+      setResumeText("");
+    }
+  }, [selectedApplication]);
 
   if (status === "loading" || isLoading) {
     return (
@@ -488,7 +543,7 @@ export default function JobApplicationsPage() {
                   )}
 
                   {/* Action Buttons */}
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 mb-6">
                     <select
                       value={selectedApplication.status}
                       onChange={(e) => updateApplicationStatus(selectedApplication.id, e.target.value)}
@@ -513,14 +568,94 @@ export default function JobApplicationsPage() {
                       Contact
                     </Button>
                   </div>
+
+                  {/* Resume Relevance Visualization */}
+                  {selectedApplication && job && (
+                    (() => {
+                      // Use extracted resume text if available
+                      const jobDescription = job.description || (job.title + " " + (job.company || "") + " " + (job.location || ""));
+                      const relevance = calculateResumeRelevance(resumeText, jobDescription);
+                      return (
+                        <div className="mb-8 flex flex-col items-center w-full">
+                          <h4 className="text-base font-semibold text-[#2B2D42] mb-2">Resume Relevance to Job</h4>
+                          <div className="relative w-32 h-32 flex items-center justify-center">
+                            <svg viewBox="0 0 100 100" width={128} height={128}>
+                              <circle cx="50" cy="50" r="45" fill="#F5F7FA" stroke="#e5e7eb" strokeWidth="8" />
+                              <circle
+                                cx="50" cy="50" r="45"
+                                fill="none"
+                                stroke="#00A8A8"
+                                strokeWidth="8"
+                                strokeDasharray={2 * Math.PI * 45}
+                                strokeDashoffset={2 * Math.PI * 45 * (1 - relevance / 100)}
+                                strokeLinecap="round"
+                                style={{ transition: 'stroke-dashoffset 0.6s' }}
+                              />
+                              <text x="50" y="56" textAnchor="middle" fill="#00A8A8" fontSize="2rem" fontWeight="bold">{relevance}%</text>
+                            </svg>
+                          </div>
+                          <p className="text-[#2B2D42]/60 mt-2 text-xs">
+                            {resumeText ? "Estimated match between resume and job description" : "Resume text not available or not a PDF"}
+                          </p>
+                        </div>
+                      );
+                    })()
+                  )}
                 </div>
+                              
               ) : (
                 <div className="bg-white rounded-lg border border-gray-200 p-12 text-center">
                   <Eye className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                   <p className="text-[#2B2D42]/60">Select an application to view details</p>
                 </div>
               )}
+              {/* Application Status Bar Chart */}
+                  {applications.length > 0 && (
+                    <div className="mt-8 p-6 rounded-xl bg-[#F5F7FA] border border-gray-200 flex flex-col items-center">
+                      <h4 className="text-lg font-semibold text-[#2B2D42] mb-4">Application Status Distribution</h4>
+                      {(() => {
+                        const chartData = [
+                          { label: "Pending", value: applications.filter(a => a.status === "PENDING").length, color: "#facc15" },
+                          { label: "Reviewed", value: applications.filter(a => a.status === "REVIEWED").length, color: "#60a5fa" },
+                          { label: "Interview", value: applications.filter(a => a.status === "INTERVIEW").length, color: "#a78bfa" },
+                          { label: "Accepted", value: applications.filter(a => a.status === "ACCEPTED").length, color: "#34d399" },
+                          { label: "Rejected", value: applications.filter(a => a.status === "REJECTED").length, color: "#f87171" },
+                        ].filter(d => d.value > 0);
+                        if (chartData.length === 0) {
+                          return <div className="text-red-500">No application status data to display.</div>;
+                        }
+                        return (
+                          <>
+                            <div style={{ width: 320, height: 220 }}>
+                              <ResponsiveContainer width="100%" height="100%">
+                                <BarChart data={chartData} margin={{ top: 16, right: 16, left: 16, bottom: 24 }}>
+                                  <CartesianGrid strokeDasharray="3 3" />
+                                  <XAxis dataKey="label" axisLine={false} tickLine={false} />
+                                  <YAxis axisLine={false} tickLine={false} allowDecimals={false} />
+                                  <Bar dataKey="value" fill="#00A8A8" isAnimationActive={true}>
+                                    {/* No labels on bars */}
+                                  </Bar>
+                                  {/* No Tooltip or Legend for minimal look */}
+                                </BarChart>
+                              </ResponsiveContainer>
+                            </div>
+                            <div className="flex flex-wrap justify-center gap-4 mt-4">
+                              {chartData.map((d, i) => (
+                                <div key={i} className="flex items-center gap-2">
+                                  <span className="inline-block w-3 h-3 rounded-full" style={{ backgroundColor: d.color }}></span>
+                                  <span className="text-sm text-[#2B2D42] font-medium">{d.label}</span>
+                                  <span className="text-xs text-[#2B2D42]/60">({d.value})</span>
+                                </div>
+                              ))}
+                            </div>
+                          </>
+                        );
+                      })()}
+                      <p className="text-[#2B2D42]/60 mt-2 text-xs">(Status breakdown for these applications)</p>
+                    </div>
+                  )}
             </div>
+            
           </div>
         )}
       </div>
