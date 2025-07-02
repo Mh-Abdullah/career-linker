@@ -272,14 +272,14 @@ export default function ApplyModal({ isOpen, onClose, jobId, jobTitle, companyNa
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+      <div className="bg-card text-foreground rounded-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto border border-border">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
+        <div className="flex items-center justify-between p-6 border-b border-border">
           <div>
-            <h2 className="text-2xl font-bold text-[#2B2D42]">
+            <h2 className="text-2xl font-bold text-foreground">
               {existingApplication ? "Application Status" : "Apply Now"}
             </h2>
-            <p className="text-[#2B2D42]/70 mt-1">
+            <p className="text-foreground/70 mt-1">
               {existingApplication
                 ? "You have already applied for this position"
                 : "We'll review your application and our recruiters will take a look at it"}
@@ -292,28 +292,28 @@ export default function ApplyModal({ isOpen, onClose, jobId, jobTitle, companyNa
 
         <div className="p-6">
           {/* Job Info */}
-          <div className="mb-6 p-4 bg-[#00A8A8]/5 rounded-lg border border-[#00A8A8]/20">
-            <h3 className="font-semibold text-[#2B2D42]">{jobTitle}</h3>
-            <p className="text-[#2B2D42]/70">{companyName}</p>
+          <div className="mb-6 p-4 bg-foreground/5 dark:bg-white/5 rounded-lg border border-foreground/20 dark:border-border">
+            <h3 className="font-semibold text-foreground dark:text-white">{jobTitle}</h3>
+            <p className="text-foreground/70 dark:text-white/70">{companyName}</p>
           </div>
 
           {/* Loading State */}
           {isCheckingApplication && (
-            <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-              <p className="text-blue-600 text-sm">Checking application status...</p>
+            <div className="mb-4 p-3 bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded-lg">
+              <p className="text-blue-600 dark:text-blue-200 text-sm">Checking application status...</p>
             </div>
           )}
 
           {/* Existing Application Status */}
           {existingApplication && (
-            <div className="mb-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
+            <div className="mb-6 p-4 bg-gray-50 dark:bg-card rounded-lg border border-gray-200 dark:border-border">
               <div className="flex items-center gap-2 mb-3">
                 <AlertCircle className="h-5 w-5 text-[#00A8A8]" />
-                <h4 className="font-semibold text-[#2B2D42]">Your Application</h4>
+                <h4 className="font-semibold text-[#2B2D42] dark:text-white">Your Application</h4>
               </div>
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-[#2B2D42]/70">Status:</span>
+                  <span className="text-sm text-[#2B2D42]/70 dark:text-white/70">Status:</span>
                   <span
                     className={`px-3 py-1 rounded-full text-xs font-medium border ${getStatusColor(
                       existingApplication.status,
@@ -323,12 +323,12 @@ export default function ApplyModal({ isOpen, onClose, jobId, jobTitle, companyNa
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-[#2B2D42]/70">Applied on:</span>
-                  <span className="text-sm text-[#2B2D42]">{formatDate(existingApplication.createdAt)}</span>
+                  <span className="text-sm text-[#2B2D42]/70 dark:text-white/70">Applied on:</span>
+                  <span className="text-sm text-[#2B2D42] dark:text-white">{formatDate(existingApplication.createdAt)}</span>
                 </div>
               </div>
-              <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-                <p className="text-blue-800 text-sm">
+              <div className="mt-4 p-3 bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded-lg">
+                <p className="text-blue-800 dark:text-blue-200 text-sm">
                   <strong>What's next?</strong> Our team will review your application and contact you if you're selected
                   for the next round. You can check your application status anytime from your dashboard.
                 </p>
@@ -341,33 +341,33 @@ export default function ApplyModal({ isOpen, onClose, jobId, jobTitle, companyNa
             <>
               {/* Error Message */}
               {error && (
-                <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
-                  <p className="text-red-600 text-sm">{error}</p>
+                <div className="mb-4 p-3 bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-lg">
+                  <p className="text-red-600 dark:text-red-300 text-sm">{error}</p>
                 </div>
               )}
 
               {/* Success Message */}
               {success && (
-                <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg flex items-center gap-2">
-                  <CheckCircle className="h-4 w-4 text-green-600" />
-                  <p className="text-green-600 text-sm">{success}</p>
+                <div className="mb-4 p-3 bg-green-50 dark:bg-green-900 border border-green-200 dark:border-green-700 rounded-lg flex items-center gap-2">
+                  <CheckCircle className="h-4 w-4 text-green-600 dark:text-green-300" />
+                  <p className="text-green-600 dark:text-green-300 text-sm">{success}</p>
                 </div>
               )}
 
               {/* File Upload Area */}
               <div className="mb-6">
-                <label className="block text-sm font-medium text-[#2B2D42] mb-2">Resume/CV *</label>
+                <label className="block text-sm font-medium text-[#2B2D42] dark:text-white mb-2">Resume/CV *</label>
                 <div
                   onDragOver={handleDragOver}
                   onDragLeave={handleDragLeave}
                   onDrop={handleDrop}
                   className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
-                    isDragOver ? "border-[#00A8A8] bg-[#00A8A8]/5" : "border-gray-300 hover:border-[#00A8A8]/50"
+                    isDragOver ? "border-[#00A8A8] bg-[#00A8A8]/5 dark:bg-[#00A8A8]/10" : "border-gray-300 dark:border-border hover:border-[#00A8A8]/50 dark:hover:border-[#00A8A8] bg-white dark:bg-card"
                   }`}
                 >
-                  <Upload className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                  <p className="text-lg text-[#2B2D42]/70 mb-2">Drop files here</p>
-                  <p className="text-sm text-[#2B2D42]/50 mb-4">or click to browse (PDF, DOC, DOCX - Max 10MB)</p>
+                  <Upload className="h-12 w-12 text-gray-400 dark:text-white/60 mx-auto mb-4" />
+                  <p className="text-lg text-[#2B2D42]/70 dark:text-white/70 mb-2">Drop files here</p>
+                  <p className="text-sm text-[#2B2D42]/50 dark:text-white/50 mb-4">or click to browse (PDF, DOC, DOCX - Max 10MB)</p>
                   <Button
                     type="button"
                     variant="outline"
@@ -390,17 +390,17 @@ export default function ApplyModal({ isOpen, onClose, jobId, jobTitle, companyNa
               {/* Uploaded Files */}
               {uploadedFiles.length > 0 && (
                 <div className="mb-6">
-                  <h4 className="text-sm font-medium text-[#2B2D42] mb-3">Uploaded File:</h4>
+                  <h4 className="text-sm font-medium text-[#2B2D42] dark:text-white mb-3">Uploaded File:</h4>
                   <div className="space-y-2">
                     {uploadedFiles.map((file, index) => (
-                      <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border">
+                      <div key={index} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-card rounded-lg border border-gray-200 dark:border-border">
                         <div className="flex items-center gap-3">
                           <FileText className="h-5 w-5 text-[#00A8A8]" />
                           <div>
-                            <p className="text-sm font-medium text-[#2B2D42]">{file.name}</p>
-                            <p className="text-xs text-[#2B2D42]/60">{formatFileSize(file.size)}</p>
+                            <p className="text-sm font-medium text-[#2B2D42] dark:text-white">{file.name}</p>
+                            <p className="text-xs text-[#2B2D42]/60 dark:text-white/60">{formatFileSize(file.size)}</p>
                             {file.url && (
-                              <p className="text-xs text-green-600 flex items-center gap-1">
+                              <p className="text-xs text-green-600 dark:text-green-300 flex items-center gap-1">
                                 <CheckCircle className="h-3 w-3" />
                                 Ready to submit
                               </p>
@@ -411,7 +411,7 @@ export default function ApplyModal({ isOpen, onClose, jobId, jobTitle, companyNa
                           variant="ghost"
                           size="sm"
                           onClick={() => removeFile(index)}
-                          className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                          className="text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900"
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
@@ -423,13 +423,13 @@ export default function ApplyModal({ isOpen, onClose, jobId, jobTitle, companyNa
 
               {/* Cover Letter */}
               <div className="mb-6">
-                <label className="block text-sm font-medium text-[#2B2D42] mb-2">Cover Letter (Optional)</label>
+                <label className="block text-sm font-medium text-[#2B2D42] dark:text-white mb-2">Cover Letter (Optional)</label>
                 <textarea
                   value={coverLetter}
                   onChange={(e) => setCoverLetter(e.target.value)}
                   placeholder="Tell us why you're interested in this position..."
                   rows={4}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A8A8] text-[#2B2D42]"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A8A8] text-[#2B2D42] dark:text-white bg-white dark:bg-card placeholder:text-[#2B2D42]/60 dark:placeholder:text-white/60"
                 />
               </div>
 

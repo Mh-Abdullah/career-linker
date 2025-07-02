@@ -6,6 +6,7 @@ import { useEffect, useState } from "react"
 import { Button } from "../../../../components/ui/button"
 import { ArrowLeft, Download, Eye, Mail, Phone, Calendar, FileText, User } from "lucide-react"
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { ThemeToggle } from "../../../../components/theme-toggle"
 
 interface Application {
   id: string
@@ -294,9 +295,9 @@ export default function JobApplicationsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F5F7FA]">
+    <div className="min-h-screen bg-background text-foreground transition-colors">
       {/* Navigation */}
-      <nav className="bg-white border-b border-gray-200">
+      <nav className="bg-white dark:bg-card border-b border-border">
         <div className="container mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center cursor-pointer" onClick={() => router.push("/dashboard/job-provider")}>
             <div className="w-10 h-10 bg-[#00A8A8] rounded-lg flex items-center justify-center mr-3">
@@ -304,9 +305,9 @@ export default function JobApplicationsPage() {
             </div>
             <span className="text-xl font-semibold text-[#00A8A8]">CareerLinker</span>
           </div>
-
-          <div className="flex items-center gap-4">
-            <span className="text-[#2B2D42]">Welcome, {session.user.name}</span>
+          <div className="flex items-center gap-6">
+            {/* ✅ Theme Toggle */}
+            <ThemeToggle />
           </div>
         </div>
       </nav>
@@ -324,9 +325,9 @@ export default function JobApplicationsPage() {
             Back to Jobs
           </Button>
           <div>
-            <h1 className="text-3xl font-bold text-[#2B2D42]">Job Applications</h1>
+            <h1 className="text-3xl font-bold text-[#2B2D42] dark:text-[#009494]">Job Applications</h1>
             {job && (
-              <p className="text-[#2B2D42]/70">
+              <p className="text-[#2B2D42]/70 dark:text-white">
                 {job.title} at {job.company} • {applications.length} applications
               </p>
             )}
@@ -356,7 +357,7 @@ export default function JobApplicationsPage() {
                 applications.map((application) => (
                   <div
                     key={application.id}
-                    className={`bg-white rounded-lg border border-gray-200 p-6 cursor-pointer transition-all ${
+                    className={`bg-card rounded-lg border border-border p-6 cursor-pointer transition-all text-foreground dark:text-white ${
                       selectedApplication?.id === application.id
                         ? "ring-2 ring-[#00A8A8] border-[#00A8A8]"
                         : "hover:shadow-md"
@@ -366,34 +367,34 @@ export default function JobApplicationsPage() {
                     {/* Show job info if jobId is not present (all applications view) */}
                     {!jobId && (
                       <div className="mb-2">
-                        <span className="text-xs text-[#00A8A8] font-semibold bg-[#00A8A8]/10 px-2 py-1 rounded mr-2">
+                        <span className="text-xs text-primary font-semibold bg-primary/10 px-2 py-1 rounded mr-2">
                           {application.job?.title}
                         </span>
-                        <span className="text-xs text-[#2B2D42]/60">{application.job?.company}</span>
+                        <span className="text-xs text-muted-foreground">{application.job?.company}</span>
                       </div>
                     )}
                     <div className="flex justify-between items-start mb-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-[#00A8A8]/10 rounded-full flex items-center justify-center">
-                          <User className="h-5 w-5 text-[#00A8A8]" />
+                        <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
+                          <User className="h-5 w-5 text-primary" />
                         </div>
                         <div>
-                          <h3 className="font-semibold text-[#2B2D42]">
+                          <h3 className="font-semibold text-foreground dark:text-white">
                             {application.user.jobSeekerProfile?.firstName && application.user.jobSeekerProfile?.lastName
                               ? `${application.user.jobSeekerProfile.firstName} ${application.user.jobSeekerProfile.lastName}`
                               : application.user.name}
                           </h3>
-                          <p className="text-sm text-[#2B2D42]/70">{application.user.email}</p>
+                          <p className="text-sm text-muted-foreground dark:text-white">{application.user.email}</p>
                         </div>
                       </div>
                       <span
-                        className={`px-3 py-1 rounded-full text-xs font-medium border ${getStatusColor(application.status)}`}
+                        className={`px-3 py-1 rounded-full text-sm font-medium border ${getStatusColor(application.status)} bg-muted text-foreground dark:bg-muted dark:text-white`}
                       >
                         {formatApplicationStatus(application.status)}
                       </span>
                     </div>
 
-                    <div className="flex items-center gap-4 text-sm text-[#2B2D42]/70 mb-3">
+                    <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3 dark:text-white">
                       <div className="flex items-center gap-1">
                         <Calendar className="h-4 w-4" />
                         <span>Applied {formatDate(application.createdAt)}</span>
@@ -411,12 +412,12 @@ export default function JobApplicationsPage() {
                           .split(", ")
                           .slice(0, 3)
                           .map((skill, index) => (
-                            <span key={index} className="px-2 py-1 bg-gray-100 text-[#2B2D42] text-xs rounded-md">
+                            <span key={index} className="px-2 py-1 bg-muted text-foreground dark:text-white text-xs rounded-md">
                               {skill}
                             </span>
                           ))}
                         {application.user.jobSeekerProfile.skills.split(", ").length > 3 && (
-                          <span className="px-2 py-1 bg-gray-100 text-[#2B2D42] text-xs rounded-md">
+                          <span className="px-2 py-1 bg-muted text-foreground dark:text-white text-xs rounded-md">
                             +{application.user.jobSeekerProfile.skills.split(", ").length - 3} more
                           </span>
                         )}
@@ -430,17 +431,17 @@ export default function JobApplicationsPage() {
             {/* Application Details */}
             <div className="lg:sticky lg:top-8">
               {selectedApplication ? (
-                <div className="bg-white rounded-lg border border-gray-200 p-6">
+                <div className="bg-card rounded-lg border border-border p-6 text-foreground dark:text-white">
                   <div className="flex justify-between items-start mb-6">
                     <div>
-                      <h2 className="text-xl font-semibold text-[#2B2D42] mb-2">
+                      <h2 className="text-xl font-semibold text-foreground dark:text-white mb-2">
                         {selectedApplication.user.jobSeekerProfile?.firstName &&
                         selectedApplication.user.jobSeekerProfile?.lastName
                           ? `${selectedApplication.user.jobSeekerProfile.firstName} ${selectedApplication.user.jobSeekerProfile.lastName}`
                           : selectedApplication.user.name}
                       </h2>
                       <span
-                        className={`px-3 py-1 rounded-full text-sm font-medium border ${getStatusColor(selectedApplication.status)}`}
+                        className={`px-3 py-1 rounded-full text-sm font-medium border ${getStatusColor(selectedApplication.status)} bg-muted text-foreground dark:bg-muted dark:text-white`}
                       >
                         {formatApplicationStatus(selectedApplication.status)}
                       </span>
@@ -449,16 +450,16 @@ export default function JobApplicationsPage() {
 
                   {/* Contact Information */}
                   <div className="mb-6">
-                    <h3 className="font-semibold text-[#2B2D42] mb-3">Contact Information</h3>
+                    <h3 className="font-semibold text-foreground dark:text-white mb-3">Contact Information</h3>
                     <div className="space-y-2">
                       <div className="flex items-center gap-2">
-                        <Mail className="h-4 w-4 text-[#00A8A8]" />
-                        <span className="text-[#2B2D42]">{selectedApplication.user.email}</span>
+                        <Mail className="h-4 w-4 text-primary" />
+                        <span className="text-foreground dark:text-white">{selectedApplication.user.email}</span>
                       </div>
                       {selectedApplication.user.jobSeekerProfile?.phone && (
                         <div className="flex items-center gap-2">
-                          <Phone className="h-4 w-4 text-[#00A8A8]" />
-                          <span className="text-[#2B2D42]">{selectedApplication.user.jobSeekerProfile.phone}</span>
+                          <Phone className="h-4 w-4 text-primary" />
+                          <span className="text-foreground dark:text-white">{selectedApplication.user.jobSeekerProfile.phone}</span>
                         </div>
                       )}
                     </div>
@@ -467,28 +468,28 @@ export default function JobApplicationsPage() {
                   {/* Profile Information */}
                   {selectedApplication.user.jobSeekerProfile && (
                     <div className="mb-6">
-                      <h3 className="font-semibold text-[#2B2D42] mb-3">Profile</h3>
+                      <h3 className="font-semibold text-foreground dark:text-white mb-3">Profile</h3>
                       <div className="space-y-3">
                         {selectedApplication.user.jobSeekerProfile.bio && (
                           <div>
-                            <p className="text-sm font-medium text-[#2B2D42] mb-1">Bio</p>
-                            <p className="text-[#2B2D42]/70">{selectedApplication.user.jobSeekerProfile.bio}</p>
+                            <p className="text-sm font-medium text-foreground dark:text-white mb-1">Bio</p>
+                            <p className="text-muted-foreground dark:text-white">{selectedApplication.user.jobSeekerProfile.bio}</p>
                           </div>
                         )}
                         {selectedApplication.user.jobSeekerProfile.experience && (
                           <div>
-                            <p className="text-sm font-medium text-[#2B2D42] mb-1">Experience</p>
-                            <p className="text-[#2B2D42]/70">{selectedApplication.user.jobSeekerProfile.experience}</p>
+                            <p className="text-sm font-medium text-foreground dark:text-white mb-1">Experience</p>
+                            <p className="text-muted-foreground dark:text-white">{selectedApplication.user.jobSeekerProfile.experience}</p>
                           </div>
                         )}
                         {selectedApplication.user.jobSeekerProfile.skills && (
                           <div>
-                            <p className="text-sm font-medium text-[#2B2D42] mb-2">Skills</p>
+                            <p className="text-sm font-medium text-foreground dark:text-white mb-2">Skills</p>
                             <div className="flex flex-wrap gap-2">
                               {selectedApplication.user.jobSeekerProfile.skills.split(", ").map((skill, index) => (
                                 <span
                                   key={index}
-                                  className="px-2 py-1 bg-[#00A8A8]/10 text-[#00A8A8] text-xs rounded-md"
+                                  className="px-2 py-1 bg-primary/10 text-primary dark:bg-muted dark:text-white text-xs rounded-md"
                                 >
                                   {skill}
                                 </span>
@@ -503,9 +504,9 @@ export default function JobApplicationsPage() {
                   {/* Cover Letter */}
                   {selectedApplication.coverLetter && (
                     <div className="mb-6">
-                      <h3 className="font-semibold text-[#2B2D42] mb-3">Cover Letter</h3>
-                      <div className="p-4 bg-gray-50 rounded-lg">
-                        <p className="text-[#2B2D42]/80 whitespace-pre-wrap">{selectedApplication.coverLetter}</p>
+                      <h3 className="font-semibold text-foreground dark:text-white mb-3">Cover Letter</h3>
+                      <div className="p-4 bg-muted rounded-lg">
+                        <p className="text-foreground/80 dark:text-white whitespace-pre-wrap">{selectedApplication.coverLetter}</p>
                       </div>
                     </div>
                   )}
@@ -513,10 +514,10 @@ export default function JobApplicationsPage() {
                   {/* Resume */}
                   {(selectedApplication.resume || selectedApplication.user.jobSeekerProfile?.resume) && (
                     <div className="mb-6">
-                      <h3 className="font-semibold text-[#2B2D42] mb-3">Resume</h3>
-                      <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg">
-                        <FileText className="h-5 w-5 text-[#00A8A8]" />
-                        <span className="text-[#2B2D42] flex-1">
+                      <h3 className="font-semibold text-foreground dark:text-white mb-3">Resume</h3>
+                      <div className="flex items-center gap-2 p-3 bg-muted rounded-lg">
+                        <FileText className="h-5 w-5 text-primary" />
+                        <span className="text-foreground dark:text-white flex-1">
                           {selectedApplication.user.jobSeekerProfile?.firstName &&
                           selectedApplication.user.jobSeekerProfile?.lastName
                             ? `${selectedApplication.user.jobSeekerProfile.firstName}_${selectedApplication.user.jobSeekerProfile.lastName}_Resume.pdf`
@@ -547,7 +548,7 @@ export default function JobApplicationsPage() {
                     <select
                       value={selectedApplication.status}
                       onChange={(e) => updateApplicationStatus(selectedApplication.id, e.target.value)}
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A8A8]"
+                      className="flex-1 px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-background text-foreground dark:text-white"
                     >
                       <option value="PENDING">Pending</option>
                       <option value="REVIEWED">Reviewed</option>
@@ -562,7 +563,7 @@ export default function JobApplicationsPage() {
                           "_blank"
                         )
                       }
-                      className="bg-[#00A8A8] hover:bg-[#009494] text-white"
+                      className="bg-primary hover:bg-primary/80 text-white border border-primary dark:bg-primary dark:hover:bg-primary/80 dark:text-black dark:border-primary focus:ring-2 focus:ring-primary"
                     >
                       <Mail className="h-4 w-4 mr-1" />
                       Contact
@@ -577,7 +578,7 @@ export default function JobApplicationsPage() {
                       const relevance = calculateResumeRelevance(resumeText, jobDescription);
                       return (
                         <div className="mb-8 flex flex-col items-center w-full">
-                          <h4 className="text-base font-semibold text-[#2B2D42] mb-2">Resume Relevance to Job</h4>
+                          <h4 className="text-base font-semibold text-foreground dark:text-white mb-2">Resume Relevance to Job</h4>
                           <div className="relative w-32 h-32 flex items-center justify-center">
                             <svg viewBox="0 0 100 100" width={128} height={128}>
                               <circle cx="50" cy="50" r="45" fill="#F5F7FA" stroke="#e5e7eb" strokeWidth="8" />
@@ -594,7 +595,7 @@ export default function JobApplicationsPage() {
                               <text x="50" y="56" textAnchor="middle" fill="#00A8A8" fontSize="2rem" fontWeight="bold">{relevance}%</text>
                             </svg>
                           </div>
-                          <p className="text-[#2B2D42]/60 mt-2 text-xs">
+                          <p className="text-muted-foreground dark:text-white mt-2 text-xs">
                             {resumeText ? "Estimated match between resume and job description" : "Resume text not available or not a PDF"}
                           </p>
                         </div>
@@ -604,15 +605,15 @@ export default function JobApplicationsPage() {
                 </div>
                               
               ) : (
-                <div className="bg-white rounded-lg border border-gray-200 p-12 text-center">
+                <div className="bg-card rounded-lg border border-border p-12 text-center text-foreground dark:text-white">
                   <Eye className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                  <p className="text-[#2B2D42]/60">Select an application to view details</p>
+                  <p className="text-muted-foreground dark:text-white">Select an application to view details</p>
                 </div>
               )}
               {/* Application Status Bar Chart */}
                   {applications.length > 0 && (
-                    <div className="mt-8 p-6 rounded-xl bg-[#F5F7FA] border border-gray-200 flex flex-col items-center">
-                      <h4 className="text-lg font-semibold text-[#2B2D42] mb-4">Application Status Distribution</h4>
+                    <div className="mt-8 p-6 rounded-xl bg-muted border border-border flex flex-col items-center text-foreground dark:text-white">
+                      <h4 className="text-lg font-semibold text-foreground dark:text-white mb-4">Application Status Distribution</h4>
                       {(() => {
                         const chartData = [
                           { label: "Pending", value: applications.filter(a => a.status === "PENDING").length, color: "#facc15" },
@@ -643,15 +644,15 @@ export default function JobApplicationsPage() {
                               {chartData.map((d, i) => (
                                 <div key={i} className="flex items-center gap-2">
                                   <span className="inline-block w-3 h-3 rounded-full" style={{ backgroundColor: d.color }}></span>
-                                  <span className="text-sm text-[#2B2D42] font-medium">{d.label}</span>
-                                  <span className="text-xs text-[#2B2D42]/60">({d.value})</span>
+                                  <span className="text-sm text-foreground dark:text-white font-medium">{d.label}</span>
+                                  <span className="text-xs text-muted-foreground dark:text-white">({d.value})</span>
                                 </div>
                               ))}
                             </div>
+                            <p className="text-muted-foreground dark:text-white mt-2 text-xs">(Status breakdown for these applications)</p>
                           </>
                         );
                       })()}
-                      <p className="text-[#2B2D42]/60 mt-2 text-xs">(Status breakdown for these applications)</p>
                     </div>
                   )}
             </div>

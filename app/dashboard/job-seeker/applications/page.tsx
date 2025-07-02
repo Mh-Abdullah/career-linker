@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Briefcase, Clock, RefreshCw, ArrowLeft } from "lucide-react"
 import JobDetailPage from "../job-detail"
 import ChangePasswordDialog from "../change-password-dialog"
+import { ThemeToggle } from "../../../../components/theme-toggle"
 
 import {
   DropdownMenu,
@@ -87,8 +88,8 @@ export default function AppliedJobsPage({ setSelectedJobId, setCurrentView }: { 
   if (!session) return null
 
   return (
-    <div className="min-h-screen bg-[#F5F7FA]">
-      <nav className="bg-white border-b border-gray-200">
+    <div className="min-h-screen bg-background text-foreground">
+      <nav className="bg-white border-b border-gray-200 dark:bg-card dark:border-border">
         <div className="container mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center cursor-pointer" onClick={() => router.push("/dashboard/job-seeker")}> 
             <div className="w-10 h-10 bg-[#00A8A8] rounded-lg flex items-center justify-center mr-3">
@@ -97,6 +98,7 @@ export default function AppliedJobsPage({ setSelectedJobId, setCurrentView }: { 
             <span className="text-xl font-semibold text-[#00A8A8]">CareerLinker</span>
           </div>
           <div className="flex items-center gap-4">
+            <ThemeToggle />
             <button
               className="px-4 py-2 bg-[#00A8A8] text-white rounded-lg hover:bg-[#009494] transition-colors"
               onClick={() => router.push("/dashboard/job-seeker")}
@@ -109,7 +111,7 @@ export default function AppliedJobsPage({ setSelectedJobId, setCurrentView }: { 
                   <Avatar className="w-8 h-8">
                     <AvatarFallback>{session?.user?.name?.[0] || "U"}</AvatarFallback>
                   </Avatar>
-                  <span className="text-[#2B2D42]">{session?.user?.name}</span>
+                  <span className="text-[#2B2D42] dark:text-white">{session.user.name}</span>
                 </div>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-48 mt-2">
@@ -156,18 +158,18 @@ export default function AppliedJobsPage({ setSelectedJobId, setCurrentView }: { 
             <ArrowLeft className="h-5 w-5" />
             Back to Jobs
           </Button>
-          <h1 className="text-3xl font-bold text-[#2B2D42] ml-4">Applied Jobs</h1>
+          <h1 className="text-3xl font-bold text-[#2B2D42] dark:text-[#00A8A8] ml-4">Applied Jobs</h1>
         </div>
         {isLoading && (
           <div className="text-center py-12">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#00A8A8] mx-auto mb-4"></div>
-            <div className="text-[#2B2D42]/60 text-lg">Loading applications...</div>
+            <div className="text-[#2B2D42]/60 dark:text-white/60 text-lg">Loading applications...</div>
           </div>
         )}
         {error && (
           <div className="text-center py-12">
-            <div className="bg-red-50 border border-red-200 rounded-lg p-6 max-w-md mx-auto">
-              <div className="text-red-600 text-lg mb-4">{error}</div>
+            <div className="bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-lg p-6 max-w-md mx-auto">
+              <div className="text-red-600 dark:text-red-300 text-lg mb-4">{error}</div>
               <Button onClick={fetchApplications} className="bg-[#00A8A8] hover:bg-[#009494] text-white w-full">
                 <RefreshCw className="h-4 w-4 mr-2" />
                 Try Again
@@ -176,26 +178,26 @@ export default function AppliedJobsPage({ setSelectedJobId, setCurrentView }: { 
           </div>
         )}
         {!isLoading && !error && applications.length === 0 && (
-          <div className="text-center py-12 text-[#2B2D42]/60 text-lg">You have not applied to any jobs yet.</div>
+          <div className="text-center py-12 text-[#2B2D42]/60 dark:text-white/60 text-lg">You have not applied to any jobs yet.</div>
         )}
         {!isLoading && !error && applications.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {applications.map((app) => (
-              <div key={app.id} className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-lg transition-shadow">
+              <div key={app.id} className="bg-card rounded-lg border border-border p-6 hover:shadow-lg transition-shadow text-foreground">
                 <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-lg font-semibold text-[#2B2D42] mb-2">{app.job.title}</h3>
-                  <span className="px-3 py-1 rounded-full text-xs font-medium bg-[#00A8A8]/10 text-[#00A8A8]">
+                  <h3 className="text-lg font-semibold text-foreground mb-2">{app.job.title}</h3>
+                  <span className="px-3 py-1 rounded-full text-xs font-medium bg-foreground/10 text-foreground">
                     {app.status.charAt(0).toUpperCase() + app.status.slice(1)}
                   </span>
                 </div>
                 <div className="flex items-center gap-2 mb-2">
-                  <Briefcase className="h-4 w-4 text-gray-400" />
-                  <span className="text-[#2B2D42]/70">{app.job.postedBy.jobProviderProfile?.companyName || app.job.company}</span>
+                  <Briefcase className="h-4 w-4 text-foreground/60" />
+                  <span className="text-foreground/70">{app.job.postedBy.jobProviderProfile?.companyName || app.job.company}</span>
                 </div>
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-[#2B2D42]/70">{app.job.location}</span>
+                  <span className="text-foreground/70">{app.job.location}</span>
                 </div>
-                <div className="flex items-center gap-1 text-[#2B2D42]/60 text-sm mb-2">
+                <div className="flex items-center gap-1 text-foreground/60 text-sm mb-2">
                   <Clock className="h-4 w-4" />
                   <span>{new Date(app.createdAt).toLocaleDateString()}</span>
                 </div>

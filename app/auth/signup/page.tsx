@@ -59,25 +59,24 @@ export default function SignUp() {
     }
   }
 
-
   return (
-    <div className="min-h-screen bg-[#F5F7FA] flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-md w-96">
+    <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="bg-card p-8 rounded-lg shadow-md w-96 text-foreground border border-border">
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-[#2B2D42]">Join CareerLinker</h1>
-          <p className="text-[#2B2D42]/80 mt-2">Create your account</p>
+          <h1 className="text-2xl font-bold text-foreground">Join CareerLinker</h1>
+          <p className="text-foreground/80 mt-2">Create your account</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="userType" className="block text-sm font-medium text-[#2B2D42] mb-1">
+            <label htmlFor="userType" className="block text-sm font-medium text-foreground mb-1">
               I am a
             </label>
             <select
               id="userType"
               value={formData.userType}
               onChange={(e) => setFormData({ ...formData, userType: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00A8A8] text-black"
+              className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-[#00A8A8] bg-white text-black"
             >
               <option value="JOB_SEEKER">Job Seeker</option>
               <option value="JOB_PROVIDER">Job Provider</option>
@@ -85,7 +84,7 @@ export default function SignUp() {
           </div>
 
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-[#2B2D42] mb-1">
+            <label htmlFor="name" className="block text-sm font-medium text-foreground mb-1">
               {formData.userType === "JOB_PROVIDER" ? "Company Name" : "Full Name"}
             </label>
             <input
@@ -93,13 +92,13 @@ export default function SignUp() {
               id="name"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00A8A8] text-black"
+              className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-[#00A8A8] bg-white text-black placeholder:text-black/60"
               required
             />
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-[#2B2D42] mb-1">
+            <label htmlFor="email" className="block text-sm font-medium text-foreground mb-1">
               Email
             </label>
             <input
@@ -107,13 +106,13 @@ export default function SignUp() {
               id="email"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00A8A8] text-black"
+              className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-[#00A8A8] bg-white text-black placeholder:text-black/60"
               required
             />
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-[#2B2D42] mb-1">
+            <label htmlFor="password" className="block text-sm font-medium text-foreground mb-1">
               Password
             </label>
             <input
@@ -121,13 +120,13 @@ export default function SignUp() {
               id="password"
               value={formData.password}
               onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00A8A8] text-black"
+              className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-[#00A8A8] bg-white text-black placeholder:text-black/60"
               required
             />
           </div>
 
           <div>
-            <label htmlFor="confirmPassword" className="block text-sm font-medium text-[#2B2D42] mb-1">
+            <label htmlFor="confirmPassword" className="block text-sm font-medium text-foreground mb-1">
               Confirm Password
             </label>
             <input
@@ -135,7 +134,7 @@ export default function SignUp() {
               id="confirmPassword"
               value={formData.confirmPassword}
               onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00A8A8] text-black"
+              className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-[#00A8A8] bg-white text-black placeholder:text-black/60"
               required
             />
           </div>
@@ -147,7 +146,7 @@ export default function SignUp() {
           </Button>
         </form>
 
-        <p className="text-center text-sm text-[#2B2D42]/80 mt-6">
+        <p className="text-center text-sm text-foreground/80 mt-6">
           Already have an account?{" "}
           <Link href="/auth/signin" className="text-[#00A8A8] hover:underline">
             Sign in

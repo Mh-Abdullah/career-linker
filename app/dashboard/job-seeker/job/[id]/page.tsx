@@ -14,6 +14,7 @@ import {
   DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { ThemeToggle } from "../../../../../components/theme-toggle"
 
 interface JobDetail {
   id: string
@@ -137,8 +138,8 @@ export default function JobDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F5F7FA]">
-      <nav className="bg-white border-b border-gray-200">
+    <div className="min-h-screen bg-background text-foreground">
+      <nav className="bg-card border-b border-border">
         <div className="container mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center cursor-pointer" onClick={() => router.push("/dashboard/job-seeker")}> 
             <div className="w-10 h-10 bg-[#00A8A8] rounded-lg flex items-center justify-center mr-3">
@@ -147,6 +148,7 @@ export default function JobDetailPage() {
             <span className="text-xl font-semibold text-[#00A8A8]">CareerLinker</span>
           </div>
           <div className="flex items-center gap-4">
+            <ThemeToggle />
             <button
               className="px-4 py-2 bg-[#00A8A8] text-white rounded-lg hover:bg-[#009494] transition-colors"
               onClick={() => router.push("/dashboard/job-seeker")}
@@ -159,7 +161,7 @@ export default function JobDetailPage() {
                   <Avatar className="w-8 h-8">
                     <AvatarFallback>{session?.user?.name?.[0] || "U"}</AvatarFallback>
                   </Avatar>
-                  <span className="text-[#2B2D42]">{session?.user?.name}</span>
+                  <span className="text-foreground">{session?.user?.name}</span>
                 </div>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-48 mt-2">
@@ -204,19 +206,19 @@ export default function JobDetailPage() {
         </Button>
 
         {/* Job Header */}
-        <div className="bg-white rounded-lg border border-gray-200 p-8 mb-6">
+        <div className="bg-card rounded-lg border border-border p-8 mb-6 text-foreground">
           <div className="flex justify-between items-start mb-6">
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-2">
                 <span className="px-3 py-1 bg-[#00A8A8]/10 text-[#00A8A8] rounded-full text-sm font-medium">
                   Currently Hiring
                 </span>
-                <span className="px-3 py-1 bg-gray-100 text-[#2B2D42] rounded-full text-sm font-medium">
+                <span className="px-3 py-1 bg-foreground/10 text-foreground rounded-full text-sm font-medium">
                   {formatJobType(job.jobType)}
                 </span>
               </div>
-              <h1 className="text-3xl font-bold text-[#2B2D42] mb-4">{job.title}</h1>
-              <p className="text-[#2B2D42]/70 text-lg leading-relaxed">{job.description}</p>
+              <h1 className="text-3xl font-bold text-foreground mb-4">{job.title}</h1>
+              <p className="text-foreground/70 text-lg leading-relaxed">{job.description}</p>
             </div>
             <Button
               onClick={handleApply}
@@ -228,22 +230,22 @@ export default function JobDetailPage() {
           </div>
 
           {/* Job Details */}
-          <div className="flex flex-wrap gap-6 text-[#2B2D42]/70">
+          <div className="flex flex-wrap gap-6 text-foreground/70">
             <div className="flex items-center gap-2">
-              <MapPin className="h-5 w-5" />
+              <MapPin className="h-5 w-5 text-foreground/60" />
               <span>{job.location}</span>
             </div>
             <div className="flex items-center gap-2">
-              <Clock className="h-5 w-5" />
+              <Clock className="h-5 w-5 text-foreground/60" />
               <span>{formatJobType(job.jobType)}</span>
             </div>
             <div className="flex items-center gap-2">
-              <Building className="h-5 w-5" />
+              <Building className="h-5 w-5 text-foreground/60" />
               <span>{job.company}</span>
             </div>
             {job.salary && (
               <div className="flex items-center gap-2">
-                <Briefcase className="h-5 w-5" />
+                <Briefcase className="h-5 w-5 text-foreground/60" />
                 <span className="font-semibold text-[#00A8A8]">{job.salary}</span>
               </div>
             )}
@@ -254,7 +256,7 @@ export default function JobDetailPage() {
             <div className="mt-4">
               <div className="flex flex-wrap gap-2">
                 {job.skills.split(", ").map((skill, index) => (
-                  <span key={index} className="px-3 py-1 bg-[#00A8A8]/10 text-[#00A8A8] text-sm rounded-md font-medium">
+                  <span key={index} className="px-3 py-1 bg-foreground/10 text-foreground text-sm rounded-md font-medium">
                     {skill}
                   </span>
                 ))}
@@ -266,39 +268,39 @@ export default function JobDetailPage() {
         {/* Job Sections */}
         <div className="space-y-6">
           {/* Requirements */}
-          <div className="bg-white rounded-lg border border-gray-200 p-8">
+          <div className="bg-card rounded-lg border border-border p-8">
             <h2 className="text-2xl font-bold text-[#00A8A8] mb-6">Requirements:</h2>
             <ul className="space-y-3">
               {job.requirements.map((requirement, index) => (
                 <li key={index} className="flex items-start gap-3">
                   <CheckCircle className="h-5 w-5 text-[#00A8A8] mt-0.5 flex-shrink-0" />
-                  <span className="text-[#2B2D42]/80">{requirement}</span>
+                  <span className="text-foreground/80">{requirement}</span>
                 </li>
               ))}
             </ul>
           </div>
 
           {/* Expected Tasks */}
-          <div className="bg-white rounded-lg border border-gray-200 p-8">
+          <div className="bg-card rounded-lg border border-border p-8">
             <h2 className="text-2xl font-bold text-[#00A8A8] mb-6">Expected Tasks:</h2>
             <ul className="space-y-3">
               {job.tasks.map((task, index) => (
                 <li key={index} className="flex items-start gap-3">
                   <CheckCircle className="h-5 w-5 text-[#00A8A8] mt-0.5 flex-shrink-0" />
-                  <span className="text-[#2B2D42]/80">{task}</span>
+                  <span className="text-foreground/80">{task}</span>
                 </li>
               ))}
             </ul>
           </div>
 
           {/* Benefits */}
-          <div className="bg-white rounded-lg border border-gray-200 p-8">
+          <div className="bg-card rounded-lg border border-border p-8">
             <h2 className="text-2xl font-bold text-[#00A8A8] mb-6">Benefits:</h2>
             <ul className="space-y-3">
               {job.benefits.map((benefit, index) => (
                 <li key={index} className="flex items-start gap-3">
                   <CheckCircle className="h-5 w-5 text-[#00A8A8] mt-0.5 flex-shrink-0" />
-                  <span className="text-[#2B2D42]/80">{benefit}</span>
+                  <span className="text-foreground/80">{benefit}</span>
                 </li>
               ))}
             </ul>
@@ -306,9 +308,9 @@ export default function JobDetailPage() {
         </div>
 
         {/* Apply Section */}
-        <div className="bg-white rounded-lg border border-gray-200 p-8 mt-6 text-center">
-          <h3 className="text-xl font-semibold text-[#2B2D42] mb-4">Ready to Apply?</h3>
-          <p className="text-[#2B2D42]/70 mb-6">
+        <div className="bg-card rounded-lg border border-border p-8 mt-6 text-center text-foreground">
+          <h3 className="text-xl font-semibold text-foreground mb-4">Ready to Apply?</h3>
+          <p className="text-foreground/70 mb-6">
             Join our team and be part of an innovative company that values growth and creativity.
           </p>
           <Button

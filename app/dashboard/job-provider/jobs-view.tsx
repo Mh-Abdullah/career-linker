@@ -73,13 +73,6 @@ export default function JobsView({ jobs, onJobCreated, onJobUpdated }: JobsViewP
     setFilteredJobs(filtered)
   }, [searchTerm, statusFilter, jobs])
 
-  // Polling to refresh jobs every 10 seconds for live application count
-  // React.useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     onJobUpdated()
-  //   }, 10000) // 10 seconds
-  //   return () => clearInterval(interval)
-  // }, [onJobUpdated])
 
   const formatJobType = (jobType: string) => {
     return jobType
@@ -183,8 +176,8 @@ export default function JobsView({ jobs, onJobCreated, onJobUpdated }: JobsViewP
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-[#2B2D42] mb-2">Job Management</h1>
-          <p className="text-[#2B2D42]/70">Manage your job postings and track applications</p>
+          <h1 className="text-3xl font-bold text-[#2B2D42] dark:text-[#009494] mb-2">Dashboard Overview</h1>
+          <p className="text-[#2B2D42]/70 dark:text-white">Track your job postings and recruitment metrics</p>
         </div>
         <Button onClick={handleCreateJob} className="bg-[#00A8A8] hover:bg-[#009494] text-white">
           <Plus className="h-4 w-4 mr-2" />
@@ -193,25 +186,25 @@ export default function JobsView({ jobs, onJobCreated, onJobUpdated }: JobsViewP
       </div>
 
       {/* Search and Filter */}
-      <div className="bg-white rounded-lg border border-gray-200 p-6">
+      <div className="bg-card rounded-lg border border-border p-6 mb-6 text-foreground transition-colors">
         <div className="flex flex-col md:flex-row gap-4">
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
             <input
               type="text"
               placeholder="Search jobs by title, company, location, or skills..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A8A8] text-[#2B2D42]"
+              className="w-full pl-10 pr-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A8A8] text-foreground dark:text-white bg-background placeholder:text-muted-foreground dark:placeholder:text-white/60"
             />
           </div>
 
           <div className="flex items-center gap-2">
-            <Filter className="h-4 w-4 text-[#2B2D42]" />
+            <Filter className="h-4 w-4 text-muted-foreground" />
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A8A8] text-[#2B2D42]"
+              className="px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A8A8] text-foreground bg-background"
             >
               <option value="all">All Jobs</option>
               <option value="active">Active Only</option>
@@ -224,8 +217,8 @@ export default function JobsView({ jobs, onJobCreated, onJobUpdated }: JobsViewP
       {/* Jobs List */}
       <div className="space-y-4">
         {filteredJobs.length === 0 ? (
-          <div className="text-center py-12 bg-white rounded-lg border border-gray-200">
-            <div className="text-[#2B2D42]/60 text-lg mb-4">
+          <div className="text-center py-12 bg-card rounded-lg border border-border text-foreground dark:text-white transition-colors">
+            <div className="text-muted-foreground dark:text-white text-lg mb-4">
               {jobs.length === 0 ? "No jobs posted yet" : "No jobs match your search criteria"}
             </div>
             {jobs.length === 0 && (
@@ -239,12 +232,12 @@ export default function JobsView({ jobs, onJobCreated, onJobUpdated }: JobsViewP
           filteredJobs.map((job) => (
             <div
               key={job.id}
-              className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition-shadow"
+              className="bg-card rounded-lg border border-border p-6 hover:shadow-md transition-colors text-foreground dark:text-white"
             >
               <div className="flex justify-between items-start mb-4">
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
-                    <h3 className="text-xl font-semibold text-[#2B2D42]">{job.title}</h3>
+                    <h3 className="text-xl font-semibold text-[#2B2D42] dark:text-white">{job.title}</h3>
                     <span
                       className={`px-3 py-1 rounded-full text-xs font-medium ${
                         job.isActive ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-800"
@@ -262,7 +255,7 @@ export default function JobsView({ jobs, onJobCreated, onJobUpdated }: JobsViewP
                     )}
                   </div>
 
-                  <div className="flex items-center gap-6 text-[#2B2D42]/70 mb-3">
+                  <div className="flex items-center gap-6 text-[#2B2D42]/70 dark:text-white mb-3">
                     <div className="flex items-center gap-1">
                       <MapPin className="h-4 w-4" />
                       <span>{job.location}</span>
@@ -279,7 +272,7 @@ export default function JobsView({ jobs, onJobCreated, onJobUpdated }: JobsViewP
                     </div>
                   </div>
 
-                  <p className="text-[#2B2D42]/70 mb-3 line-clamp-2">{job.description}</p>
+                  <p className="text-[#2B2D42]/70 dark:text-white mb-3 line-clamp-2">{job.description}</p>
 
                   {job.skills && (
                     <div className="flex flex-wrap gap-2 mb-3">
@@ -287,19 +280,19 @@ export default function JobsView({ jobs, onJobCreated, onJobUpdated }: JobsViewP
                         .split(", ")
                         .slice(0, 5)
                         .map((skill, index) => (
-                          <span key={index} className="px-2 py-1 bg-gray-100 text-[#2B2D42] text-xs rounded-md">
+                          <span key={index} className="px-2 py-1 bg-muted text-foreground dark:bg-muted dark:text-white text-xs rounded-md">
                             {skill}
                           </span>
                         ))}
                       {job.skills.split(", ").length > 5 && (
-                        <span className="px-2 py-1 bg-gray-100 text-[#2B2D42] text-xs rounded-md">
+                        <span className="px-2 py-1 bg-muted text-foreground dark:bg-muted dark:text-white text-xs rounded-md">
                           +{job.skills.split(", ").length - 5} more
                         </span>
                       )}
                     </div>
                   )}
 
-                  <div className="text-sm text-[#2B2D42]/60">
+                  <div className="text-sm text-[#2B2D42]/60 dark:text-white">
                     Posted {getTimeAgo(job.createdAt)} • Updated {getTimeAgo(job.updatedAt)}
                   </div>
                 </div>

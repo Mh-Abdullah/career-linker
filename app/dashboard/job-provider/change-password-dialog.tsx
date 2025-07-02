@@ -52,32 +52,32 @@ export default function ChangePasswordDialog({ open, onClose }: ChangePasswordDi
   }
 
   return (
-    <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent>
+    <Dialog open={open} onOpenChange={onClose} className="bg-white text-black dark:bg-zinc-900 dark:text-white">
+      <DialogContent className="bg-white text-black border border-border dark:bg-zinc-900 dark:text-white dark:border-zinc-700">
         <DialogHeader>
           <DialogTitle>Change Password</DialogTitle>
         </DialogHeader>
-        <div className="space-y-4">
+        <div className="space-y-4 bg-white dark:bg-zinc-900 p-6 rounded-lg">
           <input
             type="password"
             placeholder="Old Password"
             value={oldPassword}
             onChange={e => setOldPassword(e.target.value)}
-            className="w-full px-4 py-2 border rounded"
+            className="w-full px-4 py-2 border border-border rounded bg-white text-black placeholder:text-black/60 dark:bg-zinc-900 dark:text-white dark:placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-[#00A8A8]"
           />
           <input
             type="password"
             placeholder="New Password"
             value={newPassword}
             onChange={e => setNewPassword(e.target.value)}
-            className="w-full px-4 py-2 border rounded"
+            className="w-full px-4 py-2 border border-border rounded bg-white text-black placeholder:text-black/60 dark:bg-zinc-900 dark:text-white dark:placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-[#00A8A8]"
           />
           <input
             type="password"
             placeholder="Confirm New Password"
             value={confirmPassword}
             onChange={e => setConfirmPassword(e.target.value)}
-            className="w-full px-4 py-2 border rounded"
+            className="w-full px-4 py-2 border border-border rounded bg-white text-black placeholder:text-black/60 dark:bg-zinc-900 dark:text-white dark:placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-[#00A8A8]"
           />
           {error && <div className="text-red-600 text-sm">{error}</div>}
           {success && <div className="text-green-600 text-sm">{success}</div>}

@@ -1,5 +1,5 @@
 module.exports = {
-  darkMode: ["class"],
+  darkMode: ["class"], // ✅ already correctly set
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -52,5 +52,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate")], // ✅ keep this
 }

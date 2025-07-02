@@ -16,6 +16,7 @@ import {
   DropdownMenuLabel
 } from "@/components/ui/dropdown-menu" // adjust path if needed
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { ThemeToggle } from "../../../components/theme-toggle"
 
 interface Job {
   id: string
@@ -203,9 +204,9 @@ export default function JobSeekerDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F5F7FA]">
+    <div className="min-h-screen bg-background text-foreground">
       {/* Navigation */}
-      <nav className="bg-white border-b border-gray-200">
+      <nav className="bg-white border-b border-gray-200 dark:bg-card dark:border-border">
         <div className="container mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center cursor-pointer" onClick={() => router.push("/dashboard/job-seeker")}>
             <div className="w-10 h-10 bg-[#00A8A8] rounded-lg flex items-center justify-center mr-3">
@@ -214,6 +215,7 @@ export default function JobSeekerDashboard() {
             <span className="text-xl font-semibold text-[#00A8A8]">CareerLinker</span>
           </div>
           <div className="flex items-center gap-4">
+            <ThemeToggle />
             <button
               className="px-4 py-2 bg-[#00A8A8] text-white rounded-lg hover:bg-[#009494] transition-colors"
               onClick={() => router.push("/dashboard/job-seeker/applications")}
@@ -226,7 +228,7 @@ export default function JobSeekerDashboard() {
                   <Avatar className="w-8 h-8">
                     <AvatarFallback>{session.user.name?.[0] || "U"}</AvatarFallback>
                   </Avatar>
-                  <span className="text-[#2B2D42]">{session.user.name}</span>
+                  <span className="text-[#2B2D42] dark:text-white">{session.user.name}</span>
                 </div>
               </DropdownMenuTrigger>
 
@@ -271,40 +273,40 @@ export default function JobSeekerDashboard() {
       <div className="container mx-auto px-6 py-8">
         {/* Header Section */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-[#2B2D42] mb-4">FIND YOUR DREAM JOB</h1>
-          <p className="text-lg text-[#2B2D42]/70 mb-8">
+          <h1 className="text-4xl font-bold text-[#2B2D42] dark:text-[#00A8A8] mb-4">FIND YOUR DREAM JOB</h1>
+          <p className="text-lg text-[#2B2D42]/70 dark:text-white/70 mb-8">
             Discover your next opportunity from our curated list of job positions
           </p>
 
           {/* Stats */}
           <div className="flex justify-center gap-12 mb-8">
             <div className="text-center">
-              <div className="text-3xl font-bold text-[#00A8A8]">{jobs.length}+</div>
-              <div className="text-[#2B2D42]/70">Active Jobs</div>
+              <div className="text-3xl font-bold text-[#00A8A8] dark:text-[#00A8A8]">{jobs.length}+</div>
+              <div className="text-[#2B2D42]/70 dark:text-white/70">Active Jobs</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-[#00A8A8]">
+              <div className="text-3xl font-bold text-[#00A8A8] dark:text-[#00A8A8]">
                 {new Set(jobs.map((job) => job.postedBy.jobProviderProfile?.companyName || job.company)).size}+
               </div>
-              <div className="text-[#2B2D42]/70">Companies Listing</div>
+              <div className="text-[#2B2D42]/70 dark:text-white/70">Companies Listing</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-[#00A8A8]">1M+</div>
-              <div className="text-[#2B2D42]/70">Active Users</div>
+              <div className="text-3xl font-bold text-[#00A8A8] dark:text-[#00A8A8]">1M+</div>
+              <div className="text-[#2B2D42]/70 dark:text-white/70">Active Users</div>
             </div>
           </div>
 
           {/* Search Bar */}
           <div className="max-w-2xl mx-auto flex gap-4">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-white/70 h-5 w-5" />
               <input
                 type="text"
                 placeholder="Search jobs, companies, skills..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 onKeyPress={(e) => e.key === "Enter" && handleSearch()}
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A8A8] text-[#2B2D42]"
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A8A8] text-[#2B2D42] dark:text-white bg-white dark:bg-card placeholder:text-[#2B2D42]/60 dark:placeholder:text-white/60"
               />
             </div>
             <Button onClick={handleSearch} className="px-6 py-3 bg-[#00A8A8] hover:bg-[#009494] text-white">
@@ -317,8 +319,8 @@ export default function JobSeekerDashboard() {
         <div className="mb-8">
           {/* Category Filter */}
           <div className="flex items-center gap-2 mb-4 flex-wrap">
-            <Filter className="h-4 w-4 text-[#2B2D42]" />
-            <span className="text-[#2B2D42] font-medium mr-2">Filter:</span>
+            <Filter className="h-4 w-4 text-[#2B2D42] dark:text-white" />
+            <span className="text-[#2B2D42] dark:text-white font-medium mr-2">Filter:</span>
             {jobCategories.map((category) => (
               <button
                 key={category}
@@ -326,7 +328,7 @@ export default function JobSeekerDashboard() {
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                   selectedCategory === category
                     ? "bg-[#00A8A8] text-white"
-                    : "bg-white text-[#2B2D42] border border-gray-300 hover:bg-gray-50"
+                    : "bg-white dark:bg-card text-[#2B2D42] dark:text-white border border-gray-300 dark:border-border hover:bg-gray-50 dark:hover:bg-muted"
                 }`}
               >
                 {category}
@@ -339,7 +341,7 @@ export default function JobSeekerDashboard() {
             <select
               value={selectedJobType}
               onChange={(e) => setSelectedJobType(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A8A8] text-[#2B2D42]"
+              className="px-4 py-2 border border-gray-300 dark:border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A8A8] text-[#2B2D42] dark:text-white bg-white dark:bg-card"
             >
               <option value="All">Filter by Type</option>
               <option value="FULL_TIME">Full Time</option>
@@ -353,7 +355,7 @@ export default function JobSeekerDashboard() {
             <select
               value={selectedLocation}
               onChange={(e) => setSelectedLocation(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A8A8] text-[#2B2D42]"
+              className="px-4 py-2 border border-gray-300 dark:border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A8A8] text-[#2B2D42] dark:text-white bg-white dark:bg-card"
             >
               <option value="All">Filter by Location</option>
               <option value="Remote">Remote</option>
@@ -390,10 +392,10 @@ export default function JobSeekerDashboard() {
             {filteredJobs.map((job) => (
               <div
                 key={job.id}
-                className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-lg transition-shadow"
+                className="bg-card rounded-lg border border-border p-6 hover:shadow-lg transition-shadow text-foreground"
               >
                 <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-lg font-semibold text-[#2B2D42] mb-2">{job.title}</h3>
+                  <h3 className="text-lg font-semibold text-foreground mb-2">{job.title}</h3>
                   <span
                     className={`px-3 py-1 rounded-full text-xs font-medium ${
                       job.jobType === "REMOTE"
@@ -408,13 +410,13 @@ export default function JobSeekerDashboard() {
                 </div>
 
                 <div className="flex items-center gap-2 mb-2">
-                  <MapPin className="h-4 w-4 text-gray-400" />
-                  <span className="text-[#2B2D42]/70">{job.location}</span>
+                  <MapPin className="h-4 w-4 text-foreground/60" />
+                  <span className="text-foreground/70">{job.location}</span>
                 </div>
 
                 <div className="flex items-center gap-2 mb-4">
-                  <Briefcase className="h-4 w-4 text-gray-400" />
-                  <span className="text-[#2B2D42]/70">
+                  <Briefcase className="h-4 w-4 text-foreground/60" />
+                  <span className="text-foreground/70">
                     {job.postedBy.jobProviderProfile?.companyName || job.company}
                   </span>
                 </div>
@@ -424,17 +426,17 @@ export default function JobSeekerDashboard() {
                 {job.skills && (
                   <div className="flex flex-wrap gap-2 mb-4">
                     {job.skills.split(", ").map((skill, index) => (
-                      <span key={index} className="px-2 py-1 bg-gray-100 text-[#2B2D42] text-xs rounded-md">
+                      <span key={index} className="px-2 py-1 bg-foreground/10 text-foreground text-xs rounded-md">
                         {skill}
                       </span>
                     ))}
                   </div>
                 )}
 
-                <p className="text-[#2B2D42]/70 text-sm mb-4 line-clamp-3">{job.description}</p>
+                <p className="text-foreground/70 text-sm mb-4 line-clamp-3">{job.description}</p>
 
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1 text-[#2B2D42]/60 text-sm">
+                  <div className="flex items-center gap-1 text-foreground/60 text-sm">
                     <Clock className="h-4 w-4" />
                     <span>{getTimeAgo(job.createdAt)}</span>
                   </div>
@@ -450,24 +452,24 @@ export default function JobSeekerDashboard() {
                 </div>
               </div>
             ))}
-          </div>
-        )}
 
-        {!isLoading && !error && filteredJobs.length === 0 && jobs.length > 0 && (
-          <div className="text-center py-12">
-            <div className="text-[#2B2D42]/60 text-lg">
-              No jobs found matching your criteria. Try adjusting your filters.
-            </div>
-          </div>
-        )}
+            {!isLoading && !error && filteredJobs.length === 0 && jobs.length > 0 && (
+              <div className="text-center py-12">
+                <div className="text-[#2B2D42]/60 text-lg">
+                  No jobs found matching your criteria. Try adjusting your filters.
+                </div>
+              </div>
+            )}
 
-        {!isLoading && !error && jobs.length === 0 && (
-          <div className="text-center py-12">
-            <div className="text-[#2B2D42]/60 text-lg mb-4">No jobs available at the moment.</div>
-            <Button onClick={fetchJobs} className="bg-[#00A8A8] hover:bg-[#009494] text-white">
-              <RefreshCw className="h-4 w-4 mr-2" />
-              Refresh
-            </Button>
+            {!isLoading && !error && jobs.length === 0 && (
+              <div className="text-center py-12">
+                <div className="text-foreground text-lg mb-4">No jobs available at the moment.</div>
+                <Button onClick={fetchJobs} className="bg-background text-foreground border border-foreground hover:bg-foreground hover:text-background">
+                  <RefreshCw className="h-4 w-4 mr-2" />
+                  Refresh
+                </Button>
+              </div>
+            )}
           </div>
         )}
 

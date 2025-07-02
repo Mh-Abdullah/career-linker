@@ -1,11 +1,12 @@
 import Link from "next/link"
 import { Button } from "../components/ui/button"
+import { ThemeToggle } from "../components/theme-toggle" // ✅ NEW
 
 export default function WelcomePage() {
   return (
-    <div className="min-h-screen bg-[#F5F7FA]">
+    <div className="min-h-screen bg-background text-foreground transition-colors">
       {/* Navigation Bar */}
-      <nav className="py-6 border-b border-gray-100">
+      <nav className="py-6 border-b border-border">
         <div className="container mx-auto px-6 flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center">
@@ -15,8 +16,9 @@ export default function WelcomePage() {
             <span className="text-2xl font-semibold text-[#00A8A8]">CareerLinker</span>
           </div>
 
-          {/* Auth Buttons */}
+          {/* Auth Buttons + Theme Toggle */}
           <div className="flex items-center gap-4">
+            <ThemeToggle /> {/* ✅ Added toggle here */}
             <Link href="/auth/signup">
               <Button variant="ghost" className="hover:text-[#00A8A8]">
                 Register
@@ -32,11 +34,11 @@ export default function WelcomePage() {
       {/* Hero Section */}
       <main className="container mx-auto px-6 py-16 max-w-4xl">
         <div className="text-left">
-          <h1 className="text-5xl font-bold text-[#2B2D42] leading-tight mb-8">
+          <h1 className="text-5xl font-bold leading-tight mb-8 text-foreground dark:text-foreground">
             Connect to Your Dream Career with <span className="text-[#00A8A8]">CareerLinker</span>
           </h1>
 
-          <p className="text-xl text-[#2B2D42]/80 mb-12 leading-relaxed max-w-3xl">
+          <p className="text-xl mb-12 leading-relaxed max-w-3xl text-muted-foreground dark:text-white/80">
             Find the perfect job match with our intelligent platform. We connect talented professionals with top
             companies worldwide, making your career journey seamless and rewarding.
           </p>
@@ -68,7 +70,7 @@ export default function WelcomePage() {
           <div className="flex items-center gap-8">
             <div className="flex items-center gap-1">
               <span className="text-yellow-400">⭐</span>
-              <span className="text-[#2B2D42]/80">4.9/5 Rating</span>
+              <span className="text-muted-foreground dark:text-white/80">4.9/5 Rating</span>
             </div>
           </div>
         </div>

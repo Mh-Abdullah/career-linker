@@ -62,8 +62,8 @@ export default function DashboardView({ jobs, onJobCreated, onManageJobs }: Dash
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-[#2B2D42] mb-2">Dashboard Overview</h1>
-          <p className="text-[#2B2D42]/70">Track your job postings and recruitment metrics</p>
+          <h1 className="text-3xl font-bold text-[#2B2D42] dark:text-[#009494] mb-2">Dashboard Overview</h1>
+          <p className="text-[#2B2D42]/70 dark:text-white">Track your job postings and recruitment metrics</p>
         </div>
         <Button onClick={handleCreateJob} className="bg-[#00A8A8] hover:bg-[#009494] text-white">
           <Plus className="h-4 w-4 mr-2" />
@@ -73,11 +73,11 @@ export default function DashboardView({ jobs, onJobCreated, onManageJobs }: Dash
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
+        <div className="bg-card rounded-lg border border-border p-6 text-foreground transition-colors">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-[#2B2D42]/60 text-sm">Total Jobs</p>
-              <p className="text-2xl font-bold text-[#2B2D42]">{jobs.length}</p>
+              <p className="text-muted-foreground text-sm dark:text-white">Total Jobs</p>
+              <p className="text-2xl font-bold text-foreground dark:text-white">{jobs.length}</p>
               <p className="text-xs text-green-600 mt-1">+{recentJobs.length} this week</p>
             </div>
             <div className="w-12 h-12 bg-[#00A8A8]/10 rounded-lg flex items-center justify-center">
@@ -86,12 +86,12 @@ export default function DashboardView({ jobs, onJobCreated, onManageJobs }: Dash
           </div>
         </div>
 
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
+        <div className="bg-card rounded-lg border border-border p-6 text-foreground transition-colors">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-[#2B2D42]/60 text-sm">Active Jobs</p>
-              <p className="text-2xl font-bold text-[#2B2D42]">{activeJobs}</p>
-              <p className="text-xs text-[#2B2D42]/60 mt-1">{jobs.length - activeJobs} inactive</p>
+              <p className="text-muted-foreground text-sm dark:text-white">Active Jobs</p>
+              <p className="text-2xl font-bold text-foreground dark:text-white">{activeJobs}</p>
+              <p className="text-xs text-muted-foreground mt-1">{jobs.length - activeJobs} inactive</p>
             </div>
             <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
               <Calendar className="h-6 w-6 text-green-600" />
@@ -99,11 +99,11 @@ export default function DashboardView({ jobs, onJobCreated, onManageJobs }: Dash
           </div>
         </div>
 
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
+        <div className="bg-card rounded-lg border border-border p-6 text-foreground transition-colors">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-[#2B2D42]/60 text-sm">Total Applications</p>
-              <p className="text-2xl font-bold text-[#2B2D42]">{totalApplications}</p>
+              <p className="text-muted-foreground text-sm dark:text-white">Total Applications</p>
+              <p className="text-2xl font-bold text-foreground dark:text-white">{totalApplications}</p>
               <p className="text-xs text-blue-600 mt-1">Across all jobs</p>
             </div>
             <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
@@ -112,11 +112,11 @@ export default function DashboardView({ jobs, onJobCreated, onManageJobs }: Dash
           </div>
         </div>
 
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
+        <div className="bg-card rounded-lg border border-border p-6 text-foreground transition-colors">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-[#2B2D42]/60 text-sm">Avg. Applications</p>
-              <p className="text-2xl font-bold text-[#2B2D42]">{avgApplications}</p>
+              <p className="text-muted-foreground text-sm dark:text-white">Avg. Applications</p>
+              <p className="text-2xl font-bold text-foreground dark:text-white">{avgApplications}</p>
               <p className="text-xs text-purple-600 mt-1">Per job posting</p>
             </div>
             <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
@@ -129,8 +129,8 @@ export default function DashboardView({ jobs, onJobCreated, onManageJobs }: Dash
       {/* Recent Activity */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Recent Jobs */}
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
-          <h2 className="text-xl font-semibold text-[#2B2D42] mb-4">Recent Job Postings</h2>
+        <div className="bg-card rounded-lg border border-border p-6 text-foreground transition-colors">
+          <h2 className="text-xl font-semibold mb-4">Recent Job Postings</h2>
           {recentJobs.length === 0 ? (
             <div className="text-center py-8">
               <p className="text-[#2B2D42]/60">No jobs posted this week</p>
@@ -158,8 +158,8 @@ export default function DashboardView({ jobs, onJobCreated, onManageJobs }: Dash
         </div>
 
         {/* Top Performing Jobs */}
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
-          <h2 className="text-xl font-semibold text-[#2B2D42] mb-4">Top Performing Jobs</h2>
+        <div className="bg-card rounded-lg border border-border p-6 text-foreground transition-colors">
+          <h2 className="text-xl font-semibold mb-4">Top Performing Jobs</h2>
           {jobs.length === 0 ? (
             <div className="text-center py-8">
               <p className="text-[#2B2D42]/60">No jobs posted yet</p>
@@ -193,8 +193,8 @@ export default function DashboardView({ jobs, onJobCreated, onManageJobs }: Dash
       </div>
 
       {/* Quick Actions */}
-      <div className="bg-white rounded-lg border border-gray-200 p-6 ">
-        <h2 className="text-xl font-semibold text-[#2B2D42] mb-4">Quick Actions</h2>
+      <div className="bg-card rounded-lg border border-border p-6 text-foreground transition-colors">
+        <h2 className="text-xl font-semibold mb-4">Quick Actions</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
           <Button
             onClick={handleCreateJob}
