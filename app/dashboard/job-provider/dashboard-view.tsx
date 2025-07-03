@@ -5,7 +5,6 @@ import { Button } from "../../../components/ui/button"
 import { Plus, Users, Eye, Calendar, TrendingUp, Briefcase } from "lucide-react"
 import CreateJobModal from "./create-job-modal"
 import { signOut } from "next-auth/react"
-import ChangePasswordDialog from "./change-password-dialog"
 
 interface Job {
   id: string
@@ -34,7 +33,6 @@ interface DashboardViewProps {
 
 export default function DashboardView({ jobs, onJobCreated, onManageJobs }: DashboardViewProps) {
   const [showCreateModal, setShowCreateModal] = useState(false)
-  const [showChangePassword, setShowChangePassword] = useState(false)
 
   const totalApplications = jobs.reduce((total, job) => total + job._count.applications, 0)
   const activeJobs = jobs.filter((job) => job.isActive).length
@@ -220,9 +218,6 @@ export default function DashboardView({ jobs, onJobCreated, onManageJobs }: Dash
         onClose={() => setShowCreateModal(false)}
         onJobCreated={handleJobCreated}
       />
-
-      {/* Change Password Dialog */}
-      <ChangePasswordDialog open={showChangePassword} onClose={() => setShowChangePassword(false)} />
     </div>
   )
 }

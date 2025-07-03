@@ -6,7 +6,6 @@ import { useEffect, useState } from "react"
 import { Button } from "../../../components/ui/button"
 import { Search, Filter, MapPin, Clock, Briefcase, RefreshCw } from "lucide-react"
 import JobDetailPage from "./job-detail"
-import ChangePasswordDialog from "./change-password-dialog"
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -55,7 +54,6 @@ export default function JobSeekerDashboard() {
   const [selectedJobId, setSelectedJobId] = useState<string>("")
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState("")
-  const [showChangePassword, setShowChangePassword] = useState(false)
 
   // Only fetch jobs on initial mount or after reload, not on every navigation or tab switch
   useEffect(() => {
@@ -215,13 +213,14 @@ export default function JobSeekerDashboard() {
             <span className="text-xl font-semibold text-[#00A8A8]">CareerLinker</span>
           </div>
           <div className="flex items-center gap-4">
-            <ThemeToggle />
+            
             <button
               className="px-4 py-2 bg-[#00A8A8] text-white rounded-lg hover:bg-[#009494] transition-colors"
               onClick={() => router.push("/dashboard/job-seeker/applications")}
             >
               Applied
             </button>
+            <ThemeToggle />
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <div className="flex items-center gap-2 cursor-pointer">
@@ -235,9 +234,6 @@ export default function JobSeekerDashboard() {
               <DropdownMenuContent className="w-48 mt-2">
                 <DropdownMenuLabel>Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => setShowChangePassword(true)}>
-                  Change Password
-                </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={async () => {
                     const confirmed = confirm("Are you sure you want to delete your account?")
@@ -472,8 +468,6 @@ export default function JobSeekerDashboard() {
             )}
           </div>
         )}
-
-        <ChangePasswordDialog open={showChangePassword} onClose={() => setShowChangePassword(false)} />
       </div>
     </div>
   )

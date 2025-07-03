@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Briefcase, Clock, RefreshCw, ArrowLeft } from "lucide-react"
 import JobDetailPage from "../job-detail"
-import ChangePasswordDialog from "../change-password-dialog"
 import { ThemeToggle } from "../../../../components/theme-toggle"
 
 import {
@@ -44,7 +43,6 @@ export default function AppliedJobsPage({ setSelectedJobId, setCurrentView }: { 
   const [applications, setApplications] = useState<Application[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState("")
-  const [showChangePassword, setShowChangePassword] = useState(false)
 
   useEffect(() => {
     if (status === "loading") return
@@ -98,28 +96,27 @@ export default function AppliedJobsPage({ setSelectedJobId, setCurrentView }: { 
             <span className="text-xl font-semibold text-[#00A8A8]">CareerLinker</span>
           </div>
           <div className="flex items-center gap-4">
-            <ThemeToggle />
+            
             <button
               className="px-4 py-2 bg-[#00A8A8] text-white rounded-lg hover:bg-[#009494] transition-colors"
               onClick={() => router.push("/dashboard/job-seeker")}
             >
               Jobs
             </button>
+            <ThemeToggle />
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <div className="flex items-center gap-2 cursor-pointer">
                   <Avatar className="w-8 h-8">
-                    <AvatarFallback>{session?.user?.name?.[0] || "U"}</AvatarFallback>
+                    <AvatarFallback>{session.user.name?.[0] || "U"}</AvatarFallback>
                   </Avatar>
                   <span className="text-[#2B2D42] dark:text-white">{session.user.name}</span>
                 </div>
               </DropdownMenuTrigger>
+
               <DropdownMenuContent className="w-48 mt-2">
                 <DropdownMenuLabel>Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => setShowChangePassword(true)}>
-                  Change Password
-                </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={async () => {
                     const confirmed = confirm("Are you sure you want to delete your account?")
@@ -142,7 +139,9 @@ export default function AppliedJobsPage({ setSelectedJobId, setCurrentView }: { 
                 >
                   Delete Account
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/" })}>Sign Out</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/" })}>
+                  Sign Out
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
@@ -219,7 +218,6 @@ export default function AppliedJobsPage({ setSelectedJobId, setCurrentView }: { 
           </div>
         )}
       </div>
-      <ChangePasswordDialog open={showChangePassword} onClose={() => setShowChangePassword(false)} />
     </div>
   )
 }

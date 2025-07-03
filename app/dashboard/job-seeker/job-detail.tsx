@@ -6,7 +6,6 @@ import { useEffect, useState } from "react"
 import { Button } from "../../../components/ui/button"
 import { ArrowLeft, MapPin, Clock, Briefcase, CheckCircle, Building } from "lucide-react"
 import ApplyModal from "./apply-modal"
-import ChangePasswordDialog from "./change-password-dialog"
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -54,7 +53,6 @@ export default function JobDetailPage({ jobId, onBack }: JobDetailPageProps) {
   const [isApplyModalOpen, setIsApplyModalOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState("")
-  const [showChangePassword, setShowChangePassword] = useState(false)
 
   // Only fetch job details on initial mount or after reload, not on every navigation or tab switch
   useEffect(() => {
@@ -197,12 +195,10 @@ export default function JobDetailPage({ jobId, onBack }: JobDetailPageProps) {
                   <span className="text-[#2B2D42] dark:text-white">{session.user.name}</span>
                 </div>
               </DropdownMenuTrigger>
+
               <DropdownMenuContent className="w-48 mt-2">
                 <DropdownMenuLabel>Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => setShowChangePassword(true)}>
-                  Change Password
-                </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={async () => {
                     const confirmed = confirm("Are you sure you want to delete your account?")
@@ -370,9 +366,6 @@ export default function JobDetailPage({ jobId, onBack }: JobDetailPageProps) {
           jobTitle={job.title}
           companyName={job.postedBy.jobProviderProfile?.companyName || job.company}
         />
-
-        {/* Change Password Dialog */}
-        <ChangePasswordDialog open={showChangePassword} onClose={() => setShowChangePassword(false)} />
       </div>
     </div>
   )

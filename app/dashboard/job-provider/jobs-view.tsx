@@ -9,7 +9,6 @@ import CreateJobModal from "./create-job-modal"
 import { useRouter } from "next/navigation"
 import EditJobModal from "./edit-job-modeal"
 import { signOut } from "next-auth/react"
-import ChangePasswordDialog from "./change-password-dialog"
 
 interface Job {
   id: string
@@ -43,7 +42,6 @@ export default function JobsView({ jobs, onJobCreated, onJobUpdated }: JobsViewP
   const [filteredJobs, setFilteredJobs] = useState<Job[]>(jobs)
   const [showEditModal, setShowEditModal] = useState(false)
   const [editingJob, setEditingJob] = useState<Job | null>(null)
-  const [showChangePassword, setShowChangePassword] = useState(false)
   const router = useRouter()
 
   // Filter jobs based on search and status
@@ -359,9 +357,6 @@ export default function JobsView({ jobs, onJobCreated, onJobUpdated }: JobsViewP
         }}
         job={editingJob}
       />
-
-      {/* Change Password Dialog */}
-      <ChangePasswordDialog open={showChangePassword} onClose={() => setShowChangePassword(false)} />
     </div>
   )
 }

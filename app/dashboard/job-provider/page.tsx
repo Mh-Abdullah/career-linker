@@ -15,8 +15,7 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import ChangePasswordDialog from "./change-password-dialog"
-import { ThemeToggle } from "@/components/theme-toggle" // ✅ Added import
+import { ThemeToggle } from "@/components/theme-toggle"
 
 interface Job {
   id: string
@@ -164,9 +163,6 @@ export default function JobProviderDashboard() {
               <DropdownMenuContent className="w-48 mt-2">
                 <DropdownMenuLabel>Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => setShowChangePassword(true)}>
-                  Change Password
-                </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={async () => {
                     const confirmed = confirm("Are you sure you want to delete your account?")
@@ -235,7 +231,7 @@ export default function JobProviderDashboard() {
         )}
       </div>
 
-      <ChangePasswordDialog open={showChangePassword} onClose={() => setShowChangePassword(false)} />
+      {/* <ChangePasswordDialog open={showChangePassword} onClose={() => setShowChangePassword(false)} /> */}
     </div>
   )
 }

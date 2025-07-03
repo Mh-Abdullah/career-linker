@@ -14,12 +14,13 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body>
-        <Providers>
-          {children}
-        </Providers>
-      </body>
-    </html>
+    <html lang="en" suppressHydrationWarning className="dark">
+    <body className="bg-background text-foreground antialiased">
+      <Providers>
+        {children}
+      </Providers>
+    </body>
+  </html>
+
   )
 }

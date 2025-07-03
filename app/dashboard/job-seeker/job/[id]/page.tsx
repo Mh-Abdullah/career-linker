@@ -159,15 +159,15 @@ export default function JobDetailPage() {
               <DropdownMenuTrigger asChild>
                 <div className="flex items-center gap-2 cursor-pointer">
                   <Avatar className="w-8 h-8">
-                    <AvatarFallback>{session?.user?.name?.[0] || "U"}</AvatarFallback>
+                    <AvatarFallback>{session.user.name?.[0] || "U"}</AvatarFallback>
                   </Avatar>
-                  <span className="text-foreground">{session?.user?.name}</span>
+                  <span className="text-[#2B2D42] dark:text-white">{session.user.name}</span>
                 </div>
               </DropdownMenuTrigger>
+
               <DropdownMenuContent className="w-48 mt-2">
                 <DropdownMenuLabel>Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => router.push("/dashboard/job-seeker")}>Jobs</DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={async () => {
                     const confirmed = confirm("Are you sure you want to delete your account?")
@@ -190,7 +190,9 @@ export default function JobDetailPage() {
                 >
                   Delete Account
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/" })}>Sign Out</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/" })}>
+                  Sign Out
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
