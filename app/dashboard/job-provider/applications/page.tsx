@@ -246,7 +246,7 @@ function JobApplicationsPage() {
         // Use the correct import path for pdfjs-dist v4+
         const pdfjsLib = await import('pdfjs-dist');
         // Use local worker file for better compatibility
-        pdfjsLib.GlobalWorkerOptions.workerSrc = '/_next/static/pdf.worker.min.js';
+        pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdfjs/static/pdf.worker.min.js';
         const loadingTask = pdfjsLib.getDocument(url);
         const pdf = await loadingTask.promise;
         let text = "";
