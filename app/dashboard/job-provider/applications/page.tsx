@@ -285,7 +285,7 @@ export default function JobApplicationsPage() {
           <div className="text-[#2B2D42] text-lg mb-4">No job ID provided</div>
           <Button
             onClick={() => router.push("/dashboard/job-provider")}
-            className="bg-[#00A8A8] hover:bg-[#009494] text-white"
+            className="bg-purple-600 hover:purple-600 text-white"
           >
             Back to Dashboard
           </Button>
@@ -299,11 +299,11 @@ export default function JobApplicationsPage() {
       {/* Navigation */}
       <nav className="bg-white dark:bg-card border-b border-border">
         <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center cursor-pointer" onClick={() => router.push("/dashboard/job-provider")}>
-            <div className="w-10 h-10 bg-[#00A8A8] rounded-lg flex items-center justify-center mr-3">
+          <div className="flex items-center cursor-pointer" onClick={() => router.push("/dashboard/job-provider")}> 
+            <div className="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center mr-3">
               <span className="text-white font-bold">CL</span>
             </div>
-            <span className="text-xl font-semibold text-[#00A8A8]">CareerLinker</span>
+            <span className="text-xl font-semibold text-purple-600">CareerLinker</span>
           </div>
           <div className="flex items-center gap-6">
             {/* ✅ Theme Toggle */}
@@ -319,13 +319,13 @@ export default function JobApplicationsPage() {
           <Button
             onClick={() => router.push("/dashboard/job-provider")}
             variant="ghost"
-            className="text-[#00A8A8] hover:text-[#009494]"
+            className="text-purple-600 hover:purple-700"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Jobs
           </Button>
           <div>
-            <h1 className="text-3xl font-bold text-[#2B2D42] dark:text-[#009494]">Job Applications</h1>
+            <h1 className="text-3xl font-bold text-[#2B2D42] dark:text-purple-600">Job Applications</h1>
             {job && (
               <p className="text-[#2B2D42]/70 dark:text-white">
                 {job.title} at {job.company} • {applications.length} applications
@@ -338,7 +338,7 @@ export default function JobApplicationsPage() {
         {error && (
           <div className="text-center py-12">
             <div className="text-red-600 text-lg mb-4">{error}</div>
-            <Button onClick={fetchApplications} className="bg-[#00A8A8] hover:bg-[#009494] text-white">
+            <Button onClick={fetchApplications} className="bg-purple-600 hover:bg-purple-700 text-white">
               Try Again
             </Button>
           </div>
@@ -359,7 +359,7 @@ export default function JobApplicationsPage() {
                     key={application.id}
                     className={`bg-card rounded-lg border border-border p-6 cursor-pointer transition-all text-foreground dark:text-white ${
                       selectedApplication?.id === application.id
-                        ? "ring-2 ring-[#00A8A8] border-[#00A8A8]"
+                        ? "ring-2 ring-purple-600 border-purple-700"
                         : "hover:shadow-md"
                     }`}
                     onClick={() => setSelectedApplication(application)}

@@ -116,10 +116,10 @@ export default function JobProviderDashboard() {
       <nav className="bg-white dark:bg-card border-b border-border">
         <div className="container mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center cursor-pointer" onClick={() => router.push("/dashboard/job-provider")}>
-            <div className="w-10 h-10 bg-[#00A8A8] rounded-lg flex items-center justify-center mr-3">
+            <div className="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center mr-3">
               <span className="text-white font-bold">CL</span>
             </div>
-            <span className="text-xl font-semibold text-[#00A8A8]">CareerLinker</span>
+            <span className="text-xl font-semibold text-purple-600">CareerLinker</span>
           </div>
 
           <div className="flex items-center gap-6">
@@ -129,7 +129,7 @@ export default function JobProviderDashboard() {
                 onClick={() => setCurrentView("dashboard")}
                 className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                   currentView === "dashboard"
-                    ? "bg-[#00A8A8] text-white hover:bg-[#009494]"
+                    ? "bg-purple-600 text-white hover:bg-purple-700"
                     : "bg-white dark:bg-card text-[#2B2D42] dark:text-white border border-gray-300 dark:border-border hover:bg-gray-50 dark:hover:bg-muted"
                 }`}
               >
@@ -139,7 +139,7 @@ export default function JobProviderDashboard() {
                 onClick={() => setCurrentView("jobs")}
                 className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                   currentView === "jobs"
-                    ? "bg-[#00A8A8] text-white hover:bg-[#009494]"
+                    ? "bg-purple-600 text-white hover:bg-purple-700"
                     : "bg-white dark:bg-card text-[#2B2D42] dark:text-white border border-gray-300 dark:border-border hover:bg-gray-50 dark:hover:bg-muted"
                 }`}
               >
@@ -205,7 +205,7 @@ export default function JobProviderDashboard() {
         {error && (
           <div className="text-center py-12">
             <div className="text-red-600 text-lg mb-4">{error}</div>
-            <Button onClick={fetchJobs} className="bg-[#00A8A8] hover:bg-[#009494] text-white">
+            <Button onClick={fetchJobs} className="bg-purple-600 hover:bg-purple-700 text-white">
               Try Again
             </Button>
           </div>

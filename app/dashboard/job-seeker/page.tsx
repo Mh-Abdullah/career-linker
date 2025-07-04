@@ -207,15 +207,15 @@ export default function JobSeekerDashboard() {
       <nav className="bg-white border-b border-gray-200 dark:bg-card dark:border-border">
         <div className="container mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center cursor-pointer" onClick={() => router.push("/dashboard/job-seeker")}>
-            <div className="w-10 h-10 bg-[#00A8A8] rounded-lg flex items-center justify-center mr-3">
+            <div className="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center mr-3">
               <span className="text-white font-bold">CL</span>
             </div>
-            <span className="text-xl font-semibold text-[#00A8A8]">CareerLinker</span>
+            <span className="text-xl font-semibold text-purple-600">CareerLinker</span>
           </div>
           <div className="flex items-center gap-4">
             
             <button
-              className="px-4 py-2 bg-[#00A8A8] text-white rounded-lg hover:bg-[#009494] transition-colors"
+              className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
               onClick={() => router.push("/dashboard/job-seeker/applications")}
             >
               Applied
@@ -269,7 +269,7 @@ export default function JobSeekerDashboard() {
       <div className="container mx-auto px-6 py-8">
         {/* Header Section */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-[#2B2D42] dark:text-[#00A8A8] mb-4">FIND YOUR DREAM JOB</h1>
+          <h1 className="text-4xl font-bold text-purple-600 dark:text-purple-600 mb-4">FIND YOUR DREAM JOB</h1>
           <p className="text-lg text-[#2B2D42]/70 dark:text-white/70 mb-8">
             Discover your next opportunity from our curated list of job positions
           </p>
@@ -277,17 +277,17 @@ export default function JobSeekerDashboard() {
           {/* Stats */}
           <div className="flex justify-center gap-12 mb-8">
             <div className="text-center">
-              <div className="text-3xl font-bold text-[#00A8A8] dark:text-[#00A8A8]">{jobs.length}+</div>
+              <div className="text-3xl font-bold text-purple-600 dark:text-purple-600">{jobs.length}+</div>
               <div className="text-[#2B2D42]/70 dark:text-white/70">Active Jobs</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-[#00A8A8] dark:text-[#00A8A8]">
+              <div className="text-3xl font-bold text-purple-600 dark:text-purple-600">
                 {new Set(jobs.map((job) => job.postedBy.jobProviderProfile?.companyName || job.company)).size}+
               </div>
               <div className="text-[#2B2D42]/70 dark:text-white/70">Companies Listing</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-[#00A8A8] dark:text-[#00A8A8]">1M+</div>
+              <div className="text-3xl font-bold text-purple-600 dark:text-purple-600">1M+</div>
               <div className="text-[#2B2D42]/70 dark:text-white/70">Active Users</div>
             </div>
           </div>
@@ -302,10 +302,10 @@ export default function JobSeekerDashboard() {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 onKeyPress={(e) => e.key === "Enter" && handleSearch()}
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A8A8] text-[#2B2D42] dark:text-white bg-white dark:bg-card placeholder:text-[#2B2D42]/60 dark:placeholder:text-white/60"
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 text-[#2B2D42] dark:text-white bg-white dark:bg-card placeholder:text-[#2B2D42]/60 dark:placeholder:text-white/60"
               />
             </div>
-            <Button onClick={handleSearch} className="px-6 py-3 bg-[#00A8A8] hover:bg-[#009494] text-white">
+            <Button onClick={handleSearch} className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white">
               Search
             </Button>
           </div>
@@ -323,7 +323,7 @@ export default function JobSeekerDashboard() {
                 onClick={() => setSelectedCategory(category)}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                   selectedCategory === category
-                    ? "bg-[#00A8A8] text-white"
+                    ? "bg-purple-600 text-white"
                     : "bg-white dark:bg-card text-[#2B2D42] dark:text-white border border-gray-300 dark:border-border hover:bg-gray-50 dark:hover:bg-muted"
                 }`}
               >
@@ -337,7 +337,7 @@ export default function JobSeekerDashboard() {
             <select
               value={selectedJobType}
               onChange={(e) => setSelectedJobType(e.target.value)}
-              className="px-4 py-2 border border-gray-300 dark:border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A8A8] text-[#2B2D42] dark:text-white bg-white dark:bg-card"
+              className="px-4 py-2 border border-gray-300 dark:border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 text-[#2B2D42] dark:text-white bg-white dark:bg-card"
             >
               <option value="All">Filter by Type</option>
               <option value="FULL_TIME">Full Time</option>
@@ -351,7 +351,7 @@ export default function JobSeekerDashboard() {
             <select
               value={selectedLocation}
               onChange={(e) => setSelectedLocation(e.target.value)}
-              className="px-4 py-2 border border-gray-300 dark:border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A8A8] text-[#2B2D42] dark:text-white bg-white dark:bg-card"
+              className="px-4 py-2 border border-gray-300 dark:border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 text-[#2B2D42] dark:text-white bg-white dark:bg-card"
             >
               <option value="All">Filter by Location</option>
               <option value="Remote">Remote</option>
@@ -364,7 +364,7 @@ export default function JobSeekerDashboard() {
         {/* Loading State */}
         {isLoading && (
           <div className="text-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#00A8A8] mx-auto mb-4"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
             <div className="text-[#2B2D42]/60 text-lg">Loading jobs...</div>
           </div>
         )}
@@ -374,7 +374,7 @@ export default function JobSeekerDashboard() {
           <div className="text-center py-12">
             <div className="bg-red-50 border border-red-200 rounded-lg p-6 max-w-md mx-auto">
               <div className="text-red-600 text-lg mb-4">{error}</div>
-              <Button onClick={fetchJobs} className="bg-[#00A8A8] hover:bg-[#009494] text-white w-full">
+              <Button onClick={fetchJobs} className="bg-purple-600 hover:bg-purple-700 text-white w-full">
                 <RefreshCw className="h-4 w-4 mr-2" />
                 Try Again
               </Button>
@@ -398,7 +398,7 @@ export default function JobSeekerDashboard() {
                         ? "bg-green-100 text-green-800"
                         : job.jobType === "PART_TIME"
                           ? "bg-blue-100 text-blue-800"
-                          : "bg-[#00A8A8]/10 text-[#00A8A8]"
+                          : "bg-[#00A8A8]/10 text-purple-600"
                     }`}
                   >
                     {formatJobType(job.jobType)}
@@ -417,7 +417,7 @@ export default function JobSeekerDashboard() {
                   </span>
                 </div>
 
-                {job.salary && <div className="text-[#00A8A8] font-semibold mb-3">{job.salary}</div>}
+                {job.salary && <div className="text-purple-600 font-semibold mb-3">{job.salary}</div>}
 
                 {job.skills && (
                   <div className="flex flex-wrap gap-2 mb-4">
@@ -441,7 +441,7 @@ export default function JobSeekerDashboard() {
                       setSelectedJobId(job.id)
                       setCurrentView("detail")
                     }}
-                    className="bg-[#00A8A8] hover:bg-[#009494] text-white px-6"
+                    className="bg-purple-600 hover:bg-purple-700 text-white px-6"
                   >
                     Apply Now
                   </Button>

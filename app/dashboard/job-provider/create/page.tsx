@@ -96,10 +96,10 @@ export default function CreateJobPage() {
       <nav className="bg-white border-b border-gray-200">
         <div className="container mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center">
-            <div className="w-10 h-10 bg-[#00A8A8] rounded-lg flex items-center justify-center mr-3">
+            <div className="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center mr-3">
               <span className="text-white font-bold">CL</span>
             </div>
-            <span className="text-xl font-semibold text-[#00A8A8]">CareerLinker</span>
+            <span className="text-xl font-semibold text-purple-600">CareerLinker</span>
           </div>
 
           <div className="flex items-center gap-4">
@@ -112,7 +112,7 @@ export default function CreateJobPage() {
       <div className="container mx-auto px-6 py-8 max-w-4xl">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
-          <Button onClick={() => router.back()} variant="ghost" className="text-[#00A8A8] hover:text-[#009494]">
+          <Button onClick={() => router.back()} variant="ghost" className="text-purple-600 hover:text-purple-700">
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back
           </Button>
@@ -144,7 +144,7 @@ export default function CreateJobPage() {
                   value={formData.title}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A8A8]"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
                   placeholder="e.g. Senior React Developer"
                 />
               </div>
@@ -157,7 +157,7 @@ export default function CreateJobPage() {
                   value={formData.company}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A8A8]"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
                   placeholder="e.g. TechCorp Solutions"
                 />
               </div>
@@ -170,7 +170,7 @@ export default function CreateJobPage() {
                   value={formData.location}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A8A8]"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
                   placeholder="e.g. San Francisco, CA"
                 />
               </div>
@@ -182,7 +182,7 @@ export default function CreateJobPage() {
                   name="salary"
                   value={formData.salary}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A8A8]"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
                   placeholder="e.g. $80,000 - $120,000"
                 />
               </div>
@@ -194,7 +194,7 @@ export default function CreateJobPage() {
                   value={formData.jobType}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A8A8]"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
                 >
                   <option value="FULL_TIME">Full Time</option>
                   <option value="PART_TIME">Part Time</option>
@@ -212,7 +212,7 @@ export default function CreateJobPage() {
                   name="experience"
                   value={formData.experience}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A8A8]"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
                   placeholder="e.g. 3-5 years"
                 />
               </div>
@@ -225,7 +225,7 @@ export default function CreateJobPage() {
                   name="isRemote"
                   checked={formData.isRemote}
                   onChange={handleInputChange}
-                  className="h-4 w-4 text-[#00A8A8] focus:ring-[#00A8A8] border-gray-300 rounded"
+                  className="h-4 w-4 text-purple-600 focus:ring-purple-600 border-gray-300 rounded"
                 />
                 <label className="ml-2 block text-sm text-[#2B2D42]">This is a remote position</label>
               </div>
@@ -245,7 +245,7 @@ export default function CreateJobPage() {
                   onChange={handleInputChange}
                   required
                   rows={6}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A8A8]"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
                   placeholder="Describe the role, responsibilities, and what makes this opportunity exciting..."
                 />
               </div>
@@ -257,7 +257,7 @@ export default function CreateJobPage() {
                   name="skills"
                   value={formData.skills}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A8A8]"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
                   placeholder="e.g. React, TypeScript, Node.js, JavaScript (comma separated)"
                 />
               </div>
@@ -269,7 +269,7 @@ export default function CreateJobPage() {
                   value={formData.requirements}
                   onChange={handleInputChange}
                   rows={4}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A8A8]"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
                   placeholder="List the key requirements and qualifications..."
                 />
               </div>
@@ -281,7 +281,7 @@ export default function CreateJobPage() {
                   value={formData.benefits}
                   onChange={handleInputChange}
                   rows={4}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A8A8]"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
                   placeholder="Describe the benefits, perks, and what makes your company great..."
                 />
               </div>
@@ -293,7 +293,7 @@ export default function CreateJobPage() {
                   name="applicationDeadline"
                   value={formData.applicationDeadline}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A8A8]"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
                 />
               </div>
             </div>
@@ -304,7 +304,7 @@ export default function CreateJobPage() {
             <Button type="button" variant="outline" onClick={() => router.back()} disabled={isSubmitting}>
               Cancel
             </Button>
-            <Button type="submit" disabled={isSubmitting} className="bg-[#00A8A8] hover:bg-[#009494] text-white">
+            <Button type="submit" disabled={isSubmitting} className="bg-purple-600 hover:bg-purple-500 text-white">
               <Save className="h-4 w-4 mr-2" />
               {isSubmitting ? "Creating..." : "Post Job"}
             </Button>

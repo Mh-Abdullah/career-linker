@@ -90,15 +90,15 @@ export default function AppliedJobsPage({ setSelectedJobId, setCurrentView }: { 
       <nav className="bg-white border-b border-gray-200 dark:bg-card dark:border-border">
         <div className="container mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center cursor-pointer" onClick={() => router.push("/dashboard/job-seeker")}> 
-            <div className="w-10 h-10 bg-[#00A8A8] rounded-lg flex items-center justify-center mr-3">
+            <div className="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center mr-3">
               <span className="text-white font-bold">CL</span>
             </div>
-            <span className="text-xl font-semibold text-[#00A8A8]">CareerLinker</span>
+            <span className="text-xl font-semibold text-purple-600">CareerLinker</span>
           </div>
           <div className="flex items-center gap-4">
             
             <button
-              className="px-4 py-2 bg-[#00A8A8] text-white rounded-lg hover:bg-[#009494] transition-colors"
+              className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
               onClick={() => router.push("/dashboard/job-seeker")}
             >
               Jobs
@@ -152,16 +152,16 @@ export default function AppliedJobsPage({ setSelectedJobId, setCurrentView }: { 
           <Button
             variant="ghost"
             onClick={() => router.push("/dashboard/job-seeker")}
-            className="flex items-center gap-2 text-[#00A8A8] hover:bg-[#00A8A8]/10"
+            className="flex items-center gap-2 text-purple-600 hover:bg-purple-100"
           >
             <ArrowLeft className="h-5 w-5" />
             Back to Jobs
           </Button>
-          <h1 className="text-3xl font-bold text-[#2B2D42] dark:text-[#00A8A8] ml-4">Applied Jobs</h1>
+          <h1 className="text-3xl font-bold text-[#2B2D42] dark:text-purple-400 ml-4">Applied Jobs</h1>
         </div>
         {isLoading && (
           <div className="text-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#00A8A8] mx-auto mb-4"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
             <div className="text-[#2B2D42]/60 dark:text-white/60 text-lg">Loading applications...</div>
           </div>
         )}
@@ -169,7 +169,7 @@ export default function AppliedJobsPage({ setSelectedJobId, setCurrentView }: { 
           <div className="text-center py-12">
             <div className="bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-lg p-6 max-w-md mx-auto">
               <div className="text-red-600 dark:text-red-300 text-lg mb-4">{error}</div>
-              <Button onClick={fetchApplications} className="bg-[#00A8A8] hover:bg-[#009494] text-white w-full">
+              <Button onClick={fetchApplications} className="bg-purple-600 hover:bg-purple-700 text-white w-full">
                 <RefreshCw className="h-4 w-4 mr-2" />
                 Try Again
               </Button>
@@ -209,7 +209,7 @@ export default function AppliedJobsPage({ setSelectedJobId, setCurrentView }: { 
                       router.push(`/dashboard/job-seeker/job/${app.job.id}`)
                     }
                   }}
-                  className="bg-[#00A8A8] hover:bg-[#009494] text-white px-6 mt-2"
+                  className="bg-purple-600 hover:bg-purple-700 text-white px-6 mt-2"
                 >
                   View Job
                 </Button>

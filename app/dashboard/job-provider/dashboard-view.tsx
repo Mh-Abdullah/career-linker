@@ -5,6 +5,8 @@ import { Button } from "../../../components/ui/button"
 import { Plus, Users, Eye, Calendar, TrendingUp, Briefcase } from "lucide-react"
 import CreateJobModal from "./create-job-modal"
 import { signOut } from "next-auth/react"
+import BarGraph from "../../../components/charts/bar-graph"
+import LineChart from "../../../components/charts/line-chart"
 
 interface Job {
   id: string
@@ -33,6 +35,39 @@ interface DashboardViewProps {
 
 export default function DashboardView({ jobs, onJobCreated, onManageJobs }: DashboardViewProps) {
   const [showCreateModal, setShowCreateModal] = useState(false)
+  const [dateRange, setDateRange] = useState<{ start: string; end: string }>({
+    start: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10), // 7 days ago
+    end: new Date().toISOString().slice(0, 10),
+  })
+
+  // Filter jobs by date range
+  const jobsInRange = jobs.filter((job) => {
+    const d = job.createdAt.slice(0, 10)
+    return d >= dateRange.start && d <= dateRange.end
+  })
+
+  // Aggregate jobs per day
+  const getDateArray = (start: string, end: string) => {
+    const arr = []
+    let dt = new Date(start)
+    const endDt = new Date(end)
+    while (dt <= endDt) {
+      arr.push(dt.toISOString().slice(0, 10))
+      dt.setDate(dt.getDate() + 1)
+    }
+    return arr
+  }
+  const dateArr = getDateArray(dateRange.start, dateRange.end)
+  const jobsPerDay = dateArr.map((date) => ({
+    date,
+    value: jobsInRange.filter((j) => j.createdAt.slice(0, 10) === date).length,
+  }))
+
+  // Applications per day
+  const applicationsPerDay = dateArr.map((date) => ({
+    date,
+    value: jobsInRange.reduce((sum, j) => sum + (j.createdAt.slice(0, 10) === date ? j._count.applications : 0), 0),
+  }))
 
   const totalApplications = jobs.reduce((total, job) => total + job._count.applications, 0)
   const activeJobs = jobs.filter((job) => job.isActive).length
@@ -60,10 +95,10 @@ export default function DashboardView({ jobs, onJobCreated, onManageJobs }: Dash
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-[#2B2D42] dark:text-[#009494] mb-2">Dashboard Overview</h1>
+          <h1 className="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-2">Dashboard Overview</h1>
           <p className="text-[#2B2D42]/70 dark:text-white">Track your job postings and recruitment metrics</p>
         </div>
-        <Button onClick={handleCreateJob} className="bg-[#00A8A8] hover:bg-[#009494] text-white">
+        <Button onClick={handleCreateJob} className="bg-purple-600 hover:bg-purple-700 text-white">
           <Plus className="h-4 w-4 mr-2" />
           Post New Job
         </Button>
@@ -78,8 +113,8 @@ export default function DashboardView({ jobs, onJobCreated, onManageJobs }: Dash
               <p className="text-2xl font-bold text-foreground dark:text-white">{jobs.length}</p>
               <p className="text-xs text-green-600 mt-1">+{recentJobs.length} this week</p>
             </div>
-            <div className="w-12 h-12 bg-[#00A8A8]/10 rounded-lg flex items-center justify-center">
-              <Briefcase className="h-6 w-6 text-[#00A8A8]" />
+            <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+              <Briefcase className="h-6 w-6 text-purple-600" />
             </div>
           </div>
         </div>
@@ -132,7 +167,7 @@ export default function DashboardView({ jobs, onJobCreated, onManageJobs }: Dash
           {recentJobs.length === 0 ? (
             <div className="text-center py-8">
               <p className="text-[#2B2D42]/60">No jobs posted this week</p>
-              <Button onClick={handleCreateJob} className="mt-4 bg-[#00A8A8] hover:bg-[#009494] text-white">
+              <Button onClick={handleCreateJob} className="mt-4 bg-purple-600 hover:bg-purple-700 text-white">
                 <Plus className="h-4 w-4 mr-2" />
                 Post Your First Job
               </Button>
@@ -140,14 +175,14 @@ export default function DashboardView({ jobs, onJobCreated, onManageJobs }: Dash
           ) : (
             <div className="space-y-4">
               {recentJobs.slice(0, 3).map((job) => (
-                <div key={job.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div key={job.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg dark:bg-[#1A2A2A] dark:text-purple-400">
                   <div>
-                    <h3 className="font-medium text-[#2B2D42]">{job.title}</h3>
-                    <p className="text-sm text-[#2B2D42]/70">{job.location}</p>
+                    <h3 className="font-medium text-[#2B2D42] dark:text-purple-400">{job.title}</h3>
+                    <p className="text-sm text-white/70">{job.location}</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm font-medium text-[#00A8A8]">{job._count.applications} applications</p>
-                    <p className="text-xs text-[#2B2D42]/60">{new Date(job.createdAt).toLocaleDateString()}</p>
+                    <p className="text-sm font-medium text-purple-600 dark:text-purple-300">{job._count.applications} applications</p>
+                    <p className="text-xs text-[#2B2D42]/60 dark:text-white/60">{new Date(job.createdAt).toLocaleDateString()}</p>
                   </div>
                 </div>
               ))}
@@ -163,21 +198,21 @@ export default function DashboardView({ jobs, onJobCreated, onManageJobs }: Dash
               <p className="text-[#2B2D42]/60">No jobs posted yet</p>
             </div>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-4 ">
               {jobs
                 .sort((a, b) => b._count.applications - a._count.applications)
                 .slice(0, 3)
                 .map((job) => (
-                  <div key={job.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                  <div key={job.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg dark:bg-[#1A2A2A] dark:text-purple-400">
                     <div>
-                      <h3 className="font-medium text-[#2B2D42]">{job.title}</h3>
-                      <p className="text-sm text-[#2B2D42]/70">{job.company}</p>
+                      <h3 className="font-medium text-[#2B2D42] dark:text-purple-400">{job.title}</h3>
+                      <p className="text-sm text-[#2B2D42]/70 dark:text-white/70">{job.company}</p>
                     </div>
                     <div className="text-right">
-                      <p className="text-sm font-medium text-[#00A8A8]">{job._count.applications} applications</p>
+                      <p className="text-sm font-medium text-purple-600 dark:text-purple-300">{job._count.applications} applications</p>
                       <span
                         className={`inline-block px-2 py-1 text-xs rounded-full ${
-                          job.isActive ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-800"
+                          job.isActive ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300" : "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300"
                         }`}
                       >
                         {job.isActive ? "Active" : "Inactive"}
@@ -190,25 +225,26 @@ export default function DashboardView({ jobs, onJobCreated, onManageJobs }: Dash
         </div>
       </div>
 
-      {/* Quick Actions */}
+      {/* Quick Analysis (Line Charts) */}
       <div className="bg-card rounded-lg border border-border p-6 text-foreground transition-colors">
-        <h2 className="text-xl font-semibold mb-4">Quick Actions</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
-          <Button
-            onClick={handleCreateJob}
-            className="h-20 bg-[#00A8A8] hover:bg-[#009494] text-white flex flex-col items-center justify-center"
-          >
-            <Plus className="h-6 w-6 mb-2" />
-            Post New Job
-          </Button>
-          <Button
-            onClick={onManageJobs}
-            variant="outline"
-            className="h-20 flex flex-col items-center justify-center border-[#00A8A8] text-[#00A8A8] hover:bg-[#00A8A8] hover:text-white"
-          >
-            <Eye className="h-6 w-6 mb-2" />
-            Manage Jobs
-          </Button>
+        <h2 className="text-xl font-semibold mb-4">Quick Analysis</h2>
+        <div className="flex flex-row gap-2 items-center justify-end mb-4">
+          <div>
+            <label className="text-sm mr-2">From:</label>
+            <input type="date" value={dateRange.start} max={dateRange.end} onChange={e => setDateRange(r => ({ ...r, start: e.target.value }))} className="border rounded px-2 py-1" />
+          </div>
+          <div>
+            <label className="text-sm mx-2">To:</label>
+            <input type="date" value={dateRange.end} min={dateRange.start} max={new Date().toISOString().slice(0,10)} onChange={e => setDateRange(r => ({ ...r, end: e.target.value }))} className="border rounded px-2 py-1" />
+          </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start justify-center">
+          <div className="bg-white dark:bg-[#182828] rounded-lg shadow p-4">
+            <LineChart data={jobsPerDay} label={<span className="text-foreground dark:text-white">Jobs Posted</span>} color="#a21caf" />
+          </div>
+          <div className="bg-white dark:bg-[#182828] rounded-lg shadow p-4">
+            <LineChart data={applicationsPerDay} label={<span className="text-foreground dark:text-white">Applications</span>} color="#a21caf" />
+          </div>
         </div>
       </div>
 

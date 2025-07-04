@@ -174,10 +174,10 @@ export default function JobsView({ jobs, onJobCreated, onJobUpdated }: JobsViewP
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-[#2B2D42] dark:text-[#009494] mb-2">Dashboard Overview</h1>
+          <h1 className="text-3xl font-bold text-[#2B2D42] dark:text-purple-600 mb-2">Dashboard Overview</h1>
           <p className="text-[#2B2D42]/70 dark:text-white">Track your job postings and recruitment metrics</p>
         </div>
-        <Button onClick={handleCreateJob} className="bg-[#00A8A8] hover:bg-[#009494] text-white">
+        <Button onClick={handleCreateJob} className="bg-purple-600 hover:bg-purple-700 text-white">
           <Plus className="h-4 w-4 mr-2" />
           Post New Job
         </Button>
@@ -193,7 +193,7 @@ export default function JobsView({ jobs, onJobCreated, onJobUpdated }: JobsViewP
               placeholder="Search jobs by title, company, location, or skills..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A8A8] text-foreground dark:text-white bg-background placeholder:text-muted-foreground dark:placeholder:text-white/60"
+              className="w-full pl-10 pr-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 text-foreground dark:text-white bg-background placeholder:text-muted-foreground dark:placeholder:text-white/60"
             />
           </div>
 
@@ -202,7 +202,7 @@ export default function JobsView({ jobs, onJobCreated, onJobUpdated }: JobsViewP
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A8A8] text-foreground bg-background"
+              className="px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 text-foreground bg-background"
             >
               <option value="all">All Jobs</option>
               <option value="active">Active Only</option>
@@ -220,7 +220,7 @@ export default function JobsView({ jobs, onJobCreated, onJobUpdated }: JobsViewP
               {jobs.length === 0 ? "No jobs posted yet" : "No jobs match your search criteria"}
             </div>
             {jobs.length === 0 && (
-              <Button onClick={handleCreateJob} className="bg-[#00A8A8] hover:bg-[#009494] text-white">
+              <Button onClick={handleCreateJob} className="bg-purple-600 hover:bg-purple-700 text-white">
                 <Plus className="h-4 w-4 mr-2" />
                 Post Your First Job
               </Button>
@@ -243,7 +243,7 @@ export default function JobsView({ jobs, onJobCreated, onJobUpdated }: JobsViewP
                     >
                       {job.isActive ? "Active" : "Inactive"}
                     </span>
-                    <span className="px-3 py-1 bg-[#00A8A8]/10 text-[#00A8A8] rounded-full text-xs font-medium">
+                    <span className="px-3 py-1 bg-purple-100 text-purple-600 rounded-full text-xs font-medium">
                       {formatJobType(job.jobType)}
                     </span>
                     {job.isRemote && (
@@ -300,7 +300,7 @@ export default function JobsView({ jobs, onJobCreated, onJobUpdated }: JobsViewP
                     onClick={() => handleViewApplications(job.id)}
                     variant="outline"
                     size="sm"
-                    className="text-[#00A8A8] border-[#00A8A8] hover:bg-[#00A8A8] hover:text-white"
+                    className="text-purple-600 border-purple-600 hover:bg-purple-700 hover:text-white"
                   >
                     <Users className="h-4 w-4 mr-1" />
                     View Applications ({job._count.applications})

@@ -30,7 +30,7 @@ export function SimplePieChart({ data }: SimplePieChartProps) {
       width={180}
       height={180}
       style={{
-        border: "2px solid #00A8A8",
+        border: "2px solid #a21caf",
         background: "#fff",
       }}
     >

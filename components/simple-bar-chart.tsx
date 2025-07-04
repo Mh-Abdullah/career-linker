@@ -13,7 +13,7 @@ export function SimpleBarChart({ data }: SimpleBarChartProps) {
         <span style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)', fontSize: 14, color: '#2B2D42', fontWeight: 600 }}>Count</span>
       </div>
       {/* Chart */}
-      <div style={{ width: 240, height: 180, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', background: '#fff', border: '2px solid #00A8A8', borderRadius: 12, padding: 16 }}>
+      <div style={{ width: 240, height: 180, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', background: '#fff', border: '2px solid #a21caf', borderRadius: 12, padding: 16 }}>
         <div style={{ display: 'flex', alignItems: 'flex-end', height: 120, gap: 8 }}>
           {data.map((d, i) => (
             <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>

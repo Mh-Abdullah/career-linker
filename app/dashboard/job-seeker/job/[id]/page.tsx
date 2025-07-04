@@ -142,15 +142,15 @@ export default function JobDetailPage() {
       <nav className="bg-card border-b border-border">
         <div className="container mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center cursor-pointer" onClick={() => router.push("/dashboard/job-seeker")}> 
-            <div className="w-10 h-10 bg-[#00A8A8] rounded-lg flex items-center justify-center mr-3">
+            <div className="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center mr-3">
               <span className="text-white font-bold">CL</span>
             </div>
-            <span className="text-xl font-semibold text-[#00A8A8]">CareerLinker</span>
+            <span className="text-xl font-semibold text-purple-600">CareerLinker</span>
           </div>
           <div className="flex items-center gap-4">
             <ThemeToggle />
             <button
-              className="px-4 py-2 bg-[#00A8A8] text-white rounded-lg hover:bg-[#009494] transition-colors"
+              className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
               onClick={() => router.push("/dashboard/job-seeker")}
             >
               Jobs
@@ -202,7 +202,7 @@ export default function JobDetailPage() {
       {/* Main Content */}
       <div className="container mx-auto px-6 py-8 max-w-4xl">
         {/* Back Button */}
-        <Button onClick={() => router.back()} variant="ghost" className="mb-6 text-[#00A8A8] hover:text-[#009494]">
+        <Button onClick={() => router.back()} variant="ghost" className="mb-6 text-purple-600 hover:text-purple-700">
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Jobs
         </Button>
@@ -212,7 +212,7 @@ export default function JobDetailPage() {
           <div className="flex justify-between items-start mb-6">
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-2">
-                <span className="px-3 py-1 bg-[#00A8A8]/10 text-[#00A8A8] rounded-full text-sm font-medium">
+                <span className="px-3 py-1 bg-purple-100 text-purple-600 rounded-full text-sm font-medium">
                   Currently Hiring
                 </span>
                 <span className="px-3 py-1 bg-foreground/10 text-foreground rounded-full text-sm font-medium">
@@ -225,7 +225,7 @@ export default function JobDetailPage() {
             <Button
               onClick={handleApply}
               disabled={isApplying}
-              className="bg-[#00A8A8] hover:bg-[#009494] text-white px-8 py-3 text-lg font-semibold ml-6"
+              className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 text-lg font-semibold ml-6"
             >
               {isApplying ? "APPLYING..." : "APPLY"}
             </Button>
@@ -248,7 +248,7 @@ export default function JobDetailPage() {
             {job.salary && (
               <div className="flex items-center gap-2">
                 <Briefcase className="h-5 w-5 text-foreground/60" />
-                <span className="font-semibold text-[#00A8A8]">{job.salary}</span>
+                <span className="font-semibold text-purple-600">{job.salary}</span>
               </div>
             )}
           </div>
@@ -271,11 +271,11 @@ export default function JobDetailPage() {
         <div className="space-y-6">
           {/* Requirements */}
           <div className="bg-card rounded-lg border border-border p-8">
-            <h2 className="text-2xl font-bold text-[#00A8A8] mb-6">Requirements:</h2>
+            <h2 className="text-2xl font-bold text-purple-600 mb-6">Requirements:</h2>
             <ul className="space-y-3">
               {job.requirements.map((requirement, index) => (
                 <li key={index} className="flex items-start gap-3">
-                  <CheckCircle className="h-5 w-5 text-[#00A8A8] mt-0.5 flex-shrink-0" />
+                  <CheckCircle className="h-5 w-5 text-purple-600 mt-0.5 flex-shrink-0" />
                   <span className="text-foreground/80">{requirement}</span>
                 </li>
               ))}
@@ -284,11 +284,11 @@ export default function JobDetailPage() {
 
           {/* Expected Tasks */}
           <div className="bg-card rounded-lg border border-border p-8">
-            <h2 className="text-2xl font-bold text-[#00A8A8] mb-6">Expected Tasks:</h2>
+            <h2 className="text-2xl font-bold text-purple-600 mb-6">Expected Tasks:</h2>
             <ul className="space-y-3">
               {job.tasks.map((task, index) => (
                 <li key={index} className="flex items-start gap-3">
-                  <CheckCircle className="h-5 w-5 text-[#00A8A8] mt-0.5 flex-shrink-0" />
+                  <CheckCircle className="h-5 w-5 text-purple-600 mt-0.5 flex-shrink-0" />
                   <span className="text-foreground/80">{task}</span>
                 </li>
               ))}
@@ -297,11 +297,11 @@ export default function JobDetailPage() {
 
           {/* Benefits */}
           <div className="bg-card rounded-lg border border-border p-8">
-            <h2 className="text-2xl font-bold text-[#00A8A8] mb-6">Benefits:</h2>
+            <h2 className="text-2xl font-bold text-purple-600 mb-6">Benefits:</h2>
             <ul className="space-y-3">
               {job.benefits.map((benefit, index) => (
                 <li key={index} className="flex items-start gap-3">
-                  <CheckCircle className="h-5 w-5 text-[#00A8A8] mt-0.5 flex-shrink-0" />
+                  <CheckCircle className="h-5 w-5 text-purple-600 mt-0.5 flex-shrink-0" />
                   <span className="text-foreground/80">{benefit}</span>
                 </li>
               ))}
@@ -318,7 +318,7 @@ export default function JobDetailPage() {
           <Button
             onClick={handleApply}
             disabled={isApplying}
-            className="bg-[#00A8A8] hover:bg-[#009494] text-white px-12 py-3 text-lg font-semibold"
+            className="bg-purple-600 hover:bg-purple-700 text-white px-12 py-3 text-lg font-semibold"
           >
             {isApplying ? "SUBMITTING APPLICATION..." : "APPLY FOR THIS POSITION"}
           </Button>

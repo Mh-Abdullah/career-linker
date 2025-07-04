@@ -308,7 +308,7 @@ export default function ApplyModal({ isOpen, onClose, jobId, jobTitle, companyNa
           {existingApplication && (
             <div className="mb-6 p-4 bg-gray-50 dark:bg-card rounded-lg border border-gray-200 dark:border-border">
               <div className="flex items-center gap-2 mb-3">
-                <AlertCircle className="h-5 w-5 text-[#00A8A8]" />
+                <AlertCircle className="h-5 w-5 text-purple-600" />
                 <h4 className="font-semibold text-[#2B2D42] dark:text-white">Your Application</h4>
               </div>
               <div className="space-y-2">
@@ -362,7 +362,7 @@ export default function ApplyModal({ isOpen, onClose, jobId, jobTitle, companyNa
                   onDragLeave={handleDragLeave}
                   onDrop={handleDrop}
                   className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
-                    isDragOver ? "border-[#00A8A8] bg-[#00A8A8]/5 dark:bg-[#00A8A8]/10" : "border-gray-300 dark:border-border hover:border-[#00A8A8]/50 dark:hover:border-[#00A8A8] bg-white dark:bg-card"
+                    isDragOver ? "border-purple-600 bg-purple-100/50 dark:bg-purple-900/10" : "border-gray-300 dark:border-border hover:border-purple-400 dark:hover:border-purple-600 bg-white dark:bg-card"
                   }`}
                 >
                   <Upload className="h-12 w-12 text-gray-400 dark:text-white/60 mx-auto mb-4" />
@@ -373,7 +373,7 @@ export default function ApplyModal({ isOpen, onClose, jobId, jobTitle, companyNa
                     variant="outline"
                     onClick={() => fileInputRef.current?.click()}
                     disabled={isUploading}
-                    className="border-[#00A8A8] text-[#00A8A8] hover:bg-[#00A8A8] hover:text-white"
+                    className="border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white"
                   >
                     {isUploading ? "Uploading..." : "Choose Files"}
                   </Button>
@@ -395,7 +395,7 @@ export default function ApplyModal({ isOpen, onClose, jobId, jobTitle, companyNa
                     {uploadedFiles.map((file, index) => (
                       <div key={index} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-card rounded-lg border border-gray-200 dark:border-border">
                         <div className="flex items-center gap-3">
-                          <FileText className="h-5 w-5 text-[#00A8A8]" />
+                          <FileText className="h-5 w-5 text-purple-600" />
                           <div>
                             <p className="text-sm font-medium text-[#2B2D42] dark:text-white">{file.name}</p>
                             <p className="text-xs text-[#2B2D42]/60 dark:text-white/60">{formatFileSize(file.size)}</p>
@@ -429,7 +429,7 @@ export default function ApplyModal({ isOpen, onClose, jobId, jobTitle, companyNa
                   onChange={(e) => setCoverLetter(e.target.value)}
                   placeholder="Tell us why you're interested in this position..."
                   rows={4}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A8A8] text-[#2B2D42] dark:text-white bg-white dark:bg-card placeholder:text-[#2B2D42]/60 dark:placeholder:text-white/60"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 text-[#2B2D42] dark:text-white bg-white dark:bg-card placeholder:text-[#2B2D42]/60 dark:placeholder:text-white/60"
                 />
               </div>
 
@@ -441,7 +441,7 @@ export default function ApplyModal({ isOpen, onClose, jobId, jobTitle, companyNa
                 <Button
                   onClick={handleSubmit}
                   disabled={isSubmitting || uploadedFiles.length === 0 || isUploading || !uploadedFiles[0]?.url}
-                  className="flex-1 bg-[#00A8A8] hover:bg-[#009494] text-white"
+                  className="flex-1 bg-purple-600 hover:bg-purple-700 text-white"
                 >
                   {isSubmitting ? "Submitting..." : "Submit Application"}
                 </Button>
@@ -452,7 +452,7 @@ export default function ApplyModal({ isOpen, onClose, jobId, jobTitle, companyNa
           {/* Close button for existing application */}
           {existingApplication && (
             <div className="flex justify-end">
-              <Button onClick={onClose} className="bg-[#00A8A8] hover:bg-[#009494] text-white px-8">
+              <Button onClick={onClose} className="bg-purple-600 hover:bg-purple-700 text-white px-8">
                 Close
               </Button>
             </div>

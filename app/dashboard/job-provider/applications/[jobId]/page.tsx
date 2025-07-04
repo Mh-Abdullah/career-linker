@@ -192,13 +192,13 @@ export default function JobApplicationsPage() {
   return (
     <div className="min-h-screen bg-[#F5F7FA]">
       {/* Navigation */}
-      <nav className="bg-white border-b border-gray-200">
+      <nav className="bg-white dark:bg-card border-b border-border">
         <div className="container mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center">
-            <div className="w-10 h-10 bg-[#00A8A8] rounded-lg flex items-center justify-center mr-3">
+            <div className="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center mr-3">
               <span className="text-white font-bold">CL</span>
             </div>
-            <span className="text-xl font-semibold text-[#00A8A8]">CareerLinker</span>
+            <span className="text-xl font-semibold text-purple-600">CareerLinker</span>
           </div>
 
           <div className="flex items-center gap-4">
@@ -214,7 +214,7 @@ export default function JobApplicationsPage() {
           <Button
             onClick={() => router.push("/dashboard/job-provider")}
             variant="ghost"
-            className="text-[#00A8A8] hover:text-[#009494]"
+            className="text-purple-600 hover:text-purple-700"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Jobs
@@ -339,12 +339,12 @@ export default function JobApplicationsPage() {
                     <h3 className="font-semibold text-[#2B2D42] mb-3">Contact Information</h3>
                     <div className="space-y-2">
                       <div className="flex items-center gap-2">
-                        <Mail className="h-4 w-4 text-[#00A8A8]" />
+                        <Mail className="h-4 w-4 text-purple-600" />
                         <span className="text-[#2B2D42]">{selectedApplication.user.email}</span>
                       </div>
                       {selectedApplication.user.jobSeekerProfile?.phone && (
                         <div className="flex items-center gap-2">
-                          <Phone className="h-4 w-4 text-[#00A8A8]" />
+                          <Phone className="h-4 w-4 text-purple-600" />
                           <span className="text-[#2B2D42]">{selectedApplication.user.jobSeekerProfile.phone}</span>
                         </div>
                       )}
@@ -402,7 +402,7 @@ export default function JobApplicationsPage() {
                     <div className="mb-6">
                       <h3 className="font-semibold text-[#2B2D42] mb-3">Resume</h3>
                       <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg">
-                        <FileText className="h-5 w-5 text-[#00A8A8]" />
+                        <FileText className="h-5 w-5 text-purple-600" />
                         <span className="text-[#2B2D42] flex-1">
                           {selectedApplication.user.jobSeekerProfile?.firstName &&
                           selectedApplication.user.jobSeekerProfile?.lastName
@@ -456,7 +456,7 @@ export default function JobApplicationsPage() {
                                   href={selectedApplication.user.jobSeekerProfile.linkedinUrl}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="text-[#00A8A8] hover:underline text-sm"
+                                  className="text-purple-600 hover:underline text-sm"
                                 >
                                   {selectedApplication.user.jobSeekerProfile.linkedinUrl}
                                 </a>
@@ -469,7 +469,7 @@ export default function JobApplicationsPage() {
                                   href={selectedApplication.user.jobSeekerProfile.githubUrl}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="text-[#00A8A8] hover:underline text-sm"
+                                  className="text-purple-600 hover:underline text-sm"
                                 >
                                   {selectedApplication.user.jobSeekerProfile.githubUrl}
                                 </a>
@@ -482,7 +482,7 @@ export default function JobApplicationsPage() {
                                   href={selectedApplication.user.jobSeekerProfile.portfolio}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="text-[#00A8A8] hover:underline text-sm"
+                                  className="text-purple-600 hover:underline text-sm"
                                 >
                                   {selectedApplication.user.jobSeekerProfile.portfolio}
                                 </a>
@@ -534,7 +534,7 @@ export default function JobApplicationsPage() {
                     </select>
                     <Button
                       onClick={() => window.open(`mailto:${selectedApplication.user.email}`)}
-                      className="bg-[#00A8A8] hover:bg-[#009494] text-white"
+                      className="bg-purple-600 hover:bg-purple-700 text-white"
                     >
                       <Mail className="h-4 w-4 mr-1" />
                       Contact
