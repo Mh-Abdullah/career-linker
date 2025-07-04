@@ -216,7 +216,6 @@ export default function JobProviderDashboard() {
               <DashboardView
                 jobs={jobs}
                 onJobCreated={fetchJobs}
-                onManageJobs={() => setCurrentView("jobs")}
               />
             )}
             {currentView === "jobs" && (

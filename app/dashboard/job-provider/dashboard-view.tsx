@@ -28,10 +28,9 @@ interface Job {
 interface DashboardViewProps {
   jobs: Job[]
   onJobCreated: () => void
-  onManageJobs: () => void
 }
 
-export default function DashboardView({ jobs, onJobCreated, onManageJobs }: DashboardViewProps) {
+export default function DashboardView({ jobs, onJobCreated }: DashboardViewProps) {
   const [showCreateModal, setShowCreateModal] = useState(false)
   const [dateRange, setDateRange] = useState<{ start: string; end: string }>({
     start: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10), // 7 days ago
@@ -97,9 +96,6 @@ export default function DashboardView({ jobs, onJobCreated, onManageJobs }: Dash
           <p className="text-[#2B2D42]/70 dark:text-white">Track your job postings and recruitment metrics</p>
         </div>
         <div className="flex gap-2">
-          <Button onClick={onManageJobs} className="bg-gray-200 hover:bg-gray-300 text-purple-700 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-purple-300">
-            Manage Jobs
-          </Button>
           <Button onClick={handleCreateJob} className="bg-purple-600 hover:bg-purple-700 text-white">
             <Plus className="h-4 w-4 mr-2" />
             Post New Job
