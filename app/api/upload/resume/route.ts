@@ -26,7 +26,7 @@ async function webStreamToNodeReadable(webStream: ReadableStream<Uint8Array>): P
 }
 
 // POST /api/upload/resume
-export async function POST(req: Request) {
+export async function POST(req: Request): Promise<Response> {
   const uploadDir = path.join(process.cwd(), "public", "uploads", "resume");
   await fs.mkdir(uploadDir, { recursive: true });
 
@@ -34,28 +34,28 @@ export async function POST(req: Request) {
     multiples: false,
     uploadDir,
     keepExtensions: true,
-    filename: (name: any, ext: any, part: any) => {
+    filename: (name: string, ext: string, part: { originalFilename: string }) => {
       return `${Date.now()}_${part.originalFilename}`;
     },
   });
 
   // Convert the Web Stream to Node.js Readable
-  const nodeReq = await webStreamToNodeReadable(req.body as any);
+  const nodeReq = await webStreamToNodeReadable(req.body as ReadableStream<Uint8Array>);
 
   // Patch headers for formidable (content-type and content-length)
   const contentType = req.headers.get("content-type") || undefined;
   const contentLength = req.headers.get("content-length") || undefined;
-  (nodeReq as any).headers = {
+  (nodeReq as unknown as { headers: Record<string, string | undefined> }).headers = {
     "content-type": contentType,
     "content-length": contentLength,
   };
 
-  return new Promise((resolve, reject) => {
-    form.parse(nodeReq, async (err: any, fields: any, files: any) => {
+  return await new Promise<Response>((resolve) => {
+    form.parse(nodeReq, async (err: Error | null, fields: Record<string, unknown>, files: Record<string, unknown>) => {
       if (err) {
         return resolve(NextResponse.json({ error: "Upload failed" }, { status: 500 }));
       }
-      const file = files.resume;
+      const file = files.resume as Array<{ filepath: string }>;
       if (!file) {
         return resolve(NextResponse.json({ error: "No file uploaded" }, { status: 400 }));
       }

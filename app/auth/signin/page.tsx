@@ -12,14 +12,11 @@ export default function SignIn() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [isLoading, setIsLoading] = useState(false)
-  const [isGoogleLoading, setIsGoogleLoading] = useState(false)
-  const [error, setError] = useState("")
   const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
-    setError("")
 
     try {
       const result = await signIn("credentials", {
@@ -29,7 +26,7 @@ export default function SignIn() {
       })
 
       if (result?.error) {
-        setError("Invalid credentials")
+        // setError("Invalid credentials")
       } else {
         const session = await getSession()
         if (session?.user?.userType === "JOB_SEEKER") {
@@ -38,14 +35,13 @@ export default function SignIn() {
           router.push("/dashboard/job-provider")
         }
       }
-    } catch (error) {
-      setError("Something went wrong")
+    } catch {
+      // setError("Something went wrong")
     } finally {
       setIsLoading(false)
     }
   }
 
-  
   return (
     <div className="min-h-screen bg-background flex items-center justify-center">
       <div className="bg-card p-8 rounded-lg shadow-md w-96 text-foreground border border-border">
@@ -83,15 +79,13 @@ export default function SignIn() {
             />
           </div>
 
-          {error && <div className="text-red-500 text-sm">{error}</div>}
-
           <Button type="submit" disabled={isLoading} className="w-full">
             {isLoading ? "Signing in..." : "Sign In"}
           </Button>
         </form>
 
         <p className="text-center text-sm text-foreground/80 mt-6">
-          Don't have an account?{" "}
+          Don&apos;t have an account?{" "}
           <Link href="/auth/signup" className="text-[#00A8A8] hover:underline">
             Sign up
           </Link>

@@ -8,7 +8,6 @@ import { Plus, Search, Filter, Edit, Trash2, Users, MapPin, DollarSign } from "l
 import CreateJobModal from "./create-job-modal"
 import { useRouter } from "next/navigation"
 import EditJobModal from "./edit-job-modeal"
-import { signOut } from "next-auth/react"
 
 interface Job {
   id: string

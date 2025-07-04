@@ -14,7 +14,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { ThemeToggle } from "@/components/theme-toggle"
 
 interface Job {
@@ -55,7 +55,6 @@ export default function JobProviderDashboard() {
   const [currentView, setCurrentView] = useState<"dashboard" | "jobs">("dashboard")
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState("")
-  const [showChangePassword, setShowChangePassword] = useState(false)
 
   useEffect(() => {
     if (status === "loading") return
@@ -176,7 +175,7 @@ export default function JobProviderDashboard() {
                           const data = await res.json()
                           alert(data.error || "Failed to delete account.")
                         }
-                      } catch (err) {
+                      } catch {
                         alert("Network error. Please try again.")
                       }
                     }

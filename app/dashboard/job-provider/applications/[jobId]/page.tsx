@@ -2,10 +2,9 @@
 
 import { useSession } from "next-auth/react"
 import { useRouter, useParams } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import { Button } from "../../../../../components/ui/button"
 import { ArrowLeft, Download, Eye, Mail, Phone, Calendar, FileText, User } from "lucide-react"
-import { SimplePieChart } from "@/components/simple-pie-chart"
 
 interface Application {
   id: string
@@ -60,24 +59,7 @@ export default function JobApplicationsPage() {
   const [error, setError] = useState("")
   const [selectedApplication, setSelectedApplication] = useState<Application | null>(null)
 
-  useEffect(() => {
-    if (status === "loading") return
-
-    if (!session) {
-      router.push("/auth/signin")
-      return
-    }
-
-    if (session.user.userType !== "JOB_PROVIDER") {
-      router.push("/dashboard/job-seeker")
-      return
-    }
-
-    fetchApplications()
-    fetchJobDetails()
-  }, [session, status, router, jobId])
-
-  const fetchApplications = async () => {
+  const fetchApplications = useCallback(async () => {
     try {
       setIsLoading(true)
       setError("")
@@ -97,9 +79,10 @@ export default function JobApplicationsPage() {
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [jobId])
 
-  const fetchJobDetails = async () => {
+  // Wrap fetchJobDetails in useCallback to fix React Hook dependency warning
+  const fetchJobDetails = useCallback(async () => {
     try {
       const response = await fetch(`/api/jobs/${jobId}`)
       if (response.ok) {
@@ -109,7 +92,24 @@ export default function JobApplicationsPage() {
     } catch (error) {
       console.error("Error fetching job details:", error)
     }
-  }
+  }, [jobId])
+
+  useEffect(() => {
+    if (status === "loading") return
+
+    if (!session) {
+      router.push("/auth/signin")
+      return
+    }
+
+    if (session.user.userType !== "JOB_PROVIDER") {
+      router.push("/dashboard/job-seeker")
+      return
+    }
+
+    fetchApplications()
+    fetchJobDetails()
+  }, [session, status, router, jobId, fetchApplications, fetchJobDetails])
 
   const updateApplicationStatus = async (applicationId: string, newStatus: string) => {
     try {

@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
     console.log("Search params:", { search, jobType, location })
 
     // Build the where clause
-    const whereClause: any = {
+    const whereClause: Record<string, unknown> = {
       isActive: true,
     }
 

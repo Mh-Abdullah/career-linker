@@ -2,10 +2,8 @@
 
 import { useState } from "react"
 import { Button } from "../../../components/ui/button"
-import { Plus, Users, Eye, Calendar, TrendingUp, Briefcase } from "lucide-react"
+import { Plus, Users, Calendar, TrendingUp, Briefcase } from "lucide-react"
 import CreateJobModal from "./create-job-modal"
-import { signOut } from "next-auth/react"
-import BarGraph from "../../../components/charts/bar-graph"
 import LineChart from "../../../components/charts/line-chart"
 
 interface Job {
@@ -30,7 +28,7 @@ interface Job {
 interface DashboardViewProps {
   jobs: Job[]
   onJobCreated: () => void
-  onManageJobs: () => void // Add this prop
+  onManageJobs: () => void
 }
 
 export default function DashboardView({ jobs, onJobCreated, onManageJobs }: DashboardViewProps) {
@@ -49,7 +47,7 @@ export default function DashboardView({ jobs, onJobCreated, onManageJobs }: Dash
   // Aggregate jobs per day
   const getDateArray = (start: string, end: string) => {
     const arr = []
-    let dt = new Date(start)
+    const dt = new Date(start)
     const endDt = new Date(end)
     while (dt <= endDt) {
       arr.push(dt.toISOString().slice(0, 10))
@@ -98,10 +96,15 @@ export default function DashboardView({ jobs, onJobCreated, onManageJobs }: Dash
           <h1 className="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-2">Dashboard Overview</h1>
           <p className="text-[#2B2D42]/70 dark:text-white">Track your job postings and recruitment metrics</p>
         </div>
-        <Button onClick={handleCreateJob} className="bg-purple-600 hover:bg-purple-700 text-white">
-          <Plus className="h-4 w-4 mr-2" />
-          Post New Job
-        </Button>
+        <div className="flex gap-2">
+          <Button onClick={onManageJobs} className="bg-gray-200 hover:bg-gray-300 text-purple-700 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-purple-300">
+            Manage Jobs
+          </Button>
+          <Button onClick={handleCreateJob} className="bg-purple-600 hover:bg-purple-700 text-white">
+            <Plus className="h-4 w-4 mr-2" />
+            Post New Job
+          </Button>
+        </div>
       </div>
 
       {/* Stats Cards */}

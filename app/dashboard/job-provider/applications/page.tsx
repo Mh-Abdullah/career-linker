@@ -2,11 +2,12 @@
 
 import { useSession } from "next-auth/react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback, Suspense } from "react"
 import { Button } from "../../../../components/ui/button"
 import { ArrowLeft, Download, Eye, Mail, Phone, Calendar, FileText, User } from "lucide-react"
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from "recharts";
 import { ThemeToggle } from "../../../../components/theme-toggle"
+import type { TextItem } from 'pdfjs-dist/types/src/display/api';
 
 interface Application {
   id: string
@@ -54,7 +55,15 @@ interface Job {
   description?: string // Added to fix error
 }
 
-export default function JobApplicationsPage() {
+export default function ApplicationsPageWrapper() {
+  return (
+    <Suspense>
+      <JobApplicationsPage />
+    </Suspense>
+  );
+}
+
+function JobApplicationsPage() {
   const { data: session, status } = useSession()
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -68,6 +77,45 @@ export default function JobApplicationsPage() {
 
   // State for extracted resume text
   const [resumeText, setResumeText] = useState<string>("");
+
+  // Wrap fetchApplications in useCallback to fix React Hook dependency warning
+  const fetchApplications = useCallback(async () => {
+    if (!jobId) return
+
+    try {
+      setIsLoading(true)
+      setError("")
+
+      const response = await fetch(`/api/jobs/${jobId}/applications`)
+
+      if (response.ok) {
+        const applicationsData = await response.json()
+        setApplications(applicationsData)
+      } else {
+        const errorData = await response.json().catch(() => ({ error: "Unknown error" }))
+        setError(`Failed to load applications: ${errorData.error || response.statusText}`)
+      }
+    } catch (error) {
+      console.error("Error fetching applications:", error)
+      setError(`Network error: ${error instanceof Error ? error.message : "Unknown error"}`)
+    } finally {
+      setIsLoading(false)
+    }
+  }, [jobId])
+
+  const fetchJobDetails = useCallback(async () => {
+    if (!jobId) return
+
+    try {
+      const response = await fetch(`/api/jobs/${jobId}`)
+      if (response.ok) {
+        const jobData = await response.json()
+        setJob(jobData)
+      }
+    } catch (error) {
+      console.error("Error fetching job details:", error)
+    }
+  }, [jobId])
 
   useEffect(() => {
     if (status === "loading") return
@@ -91,7 +139,7 @@ export default function JobApplicationsPage() {
 
     fetchApplications()
     fetchJobDetails()
-  }, [session, status, router, jobId])
+  }, [session, status, router, jobId, fetchApplications, fetchJobDetails])
 
   const fetchAllApplications = async () => {
     try {
@@ -109,44 +157,6 @@ export default function JobApplicationsPage() {
       setError(`Network error: ${error instanceof Error ? error.message : "Unknown error"}`)
     } finally {
       setIsLoading(false)
-    }
-  }
-
-  const fetchApplications = async () => {
-    if (!jobId) return
-
-    try {
-      setIsLoading(true)
-      setError("")
-
-      const response = await fetch(`/api/jobs/${jobId}/applications`)
-
-      if (response.ok) {
-        const applicationsData = await response.json()
-        setApplications(applicationsData)
-      } else {
-        const errorData = await response.json().catch(() => ({ error: "Unknown error" }))
-        setError(`Failed to load applications: ${errorData.error || response.statusText}`)
-      }
-    } catch (error) {
-      console.error("Error fetching applications:", error)
-      setError(`Network error: ${error instanceof Error ? error.message : "Unknown error"}`)
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  const fetchJobDetails = async () => {
-    if (!jobId) return
-
-    try {
-      const response = await fetch(`/api/jobs/${jobId}`)
-      if (response.ok) {
-        const jobData = await response.json()
-        setJob(jobData)
-      }
-    } catch (error) {
-      console.error("Error fetching job details:", error)
     }
   }
 
@@ -243,7 +253,10 @@ export default function JobApplicationsPage() {
         for (let i = 1; i <= pdf.numPages; i++) {
           const page = await pdf.getPage(i);
           const content = await page.getTextContent();
-          text += content.items.map((item: any) => item.str).join(" ") + " ";
+          text += content.items
+  .filter((item): item is TextItem => typeof item === 'object' && 'str' in item)
+  .map((item) => (item as TextItem).str)
+  .join(" ") + " ";
         }
         console.log('[Resume Extraction] Extracted text:', text);
         setResumeText(text);
@@ -264,7 +277,7 @@ export default function JobApplicationsPage() {
     } else {
       setResumeText("");
     }
-  }, [selectedApplication]);
+  }, [selectedApplication, fetchApplications, fetchJobDetails]);
 
   if (status === "loading" || isLoading) {
     return (

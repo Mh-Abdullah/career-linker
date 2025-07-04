@@ -5,7 +5,6 @@ import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Briefcase, Clock, RefreshCw, ArrowLeft } from "lucide-react"
-import JobDetailPage from "../job-detail"
 import { ThemeToggle } from "../../../../components/theme-toggle"
 
 import {
@@ -18,26 +17,27 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 
+// Define Application interface for useState
 interface Application {
-  id: string
-  status: string
+  id: string;
+  status: string;
   job: {
-    id: string
-    title: string
-    company: string
-    location: string
-    jobType: string
-    createdAt: string
+    id: string;
+    title: string;
+    company: string;
+    location: string;
+    jobType: string;
+    createdAt: string;
     postedBy: {
       jobProviderProfile?: {
-        companyName: string
-      }
-    }
-  }
-  createdAt: string
+        companyName: string;
+      };
+    };
+  };
+  createdAt: string;
 }
 
-export default function AppliedJobsPage({ setSelectedJobId, setCurrentView }: { setSelectedJobId?: (id: string) => void, setCurrentView?: (view: "list" | "detail") => void } = {}) {
+export default function AppliedJobsPage() {
   const { data: session, status } = useSession()
   const router = useRouter()
   const [applications, setApplications] = useState<Application[]>([])
@@ -72,7 +72,7 @@ export default function AppliedJobsPage({ setSelectedJobId, setCurrentView }: { 
       } else {
         setError("Failed to load applications.")
       }
-    } catch (err) {
+    } catch {
       setError("Network error. Please try again.")
     } finally {
       setIsLoading(false)
@@ -130,7 +130,7 @@ export default function AppliedJobsPage({ setSelectedJobId, setCurrentView }: { 
                           const data = await res.json()
                           alert(data.error || "Failed to delete account.")
                         }
-                      } catch (err) {
+                      } catch {
                         alert("Network error. Please try again.")
                       }
                     }
@@ -201,14 +201,7 @@ export default function AppliedJobsPage({ setSelectedJobId, setCurrentView }: { 
                   <span>{new Date(app.createdAt).toLocaleDateString()}</span>
                 </div>
                 <Button
-                  onClick={() => {
-                    if (setSelectedJobId && setCurrentView) {
-                      setSelectedJobId(app.job.id)
-                      setCurrentView('detail')
-                    } else {
-                      router.push(`/dashboard/job-seeker/job/${app.job.id}`)
-                    }
-                  }}
+                  onClick={() => router.push(`/dashboard/job-seeker/job/${app.job.id}`)}
                   className="bg-purple-600 hover:bg-purple-700 text-white px-6 mt-2"
                 >
                   View Job

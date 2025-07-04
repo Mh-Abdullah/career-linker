@@ -3,7 +3,6 @@
 import type React from "react"
 
 import { useState } from "react"
-import { signIn } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Button } from "../../../components/ui/button"
@@ -17,17 +16,13 @@ export default function SignUp() {
     userType: "JOB_SEEKER",
   })
   const [isLoading, setIsLoading] = useState(false)
-  const [isGoogleLoading, setIsGoogleLoading] = useState(false)
-  const [error, setError] = useState("")
   const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
-    setError("")
 
     if (formData.password !== formData.confirmPassword) {
-      setError("Passwords don't match")
       setIsLoading(false)
       return
     }
@@ -49,12 +44,9 @@ export default function SignUp() {
       if (response.ok) {
         router.push("/auth/signin?message=Registration successful")
       } else {
-        const data = await response.json()
-        setError(data.error || "Something went wrong")
+        setIsLoading(false)
       }
-    } catch (error) {
-      setError("Something went wrong")
-    } finally {
+    } catch {
       setIsLoading(false)
     }
   }
@@ -138,8 +130,6 @@ export default function SignUp() {
               required
             />
           </div>
-
-          {error && <div className="text-red-500 text-sm">{error}</div>}
 
           <Button type="submit" disabled={isLoading} className="w-full">
             {isLoading ? "Creating account..." : "Create Account"}

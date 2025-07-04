@@ -40,7 +40,6 @@ export default function JobDetailPage() {
   const [job, setJob] = useState<JobDetail | null>(null)
   const [isApplying, setIsApplying] = useState(false)
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState("")
 
   useEffect(() => {
     if (status === "loading") return
@@ -58,13 +57,12 @@ export default function JobDetailPage() {
     // Fetch job details from API
     const fetchJob = async () => {
       setLoading(true)
-      setError("")
       try {
         const res = await fetch(`/api/jobs/${jobId}`)
         if (res.ok) {
           const data = await res.json()
           // Ensure requirements, tasks, and benefits are arrays
-          const parseArray = (val: any) => {
+          const parseArray = (val: string | string[]) => {
             if (Array.isArray(val)) return val
             if (typeof val === 'string') {
               try {
@@ -92,10 +90,10 @@ export default function JobDetailPage() {
             isActive: data.isActive,
           })
         } else {
-          setError("Job not found.")
+          setJob(null)
         }
-      } catch (err) {
-        setError("Failed to load job details.")
+      } catch {
+        setJob(null)
       } finally {
         setLoading(false)
       }
@@ -125,10 +123,10 @@ export default function JobDetailPage() {
       </div>
     )
   }
-  if (error || !job) {
+  if (!job) {
     return (
       <div className="min-h-screen bg-[#F5F7FA] flex items-center justify-center">
-        <div className="text-red-600 text-lg">{error || "Job not found."}</div>
+        <div className="text-red-600 text-lg">Job not found.</div>
       </div>
     )
   }
@@ -181,7 +179,7 @@ export default function JobDetailPage() {
                           const data = await res.json()
                           alert(data.error || "Failed to delete account.")
                         }
-                      } catch (err) {
+                      } catch {
                         alert("Network error. Please try again.")
                       }
                     }

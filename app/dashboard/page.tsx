@@ -4,8 +4,17 @@ import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 
+// Define User type for type assertion
+interface User {
+  id: string;
+  email: string;
+  name: string;
+  userType: string;
+  image?: string;
+}
+
 export default function DashboardRedirect() {
-  const { data: session, status } = useSession()
+  const { data: session, status } = useSession() as { data: { user: User } | null, status: string }
   const router = useRouter()
 
   useEffect(() => {
@@ -17,11 +26,8 @@ export default function DashboardRedirect() {
     }
 
     // Redirect based on user type
-    if (
-      session.user &&
-      typeof (session.user as any).userType === "string"
-    ) {
-      const userType = (session.user as any).userType
+    if (session && session.user && typeof (session.user as User).userType === "string") {
+      const userType = (session.user as User).userType
       if (userType === "JOB_SEEKER") {
         router.push("/dashboard/job-seeker")
       } else if (userType === "JOB_PROVIDER") {

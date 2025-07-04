@@ -4,7 +4,7 @@ import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 
 // GET /api/jobs - Get jobs (for job providers to see their own jobs)
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     console.log("Jobs API GET called")
 
@@ -14,7 +14,6 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
-    const { searchParams } = new URL(request.url)
     const userType = session.user.userType
 
     let jobs

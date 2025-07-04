@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect, useCallback } from "react"
 import { Button } from "../../../components/ui/button"
 import { X, Upload, FileText, Trash2, CheckCircle, AlertCircle } from "lucide-react"
 
@@ -28,7 +28,9 @@ interface ExistingApplication {
   createdAt: string
 }
 
-export default function ApplyModal({ isOpen, onClose, jobId, jobTitle, companyName }: ApplyModalProps) {
+export default function ApplyModal(props: ApplyModalProps) {
+  const { isOpen, onClose, jobId, jobTitle, companyName } = props
+
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([])
   const [isDragOver, setIsDragOver] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -41,19 +43,13 @@ export default function ApplyModal({ isOpen, onClose, jobId, jobTitle, companyNa
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   // Check if user has already applied when modal opens
-  useEffect(() => {
-    if (isOpen && jobId) {
-      checkExistingApplication()
-    }
-  }, [isOpen, jobId])
-
-  const checkExistingApplication = async () => {
+  const checkExistingApplication = useCallback(async () => {
     setIsCheckingApplication(true)
     try {
       const response = await fetch(`/api/applications?jobId=${jobId}`)
       if (response.ok) {
         const applications = await response.json()
-        const existingApp = applications.find((app: any) => app.job.id === jobId)
+        const existingApp = applications.find((app: { job: { id: string } }) => app.job.id === jobId)
         if (existingApp) {
           setExistingApplication({
             id: existingApp.id,
@@ -67,7 +63,13 @@ export default function ApplyModal({ isOpen, onClose, jobId, jobTitle, companyNa
     } finally {
       setIsCheckingApplication(false)
     }
-  }
+  }, [jobId])
+
+  useEffect(() => {
+    if (isOpen && jobId) {
+      checkExistingApplication()
+    }
+  }, [isOpen, jobId, checkExistingApplication])
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault()
@@ -329,7 +331,7 @@ export default function ApplyModal({ isOpen, onClose, jobId, jobTitle, companyNa
               </div>
               <div className="mt-4 p-3 bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded-lg">
                 <p className="text-blue-800 dark:text-blue-200 text-sm">
-                  <strong>What's next?</strong> Our team will review your application and contact you if you're selected
+                  <strong>What&apos;s next?</strong> Our team will review your application and contact you if you&apos;re selected
                   for the next round. You can check your application status anytime from your dashboard.
                 </p>
               </div>
@@ -427,7 +429,7 @@ export default function ApplyModal({ isOpen, onClose, jobId, jobTitle, companyNa
                 <textarea
                   value={coverLetter}
                   onChange={(e) => setCoverLetter(e.target.value)}
-                  placeholder="Tell us why you're interested in this position..."
+                  placeholder="Tell us why you&apos;re interested in this position..."
                   rows={4}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 text-[#2B2D42] dark:text-white bg-white dark:bg-card placeholder:text-[#2B2D42]/60 dark:placeholder:text-white/60"
                 />

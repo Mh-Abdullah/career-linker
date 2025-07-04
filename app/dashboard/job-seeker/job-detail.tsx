@@ -212,7 +212,7 @@ export default function JobDetailPage({ jobId, onBack }: JobDetailPageProps) {
                           const data = await res.json()
                           alert(data.error || "Failed to delete account.")
                         }
-                      } catch (err) {
+                      } catch {
                         alert("Network error. Please try again.")
                       }
                     }
