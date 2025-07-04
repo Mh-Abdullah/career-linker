@@ -4,9 +4,9 @@ import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 
 // PUT /api/applications/[id] - Update application status
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, context: { params: { id: string } }) {
   try {
-    const { id } = params
+    const { id } = context.params
     const session = await getServerSession(authOptions)
 
     if (!session || !session.user) {
@@ -88,9 +88,9 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
 }
 
 // GET /api/applications/[id] - Get specific application details
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, context: { params: { id: string } }) {
   try {
-    const { id } = params
+    const { id } = context.params
     const session = await getServerSession(authOptions)
 
     if (!session || !session.user) {
