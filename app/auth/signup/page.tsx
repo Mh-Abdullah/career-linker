@@ -68,7 +68,7 @@ export default function SignUp() {
               id="userType"
               value={formData.userType}
               onChange={(e) => setFormData({ ...formData, userType: e.target.value })}
-              className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-[#00A8A8] bg-white text-black"
+              className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 bg-white text-black"
             >
               <option value="JOB_SEEKER">Job Seeker</option>
               <option value="JOB_PROVIDER">Job Provider</option>
@@ -84,7 +84,7 @@ export default function SignUp() {
               id="name"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-[#00A8A8] bg-white text-black placeholder:text-black/60"
+              className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 bg-white text-black placeholder:text-black/60"
               required
             />
           </div>
@@ -98,7 +98,7 @@ export default function SignUp() {
               id="email"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-[#00A8A8] bg-white text-black placeholder:text-black/60"
+              className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 bg-white text-black placeholder:text-black/60"
               required
             />
           </div>
@@ -112,7 +112,7 @@ export default function SignUp() {
               id="password"
               value={formData.password}
               onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-              className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-[#00A8A8] bg-white text-black placeholder:text-black/60"
+              className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 bg-white text-black placeholder:text-black/60"
               required
             />
           </div>
@@ -126,7 +126,7 @@ export default function SignUp() {
               id="confirmPassword"
               value={formData.confirmPassword}
               onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-              className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-[#00A8A8] bg-white text-black placeholder:text-black/60"
+              className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 bg-white text-black placeholder:text-black/60"
               required
             />
           </div>
@@ -138,7 +138,7 @@ export default function SignUp() {
 
         <p className="text-center text-sm text-foreground/80 mt-6">
           Already have an account?{" "}
-          <Link href="/auth/signin" className="text-[#00A8A8] hover:underline">
+          <Link href="/auth/signin" className="text-purple-600 hover:underline">
             Sign in
           </Link>
         </p>

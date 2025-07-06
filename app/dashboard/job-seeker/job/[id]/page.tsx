@@ -220,13 +220,13 @@ export default function JobDetailPage() {
               <h1 className="text-3xl font-bold text-foreground mb-4">{job.title}</h1>
               <p className="text-foreground/70 text-lg leading-relaxed">{job.description}</p>
             </div>
-            <Button
+            {/* <Button
               onClick={handleApply}
               disabled={isApplying}
               className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 text-lg font-semibold ml-6"
             >
               {isApplying ? "APPLYING..." : "APPLY"}
-            </Button>
+            </Button> */}
           </div>
 
           {/* Job Details */}
@@ -308,7 +308,7 @@ export default function JobDetailPage() {
         </div>
 
         {/* Apply Section */}
-        <div className="bg-card rounded-lg border border-border p-8 mt-6 text-center text-foreground">
+        {/* <div className="bg-card rounded-lg border border-border p-8 mt-6 text-center text-foreground">
           <h3 className="text-xl font-semibold text-foreground mb-4">Ready to Apply?</h3>
           <p className="text-foreground/70 mb-6">
             Join our team and be part of an innovative company that values growth and creativity.
@@ -320,7 +320,7 @@ export default function JobDetailPage() {
           >
             {isApplying ? "SUBMITTING APPLICATION..." : "APPLY FOR THIS POSITION"}
           </Button>
-        </div>
+        </div> */}
       </div>
     </div>
   )

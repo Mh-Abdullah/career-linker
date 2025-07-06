@@ -55,14 +55,14 @@ const BarGraph: React.FC<BarGraphProps> = ({ jobs }) => {
         {jobs.map((job) => (
           <div key={job.id} className="flex flex-col items-center" style={{ minWidth: `${32 * zoom}px`, width: `${60 * zoom}px` }}>
             <div
-              className="bg-purple-600 dark:bg-[#00FFD0] rounded-t-md transition-all shadow-lg ring-2 ring-purple-600 dark:ring-[#00FFD0]"
+              className="bg-purple-600 dark:bg-purple-600 rounded-t-md transition-all shadow-lg ring-2 ring-purple-600 dark:ring-purple-600"
               style={{
                 height: `${(job._count.applications / maxApplications) * 180 + 30}px`,
                 width: '100%'
               }}
               title={`${job.title}: ${job._count.applications} applications`}
             ></div>
-            <span className="mt-2 text-xs text-center text-foreground dark:text-[#00FFD0] truncate w-20" title={job.title}>
+            <span className="mt-2 text-xs text-center text-foreground dark:text-purple-600 truncate w-20" title={job.title}>
               {job.title.length > 12 ? job.title.slice(0, 12) + '…' : job.title}
             </span>
             <span className="text-xs text-muted-foreground font-bold">{job._count.applications}</span>

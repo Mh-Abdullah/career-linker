@@ -1,10 +1,10 @@
 "use client"
 
 import { useState } from "react"
-import { Button } from "../../../components/ui/button"
+import { Button } from "@/components/ui/button"
 import { Plus, Users, Calendar, TrendingUp, Briefcase } from "lucide-react"
 import CreateJobModal from "./create-job-modal"
-import LineChart from "../../../components/charts/line-chart"
+import JobBarChart from "@/components/charts/job-bar-chart"
 
 interface Job {
   id: string
@@ -54,16 +54,17 @@ export default function DashboardView({ jobs, onJobCreated }: DashboardViewProps
     }
     return arr
   }
-  const dateArr = getDateArray(dateRange.start, dateRange.end)
-  const jobsPerDay = dateArr.map((date) => ({
-    date,
-    value: jobsInRange.filter((j) => j.createdAt.slice(0, 10) === date).length,
-  }))
 
-  // Applications per day
-  const applicationsPerDay = dateArr.map((date) => ({
+  const dateArr = getDateArray(dateRange.start, dateRange.end)
+
+  // Combined data for the bar chart - this is the key functional part
+  const chartData = dateArr.map((date) => ({
     date,
-    value: jobsInRange.reduce((sum, j) => sum + (j.createdAt.slice(0, 10) === date ? j._count.applications : 0), 0),
+    jobsPosted: jobsInRange.filter((j) => j.createdAt.slice(0, 10) === date).length,
+    applications: jobsInRange.reduce(
+      (sum, j) => sum + (j.createdAt.slice(0, 10) === date ? j._count.applications : 0),
+      0,
+    ),
   }))
 
   const totalApplications = jobs.reduce((total, job) => total + job._count.applications, 0)
@@ -117,7 +118,6 @@ export default function DashboardView({ jobs, onJobCreated }: DashboardViewProps
             </div>
           </div>
         </div>
-
         <div className="bg-card rounded-lg border border-border p-6 text-foreground transition-colors">
           <div className="flex items-center justify-between">
             <div>
@@ -130,7 +130,6 @@ export default function DashboardView({ jobs, onJobCreated }: DashboardViewProps
             </div>
           </div>
         </div>
-
         <div className="bg-card rounded-lg border border-border p-6 text-foreground transition-colors">
           <div className="flex items-center justify-between">
             <div>
@@ -143,7 +142,6 @@ export default function DashboardView({ jobs, onJobCreated }: DashboardViewProps
             </div>
           </div>
         </div>
-
         <div className="bg-card rounded-lg border border-border p-6 text-foreground transition-colors">
           <div className="flex items-center justify-between">
             <div>
@@ -174,14 +172,21 @@ export default function DashboardView({ jobs, onJobCreated }: DashboardViewProps
           ) : (
             <div className="space-y-4">
               {recentJobs.slice(0, 3).map((job) => (
-                <div key={job.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg dark:bg-[#1A2A2A] dark:text-purple-400">
+                <div
+                  key={job.id}
+                  className="flex items-center justify-between p-3 bg-gray-50 rounded-lg dark:bg-[#1A2A2A] dark:text-purple-400"
+                >
                   <div>
                     <h3 className="font-medium text-[#2B2D42] dark:text-purple-400">{job.title}</h3>
                     <p className="text-sm text-white/70">{job.location}</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm font-medium text-purple-600 dark:text-purple-300">{job._count.applications} applications</p>
-                    <p className="text-xs text-[#2B2D42]/60 dark:text-white/60">{new Date(job.createdAt).toLocaleDateString()}</p>
+                    <p className="text-sm font-medium text-purple-600 dark:text-purple-300">
+                      {job._count.applications} applications
+                    </p>
+                    <p className="text-xs text-[#2B2D42]/60 dark:text-white/60">
+                      {new Date(job.createdAt).toLocaleDateString()}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -202,16 +207,23 @@ export default function DashboardView({ jobs, onJobCreated }: DashboardViewProps
                 .sort((a, b) => b._count.applications - a._count.applications)
                 .slice(0, 3)
                 .map((job) => (
-                  <div key={job.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg dark:bg-[#1A2A2A] dark:text-purple-400">
+                  <div
+                    key={job.id}
+                    className="flex items-center justify-between p-3 bg-gray-50 rounded-lg dark:bg-[#1A2A2A] dark:text-purple-400"
+                  >
                     <div>
-                      <h3 className="font-medium text-[#2B2D42] dark:text-purple-400">{job.title}</h3>
+                      <h3 className="font-medium text-[#2B2D42] dark:text-purple-600">{job.title}</h3>
                       <p className="text-sm text-[#2B2D42]/70 dark:text-white/70">{job.company}</p>
                     </div>
                     <div className="text-right">
-                      <p className="text-sm font-medium text-purple-600 dark:text-purple-300">{job._count.applications} applications</p>
+                      <p className="text-sm font-medium text-purple-600 dark:text-purple-300">
+                        {job._count.applications} applications
+                      </p>
                       <span
                         className={`inline-block px-2 py-1 text-xs rounded-full ${
-                          job.isActive ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300" : "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300"
+                          job.isActive
+                            ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300"
+                            : "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300"
                         }`}
                       >
                         {job.isActive ? "Active" : "Inactive"}
@@ -224,27 +236,33 @@ export default function DashboardView({ jobs, onJobCreated }: DashboardViewProps
         </div>
       </div>
 
-      {/* Quick Analysis (Line Charts) */}
+      {/* Quick Analysis (Bar Chart) */}
       <div className="bg-card rounded-lg border border-border p-6 text-foreground transition-colors">
-        <h2 className="text-xl font-semibold mb-4">Quick Analysis</h2>
+        <h2 className="text-xl font-semibold mb-4">Job Posting Analytics</h2>
         <div className="flex flex-row gap-2 items-center justify-end mb-4">
           <div>
             <label className="text-sm mr-2">From:</label>
-            <input type="date" value={dateRange.start} max={dateRange.end} onChange={e => setDateRange(r => ({ ...r, start: e.target.value }))} className="border rounded px-2 py-1" />
+            <input
+              type="date"
+              value={dateRange.start}
+              max={dateRange.end}
+              onChange={(e) => setDateRange((r) => ({ ...r, start: e.target.value }))}
+              className="border rounded px-2 py-1 dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+            />
           </div>
           <div>
             <label className="text-sm mx-2">To:</label>
-            <input type="date" value={dateRange.end} min={dateRange.start} max={new Date().toISOString().slice(0,10)} onChange={e => setDateRange(r => ({ ...r, end: e.target.value }))} className="border rounded px-2 py-1" />
+            <input
+              type="date"
+              value={dateRange.end}
+              min={dateRange.start}
+              max={new Date().toISOString().slice(0, 10)}
+              onChange={(e) => setDateRange((r) => ({ ...r, end: e.target.value }))}
+              className="border rounded px-2 py-1 dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+            />
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start justify-center">
-          <div className="bg-white dark:bg-[#182828] rounded-lg shadow p-4">
-            <LineChart data={jobsPerDay} label={<span className="text-foreground dark:text-white">Jobs Posted</span>} color="#a21caf" />
-          </div>
-          <div className="bg-white dark:bg-[#182828] rounded-lg shadow p-4">
-            <LineChart data={applicationsPerDay} label={<span className="text-foreground dark:text-white">Applications</span>} color="#a21caf" />
-          </div>
-        </div>
+        <JobBarChart data={chartData} />
       </div>
 
       {/* Create Job Modal */}

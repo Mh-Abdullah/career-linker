@@ -598,14 +598,16 @@ function JobApplicationsPage() {
                               <circle
                                 cx="50" cy="50" r="45"
                                 fill="none"
-                                stroke="#00A8A8"
+                                stroke="#9333ea"
                                 strokeWidth="8"
                                 strokeDasharray={2 * Math.PI * 45}
                                 strokeDashoffset={2 * Math.PI * 45 * (1 - relevance / 100)}
                                 strokeLinecap="round"
                                 style={{ transition: 'stroke-dashoffset 0.6s' }}
                               />
-                              <text x="50" y="56" textAnchor="middle" fill="#00A8A8" fontSize="2rem" fontWeight="bold">{relevance}%</text>
+                              <text x="50" y="56" textAnchor="middle" fill="#9333ea" fontSize="2rem" fontWeight="bold">
+                                {relevance}%
+                              </text>
                             </svg>
                           </div>
                           <p className="text-muted-foreground dark:text-white mt-2 text-xs">
@@ -646,7 +648,7 @@ function JobApplicationsPage() {
                                   <CartesianGrid strokeDasharray="3 3" />
                                   <XAxis dataKey="label" axisLine={false} tickLine={false} />
                                   <YAxis axisLine={false} tickLine={false} allowDecimals={false} />
-                                  <Bar dataKey="value" fill="#00A8A8" isAnimationActive={true}>
+                                  <Bar dataKey="value" fill="#9333ea" isAnimationActive={true}>
                                     {/* No labels on bars */}
                                   </Bar>
                                   {/* No Tooltip or Legend for minimal look */}

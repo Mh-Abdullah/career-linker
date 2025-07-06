@@ -60,7 +60,7 @@ export default function SignIn() {
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-[#00A8A8] bg-white text-black placeholder:text-black/60"
+              className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 bg-white text-black placeholder:text-black/60"
               required
             />
           </div>
@@ -74,7 +74,7 @@ export default function SignIn() {
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-[#00A8A8] bg-white text-black placeholder:text-black/60"
+              className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 bg-white text-black placeholder:text-black/60"
               required
             />
           </div>
@@ -86,7 +86,7 @@ export default function SignIn() {
 
         <p className="text-center text-sm text-foreground/80 mt-6">
           Don&apos;t have an account?{" "}
-          <Link href="/auth/signup" className="text-[#00A8A8] hover:underline">
+          <Link href="/auth/signup" className="text-purple-600 hover:underline">
             Sign up
           </Link>
         </p>

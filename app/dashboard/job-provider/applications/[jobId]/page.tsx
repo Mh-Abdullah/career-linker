@@ -233,7 +233,7 @@ export default function JobApplicationsPage() {
         {error && (
           <div className="text-center py-12">
             <div className="text-red-600 text-lg mb-4">{error}</div>
-            <Button onClick={fetchApplications} className="bg-[#00A8A8] hover:bg-[#009494] text-white">
+            <Button onClick={fetchApplications} className="bg-purple-600 hover:bg-purple-600 text-white">
               Try Again
             </Button>
           </div>
@@ -254,7 +254,7 @@ export default function JobApplicationsPage() {
                     key={application.id}
                     className={`bg-white rounded-lg border border-gray-200 p-6 cursor-pointer transition-all ${
                       selectedApplication?.id === application.id
-                        ? "ring-2 ring-[#00A8A8] border-[#00A8A8]"
+                        ? "ring-2 ring-purple-600 border-purple-600"
                         : "hover:shadow-md"
                     }`}
                     onClick={() => setSelectedApplication(application)}
@@ -262,7 +262,7 @@ export default function JobApplicationsPage() {
                     <div className="flex justify-between items-start mb-4">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-[#00A8A8]/10 rounded-full flex items-center justify-center">
-                          <User className="h-5 w-5 text-[#00A8A8]" />
+                          <User className="h-5 w-5 text-purple-600" />
                         </div>
                         <div>
                           <h3 className="font-semibold text-[#2B2D42]">
@@ -375,7 +375,7 @@ export default function JobApplicationsPage() {
                               {selectedApplication.user.jobSeekerProfile.skills.split(", ").map((skill, index) => (
                                 <span
                                   key={index}
-                                  className="px-2 py-1 bg-[#00A8A8]/10 text-[#00A8A8] text-xs rounded-md"
+                                  className="px-2 py-1 bg-[#00A8A8]/10 text-purple-600 text-xs rounded-md"
                                 >
                                   {skill}
                                 </span>
@@ -524,7 +524,7 @@ export default function JobApplicationsPage() {
                     <select
                       value={selectedApplication.status}
                       onChange={(e) => updateApplicationStatus(selectedApplication.id, e.target.value)}
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A8A8]"
+                      className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
                     >
                       <option value="PENDING">Pending</option>
                       <option value="REVIEWED">Reviewed</option>
