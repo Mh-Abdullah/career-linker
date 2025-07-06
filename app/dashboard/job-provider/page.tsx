@@ -49,12 +49,13 @@ export default function JobProviderDashboard() {
     user: SessionUser
   }
 
-  const { data: session, status } = useSession() as { data: CustomSession | null, status: string }
+  const { data: session, status } = useSession() as { data: CustomSession | null; status: string }
   const router = useRouter()
   const [jobs, setJobs] = useState<Job[]>([])
   const [currentView, setCurrentView] = useState<"dashboard" | "jobs">("dashboard")
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState("")
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   useEffect(() => {
     if (status === "loading") return
@@ -114,15 +115,21 @@ export default function JobProviderDashboard() {
       {/* Navigation */}
       <nav className="bg-white dark:bg-card border-b border-border">
         <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center cursor-pointer" onClick={() => router.push("/dashboard/job-provider")}>
+          {/* Logo */}
+          <div
+            className="flex items-center cursor-pointer"
+            onClick={() => router.push("/dashboard/job-provider")}
+          >
             <div className="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center mr-3">
               <span className="text-white font-bold">CL</span>
             </div>
-            <span className="text-xl font-semibold text-purple-600">CareerLinker</span>
+            <span className="text-xl font-semibold text-purple-600 hidden sm:inline">
+              CareerLinker
+            </span>
           </div>
 
-          <div className="flex items-center gap-6">
-            {/* Navigation Tabs */}
+          {/* Large Screen Navigation */}
+          <div className="hidden sm:flex items-center gap-6">
             <div className="flex items-center gap-1">
               <Button
                 onClick={() => setCurrentView("dashboard")}
@@ -148,19 +155,69 @@ export default function JobProviderDashboard() {
 
             <ThemeToggle />
 
-            {/* Account Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <div className="flex items-center gap-2 cursor-pointer">
                   <Avatar className="w-8 h-8">
                     <AvatarFallback>{session.user.name?.[0] || "U"}</AvatarFallback>
                   </Avatar>
-                  <span className="text-foreground">{session.user.name}</span>
+                  <span className="text-foreground text-sm">{session.user.name}</span>
                 </div>
               </DropdownMenuTrigger>
-
               <DropdownMenuContent className="w-48 mt-2">
                 <DropdownMenuLabel>Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  onClick={async () => {
+                    const confirmed = confirm("Are you sure you want to delete your account?")
+                    if (confirmed) {
+                      try {
+                        const res = await fetch("/api/auth/delete-account", { method: "DELETE" })
+                        if (res.ok) {
+                          alert("Your account has been deleted.")
+                          signOut({ callbackUrl: "/" })
+                        } else {
+                          const data = await res.json()
+                          alert(data.error || "Failed to delete account.")
+                        }
+                      } catch {
+                        alert("Network error. Please try again.")
+                      }
+                    }
+                  }}
+                  className="text-red-600"
+                >
+                  Delete Account
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/" })}>
+                  Sign Out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+
+          {/* Small Screen Hamburger */}
+          <div className="sm:hidden">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="focus:outline-none">
+                  <svg
+                    className="w-6 h-6 text-gray-800 dark:text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                  </svg>
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-48 mt-2" align="end">
+                <DropdownMenuItem onClick={() => setCurrentView("dashboard")}>Dashboard</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setCurrentView("jobs")}>Manage Jobs</DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <ThemeToggle />
+                </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
                   onClick={async () => {
@@ -193,6 +250,7 @@ export default function JobProviderDashboard() {
         </div>
       </nav>
 
+
       {/* Main Content */}
       <div className="container mx-auto px-6 py-8">
         {isLoading && (
@@ -213,23 +271,14 @@ export default function JobProviderDashboard() {
         {!isLoading && !error && (
           <>
             {currentView === "dashboard" && (
-              <DashboardView
-                jobs={jobs}
-                onJobCreated={fetchJobs}
-              />
+              <DashboardView jobs={jobs} onJobCreated={fetchJobs} />
             )}
             {currentView === "jobs" && (
-              <JobsView
-                jobs={jobs}
-                onJobCreated={fetchJobs}
-                onJobUpdated={fetchJobs}
-              />
+              <JobsView jobs={jobs} onJobCreated={fetchJobs} onJobUpdated={fetchJobs} />
             )}
           </>
         )}
       </div>
-
-      {/* <ChangePasswordDialog open={showChangePassword} onClose={() => setShowChangePassword(false)} /> */}
     </div>
   )
 }

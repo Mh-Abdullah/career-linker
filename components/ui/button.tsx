@@ -2,7 +2,7 @@ import * as React from "react"
 import { cn } from "../../lib/utils"
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "default" | "outline" | "ghost" | "secondary" | "accent"
+  variant?: "default" | "outline" | "ghost" | "secondary" | "accent" | "destructive" // ← added
   size?: "default" | "sm" | "lg" | "icon"
 }
 
@@ -17,6 +17,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       ghost: "text-[#2B2D42] hover:bg-[#D8F5F5]",
       secondary: "bg-[#D8F5F5] text-[#2B2D42] hover:bg-[#c5e8e8]",
       accent: "bg-[#3B3B98] text-white hover:bg-[#323280]",
+      destructive: "bg-red-600 text-white hover:bg-red-700", // ← added
     }
 
     const sizeClasses = {
@@ -27,7 +28,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     }
 
     return (
-      <button className={cn(baseClasses, variantClasses[variant], sizeClasses[size], className)} ref={ref} {...props} />
+      <button
+        className={cn(baseClasses, variantClasses[variant], sizeClasses[size], className)}
+        ref={ref}
+        {...props}
+      />
     )
   },
 )

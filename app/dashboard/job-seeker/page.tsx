@@ -54,6 +54,8 @@ export default function JobSeekerDashboard() {
   const [selectedJobId, setSelectedJobId] = useState<string>("")
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState("")
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+
 
   // Only fetch jobs on initial mount or after reload, not on every navigation or tab switch
   useEffect(() => {
@@ -206,14 +208,16 @@ export default function JobSeekerDashboard() {
       {/* Navigation */}
       <nav className="bg-white border-b border-gray-200 dark:bg-card dark:border-border">
         <div className="container mx-auto px-6 py-4 flex items-center justify-between">
+          {/* Logo */}
           <div className="flex items-center cursor-pointer" onClick={() => router.push("/dashboard/job-seeker")}>
             <div className="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center mr-3">
               <span className="text-white font-bold">CL</span>
             </div>
             <span className="text-xl font-semibold text-purple-600">CareerLinker</span>
           </div>
-          <div className="flex items-center gap-4">
-            
+
+          {/* Desktop Buttons */}
+          <div className="hidden md:flex items-center gap-4">
             <button
               className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
               onClick={() => router.push("/dashboard/job-seeker/applications")}
@@ -223,17 +227,13 @@ export default function JobSeekerDashboard() {
             <ThemeToggle />
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <div className="flex items-center gap-2 cursor-pointer">
+                <button className="p-2 rounded-full bg-muted hover:bg-accent">
                   <Avatar className="w-8 h-8">
                     <AvatarFallback>{session.user.name?.[0] || "U"}</AvatarFallback>
                   </Avatar>
-                  <span className="text-[#2B2D42] dark:text-white">{session.user.name}</span>
-                </div>
+                </button>
               </DropdownMenuTrigger>
-
               <DropdownMenuContent className="w-48 mt-2">
-                <DropdownMenuLabel>Account</DropdownMenuLabel>
-                <DropdownMenuSeparator />
                 <DropdownMenuItem
                   onClick={async () => {
                     const confirmed = confirm("Are you sure you want to delete your account?")
@@ -256,6 +256,54 @@ export default function JobSeekerDashboard() {
                 >
                   Delete Account
                 </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/" })}>Sign Out</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+
+          {/* Mobile Menu - Hamburger Icon opens same buttons in dropdown box */}
+          <div className="md:hidden">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="p-2 rounded-md hover:bg-muted focus:outline-none">
+                  <svg
+                    className="w-6 h-6 text-gray-700 dark:text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  </svg>
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48 mt-2">
+                <DropdownMenuItem onClick={() => router.push("/dashboard/job-seeker/applications")}>
+                  Applied
+                </DropdownMenuItem>
+                <DropdownMenuItem><ThemeToggle /></DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  className="text-red-600"
+                  onClick={async () => {
+                    const confirmed = confirm("Are you sure you want to delete your account?")
+                    if (confirmed) {
+                      try {
+                        const res = await fetch("/api/auth/delete-account", { method: "DELETE" })
+                        if (res.ok) {
+                          alert("Your account has been deleted.")
+                          signOut({ callbackUrl: "/" })
+                        } else {
+                          const data = await res.json()
+                          alert(data.error || "Failed to delete account.")
+                        }
+                      } catch {
+                        alert("Network error. Please try again.")
+                      }
+                    }
+                  }}
+                >
+                  Delete Account
+                </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/" })}>
                   Sign Out
                 </DropdownMenuItem>
@@ -264,6 +312,9 @@ export default function JobSeekerDashboard() {
           </div>
         </div>
       </nav>
+
+
+
 
       {/* Main Content */}
       <div className="container mx-auto px-6 py-8">

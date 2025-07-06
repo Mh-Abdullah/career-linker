@@ -177,58 +177,112 @@ export default function JobDetailPage({ jobId, onBack }: JobDetailPageProps) {
     <div className="min-h-screen bg-background text-foreground">
       {/* Navigation */}
       <nav className="bg-card border-b border-border">
-        <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center cursor-pointer" onClick={() => router.push("/dashboard/job-seeker")}> 
-            <div className="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center mr-3">
-              <span className="text-white font-bold">CL</span>
-            </div>
-            <span className="text-xl font-semibold text-purple-600">CareerLinker</span>
-          </div>
-          <div className="flex items-center gap-4">
-            <ThemeToggle />
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <div className="flex items-center gap-2 cursor-pointer">
-                  <Avatar className="w-8 h-8">
-                    <AvatarFallback>{session.user.name?.[0] || "U"}</AvatarFallback>
-                  </Avatar>
-                  <span className="text-[#2B2D42] dark:text-white">{session.user.name}</span>
-                </div>
-              </DropdownMenuTrigger>
+  <div className="container mx-auto px-6 py-4 flex items-center justify-between">
+    {/* Logo */}
+    <div className="flex items-center cursor-pointer" onClick={() => router.push("/dashboard/job-seeker")}>
+      <div className="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center mr-3">
+        <span className="text-white font-bold">CL</span>
+      </div>
+      <span className="text-xl font-semibold text-purple-600">CareerLinker</span>
+    </div>
 
-              <DropdownMenuContent className="w-48 mt-2">
-                <DropdownMenuLabel>Account</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  onClick={async () => {
-                    const confirmed = confirm("Are you sure you want to delete your account?")
-                    if (confirmed) {
-                      try {
-                        const res = await fetch("/api/auth/delete-account", { method: "DELETE" })
-                        if (res.ok) {
-                          alert("Your account has been deleted.")
-                          signOut({ callbackUrl: "/" })
-                        } else {
-                          const data = await res.json()
-                          alert(data.error || "Failed to delete account.")
-                        }
-                      } catch {
-                        alert("Network error. Please try again.")
-                      }
-                    }
-                  }}
-                  className="text-red-600"
-                >
-                  Delete Account
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/" })}>
-                  Sign Out
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+    {/* Desktop View */}
+    <div className="hidden md:flex items-center gap-4">
+      <ThemeToggle />
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <div className="flex items-center gap-2 cursor-pointer">
+            <Avatar className="w-8 h-8">
+              <AvatarFallback>{session.user.name?.[0] || "U"}</AvatarFallback>
+            </Avatar>
+            <span className="text-[#2B2D42] dark:text-white">{session.user.name}</span>
           </div>
-        </div>
-      </nav>
+        </DropdownMenuTrigger>
+
+        <DropdownMenuContent className="w-48 mt-2">
+          <DropdownMenuLabel>Account</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            onClick={async () => {
+              const confirmed = confirm("Are you sure you want to delete your account?")
+              if (confirmed) {
+                try {
+                  const res = await fetch("/api/auth/delete-account", { method: "DELETE" })
+                  if (res.ok) {
+                    alert("Your account has been deleted.")
+                    signOut({ callbackUrl: "/" })
+                  } else {
+                    const data = await res.json()
+                    alert(data.error || "Failed to delete account.")
+                  }
+                } catch {
+                  alert("Network error. Please try again.")
+                }
+              }
+            }}
+            className="text-red-600"
+          >
+            Delete Account
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/" })}>
+            Sign Out
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
+
+    {/* Mobile View */}
+    <div className="md:hidden">
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <button className="p-2 rounded-md hover:bg-muted focus:outline-none">
+            <svg
+              className="w-6 h-6 text-gray-700 dark:text-white"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </DropdownMenuTrigger>
+
+        <DropdownMenuContent align="end" className="w-48 mt-2">
+          <DropdownMenuItem>
+            <ThemeToggle />
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            onClick={async () => {
+              const confirmed = confirm("Are you sure you want to delete your account?")
+              if (confirmed) {
+                try {
+                  const res = await fetch("/api/auth/delete-account", { method: "DELETE" })
+                  if (res.ok) {
+                    alert("Your account has been deleted.")
+                    signOut({ callbackUrl: "/" })
+                  } else {
+                    const data = await res.json()
+                    alert(data.error || "Failed to delete account.")
+                  }
+                } catch {
+                  alert("Network error. Please try again.")
+                }
+              }
+            }}
+            className="text-red-600"
+          >
+            Delete Account
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/" })}>
+            Sign Out
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
+  </div>
+</nav>
+
 
       {/* Main Content */}
       <div className="container mx-auto px-6 py-8 max-w-4xl">

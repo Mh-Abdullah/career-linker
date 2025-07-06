@@ -1,13 +1,11 @@
 "use client"
 
-import React from "react"
-
-import { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Button } from "../../../components/ui/button"
 import { Plus, Search, Filter, Edit, Trash2, Users, MapPin, DollarSign } from "lucide-react"
 import CreateJobModal from "./create-job-modal"
-import { useRouter } from "next/navigation"
 import EditJobModal from "./edit-job-modeal"
+import { useRouter } from "next/navigation"
 
 interface Job {
   id: string
@@ -43,11 +41,9 @@ export default function JobsView({ jobs, onJobCreated, onJobUpdated }: JobsViewP
   const [editingJob, setEditingJob] = useState<Job | null>(null)
   const router = useRouter()
 
-  // Filter jobs based on search and status
-  React.useEffect(() => {
+  useEffect(() => {
     let filtered = jobs
 
-    // Filter by search term
     if (searchTerm) {
       filtered = filtered.filter(
         (job) =>
@@ -58,7 +54,6 @@ export default function JobsView({ jobs, onJobCreated, onJobUpdated }: JobsViewP
       )
     }
 
-    // Filter by status
     if (statusFilter !== "all") {
       filtered = filtered.filter((job) => {
         if (statusFilter === "active") return job.isActive
@@ -70,13 +65,8 @@ export default function JobsView({ jobs, onJobCreated, onJobUpdated }: JobsViewP
     setFilteredJobs(filtered)
   }, [searchTerm, statusFilter, jobs])
 
-
-  const formatJobType = (jobType: string) => {
-    return jobType
-      .replace("_", " ")
-      .toLowerCase()
-      .replace(/\b\w/g, (l) => l.toUpperCase())
-  }
+  const formatJobType = (jobType: string) =>
+    jobType.replace("_", " ").toLowerCase().replace(/\b\w/g, (l) => l.toUpperCase())
 
   const getTimeAgo = (dateString: string) => {
     const date = new Date(dateString)
@@ -95,13 +85,8 @@ export default function JobsView({ jobs, onJobCreated, onJobUpdated }: JobsViewP
     try {
       const response = await fetch("/api/jobs", {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id: jobId,
-          isActive: !currentStatus,
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: jobId, isActive: !currentStatus }),
       })
 
       if (response.ok) {
@@ -117,18 +102,10 @@ export default function JobsView({ jobs, onJobCreated, onJobUpdated }: JobsViewP
   }
 
   const deleteJob = async (jobId: string) => {
-    if (
-      !confirm(
-        "Are you sure you want to permanently delete this job? This action cannot be undone and will remove all associated applications.",
-      )
-    ) {
-      return
-    }
+    if (!confirm("Are you sure you want to permanently delete this job?")) return
 
     try {
-      const response = await fetch(`/api/jobs/${jobId}`, {
-        method: "DELETE",
-      })
+      const response = await fetch(`/api/jobs/${jobId}`, { method: "DELETE" })
 
       if (response.ok) {
         onJobUpdated()
@@ -143,10 +120,7 @@ export default function JobsView({ jobs, onJobCreated, onJobUpdated }: JobsViewP
     }
   }
 
-  const handleCreateJob = () => {
-    setShowCreateModal(true)
-  }
-
+  const handleCreateJob = () => setShowCreateModal(true)
   const handleJobCreated = () => {
     onJobCreated()
     setShowCreateModal(false)
@@ -158,8 +132,6 @@ export default function JobsView({ jobs, onJobCreated, onJobUpdated }: JobsViewP
   }
 
   const handleViewApplications = (jobId: string) => {
-    console.log("Navigating to applications for job:", jobId)
-    // Use query parameters instead of dynamic route
     router.push(`/dashboard/job-provider/applications?jobId=${jobId}`)
   }
 
@@ -169,11 +141,11 @@ export default function JobsView({ jobs, onJobCreated, onJobUpdated }: JobsViewP
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 px-4 sm:px-6 lg:px-8 overflow-x-hidden">
       {/* Header */}
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-[#2B2D42] dark:text-purple-600 mb-2">Dashboard Overview</h1>
+          <h1 className="text-3xl font-bold text-[#2B2D42] dark:text-purple-600 mb-1">Dashboard Overview</h1>
           <p className="text-[#2B2D42]/70 dark:text-white">Track your job postings and recruitment metrics</p>
         </div>
         <Button onClick={handleCreateJob} className="bg-purple-600 hover:bg-purple-700 text-white">
@@ -183,7 +155,7 @@ export default function JobsView({ jobs, onJobCreated, onJobUpdated }: JobsViewP
       </div>
 
       {/* Search and Filter */}
-      <div className="bg-card rounded-lg border border-border p-6 mb-6 text-foreground transition-colors">
+      <div className="bg-card rounded-lg border border-border p-6 text-foreground">
         <div className="flex flex-col md:flex-row gap-4">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
@@ -192,7 +164,7 @@ export default function JobsView({ jobs, onJobCreated, onJobUpdated }: JobsViewP
               placeholder="Search jobs by title, company, location, or skills..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 text-foreground dark:text-white bg-background placeholder:text-muted-foreground dark:placeholder:text-white/60"
+              className="w-full pl-10 pr-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 text-foreground dark:text-white bg-background placeholder:text-muted-foreground"
             />
           </div>
 
@@ -214,8 +186,8 @@ export default function JobsView({ jobs, onJobCreated, onJobUpdated }: JobsViewP
       {/* Jobs List */}
       <div className="space-y-4">
         {filteredJobs.length === 0 ? (
-          <div className="text-center py-12 bg-card rounded-lg border border-border text-foreground dark:text-white transition-colors">
-            <div className="text-muted-foreground dark:text-white text-lg mb-4">
+          <div className="text-center py-12 bg-card rounded-lg border border-border text-foreground dark:text-white">
+            <div className="text-muted-foreground text-lg mb-4">
               {jobs.length === 0 ? "No jobs posted yet" : "No jobs match your search criteria"}
             </div>
             {jobs.length === 0 && (
@@ -231,9 +203,9 @@ export default function JobsView({ jobs, onJobCreated, onJobUpdated }: JobsViewP
               key={job.id}
               className="bg-card rounded-lg border border-border p-6 hover:shadow-md transition-colors text-foreground dark:text-white"
             >
-              <div className="flex justify-between items-start mb-4">
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-4">
                 <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-2">
+                  <div className="flex flex-wrap items-center gap-3 mb-2">
                     <h3 className="text-xl font-semibold text-[#2B2D42] dark:text-white">{job.title}</h3>
                     <span
                       className={`px-3 py-1 rounded-full text-xs font-medium ${
@@ -252,7 +224,7 @@ export default function JobsView({ jobs, onJobCreated, onJobUpdated }: JobsViewP
                     )}
                   </div>
 
-                  <div className="flex items-center gap-6 text-[#2B2D42]/70 dark:text-white mb-3">
+                  <div className="flex flex-wrap items-center gap-4 text-[#2B2D42]/70 dark:text-white mb-3">
                     <div className="flex items-center gap-1">
                       <MapPin className="h-4 w-4" />
                       <span>{job.location}</span>
@@ -273,16 +245,13 @@ export default function JobsView({ jobs, onJobCreated, onJobUpdated }: JobsViewP
 
                   {job.skills && (
                     <div className="flex flex-wrap gap-2 mb-3">
-                      {job.skills
-                        .split(", ")
-                        .slice(0, 5)
-                        .map((skill, index) => (
-                          <span key={index} className="px-2 py-1 bg-muted text-foreground dark:bg-muted dark:text-white text-xs rounded-md">
-                            {skill}
-                          </span>
-                        ))}
+                      {job.skills.split(", ").slice(0, 5).map((skill, index) => (
+                        <span key={index} className="px-2 py-1 bg-muted text-xs rounded-md dark:bg-muted dark:text-white">
+                          {skill}
+                        </span>
+                      ))}
                       {job.skills.split(", ").length > 5 && (
-                        <span className="px-2 py-1 bg-muted text-foreground dark:bg-muted dark:text-white text-xs rounded-md">
+                        <span className="px-2 py-1 bg-muted text-xs rounded-md dark:bg-muted dark:text-white">
                           +{job.skills.split(", ").length - 5} more
                         </span>
                       )}
@@ -294,7 +263,7 @@ export default function JobsView({ jobs, onJobCreated, onJobUpdated }: JobsViewP
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2 ml-4">
+                <div className="flex flex-wrap sm:flex-nowrap gap-2">
                   <Button
                     onClick={() => handleViewApplications(job.id)}
                     variant="outline"
@@ -339,14 +308,8 @@ export default function JobsView({ jobs, onJobCreated, onJobUpdated }: JobsViewP
         )}
       </div>
 
-      {/* Create Job Modal */}
-      <CreateJobModal
-        isOpen={showCreateModal}
-        onClose={() => setShowCreateModal(false)}
-        onJobCreated={handleJobCreated}
-      />
-
-      {/* Edit Job Modal */}
+      {/* Modals */}
+      <CreateJobModal isOpen={showCreateModal} onClose={() => setShowCreateModal(false)} onJobCreated={handleJobCreated} />
       <EditJobModal
         isOpen={showEditModal}
         onClose={handleEditModalClose}
