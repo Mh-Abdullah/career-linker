@@ -248,7 +248,7 @@ export default function JobDetailPage({ jobId, onBack }: JobDetailPageProps) {
         </DropdownMenuTrigger>
 
         <DropdownMenuContent align="end" className="w-48 mt-2">
-          <DropdownMenuItem>
+          <DropdownMenuItem asChild>
             <ThemeToggle />
           </DropdownMenuItem>
           <DropdownMenuSeparator />

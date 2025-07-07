@@ -281,7 +281,7 @@ export default function JobSeekerDashboard() {
                 <DropdownMenuItem onClick={() => router.push("/dashboard/job-seeker/applications")}>
                   Applied
                 </DropdownMenuItem>
-                <DropdownMenuItem><ThemeToggle /></DropdownMenuItem>
+                <DropdownMenuItem asChild><ThemeToggle /></DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
                   className="text-red-600"

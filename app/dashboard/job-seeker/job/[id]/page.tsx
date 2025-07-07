@@ -212,7 +212,9 @@ export default function JobDetailPage() {
                 <DropdownMenuItem onClick={() => router.push("/dashboard/job-seeker")}>
                   Jobs
                 </DropdownMenuItem>
-                <DropdownMenuItem><ThemeToggle /></DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <ThemeToggle />
+                </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
                   className="text-red-600"
