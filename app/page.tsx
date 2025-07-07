@@ -10,10 +10,10 @@ export default function WelcomePage() {
         <div className="container mx-auto px-6 flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center">
-            <div className="w-12 h-12 bg-[#00A8A8] rounded-lg flex items-center justify-center mr-3">
+            <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center mr-3">
               <span className="text-white font-bold text-lg">CL</span>
             </div>
-            <span className="text-2xl font-semibold text-[#00A8A8]">CareerLinker</span>
+            <span className="text-2xl font-semibold text-purple-600">CareerLinker</span>
           </div>
 
           {/* Auth Buttons + Theme Toggle */}
@@ -35,7 +35,7 @@ export default function WelcomePage() {
       <main className="container mx-auto px-6 py-16 max-w-4xl">
         <div className="text-left">
           <h1 className="text-5xl font-bold leading-tight mb-8 text-foreground dark:text-foreground">
-            Connect to Your Dream Career with <span className="text-[#00A8A8]">CareerLinker</span>
+            Connect to Your Dream Career with <span className="text-purple-600">CareerLinker</span>
           </h1>
 
           <p className="text-xl mb-12 leading-relaxed max-w-3xl text-muted-foreground dark:text-white/80">
