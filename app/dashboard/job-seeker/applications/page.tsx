@@ -108,11 +108,12 @@ export default function AppliedJobsPage() {
             <ThemeToggle />
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="p-2 rounded-full bg-muted hover:bg-accent">
+                <div className="flex items-center gap-2 cursor-pointer">
                   <Avatar className="w-8 h-8">
                     <AvatarFallback>{session.user.name?.[0] || "U"}</AvatarFallback>
                   </Avatar>
-                </button>
+                  <span className="text-foreground text-sm">{session.user.name}</span>
+                </div>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-48 mt-2">
                 <DropdownMenuItem
@@ -204,7 +205,7 @@ export default function AppliedJobsPage() {
             <ArrowLeft className="h-5 w-5" />
             Back to Jobs
           </Button>
-          <h1 className="text-3xl font-bold text-[#2B2D42] dark:text-purple-400 ml-4">Applied Jobs</h1>
+          <h1 className="text-3xl font-bold text-[#2B2D42] dark:text-purple-600 ml-4">Applied Jobs</h1>
         </div>
         {isLoading && (
           <div className="text-center py-12">

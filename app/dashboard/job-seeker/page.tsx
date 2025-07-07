@@ -227,11 +227,12 @@ export default function JobSeekerDashboard() {
             <ThemeToggle />
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="p-2 rounded-full bg-muted hover:bg-accent">
+                <div className="flex items-center gap-2 cursor-pointer">
                   <Avatar className="w-8 h-8">
                     <AvatarFallback>{session.user.name?.[0] || "U"}</AvatarFallback>
                   </Avatar>
-                </button>
+                  <span className="text-foreground text-sm">{session.user.name}</span>
+                </div>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-48 mt-2">
                 <DropdownMenuItem
