@@ -440,7 +440,7 @@ export default function JobSeekerDashboard() {
             {filteredJobs.map((job) => (
               <div
                 key={job.id}
-                className="bg-card rounded-lg border border-border p-6 hover:shadow-lg transition-shadow text-foreground"
+                className="bg-card rounded-lg border border-border p-6 hover:shadow-lg transition-shadow text-foreground flex flex-col"
               >
                 <div className="flex justify-between items-start mb-4">
                   <h3 className="text-lg font-semibold text-foreground mb-2">{job.title}</h3>
@@ -483,7 +483,7 @@ export default function JobSeekerDashboard() {
 
                 <p className="text-foreground/70 text-sm mb-4 line-clamp-3">{job.description}</p>
 
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between mt-auto">
                   <div className="flex items-center gap-1 text-foreground/60 text-sm">
                     <Clock className="h-4 w-4" />
                     <span>{getTimeAgo(job.createdAt)}</span>
