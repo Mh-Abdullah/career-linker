@@ -15,12 +15,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning className="dark">
-    <body className="bg-background text-foreground antialiased">
-      <Providers>
-        {children}
-      </Providers>
-    </body>
-  </html>
-
+      <head>
+        <meta
+          name="google-site-verification"
+          content="cLer1SIylJx9AryqSXeMdNTwc-H9Mu8p9oh0zIW_3Fk"
+        />
+      </head>
+      <body className="bg-background text-foreground antialiased">
+        <Providers>
+          {children}
+        </Providers>
+      </body>
+    </html>
   )
 }
