@@ -69,20 +69,20 @@ export default function WelcomePage() {
       </nav>
 
       {/* Hero Section */}
-      <main className="container mx-auto px-4 sm:px-6 py-10 sm:py-16 max-w-5xl">
+      <main className="container mx-auto px-6 py-16 max-w-4xl">
         <div className="text-left">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight mb-6 sm:mb-8 text-foreground dark:text-foreground">
+          <h1 className="text-5xl font-bold leading-tight mb-8 text-foreground dark:text-foreground">
             Connect to Your Dream Career with <span className="text-purple-600">CareerLinker</span>
           </h1>
 
-          <p className="text-base sm:text-lg md:text-xl mb-8 sm:mb-12 leading-relaxed max-w-3xl text-muted-foreground dark:text-white/80">
+          <p className="text-xl mb-12 leading-relaxed max-w-3xl text-muted-foreground dark:text-white/80">
             Find the perfect job match with our intelligent platform. We connect talented professionals with top
             companies worldwide, making your career journey seamless and rewarding.
           </p>
 
-          <div className="flex flex-wrap gap-4 mb-10">
+          <div className="flex items-center gap-4 mb-12">
             <Link href="/auth/signin">
-              <Button size="lg" variant="accent" className="px-6 sm:px-8 flex items-center">
+              <Button size="lg" variant="accent" className="px-8 flex items-center">
                 Get Started
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -94,20 +94,20 @@ export default function WelcomePage() {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 >
-                  <path d="M5 12h14" />
-                  <path d="m12 5 7 7-7 7" />
+                  <path d="M5 12h14"></path>
+                  <path d="m12 5 7 7-7 7"></path>
                 </svg>
               </Button>
             </Link>
-            <Button size="lg" variant="outline" className="px-6 sm:px-8">
+            <Button size="lg" variant="outline" className="px-8">
               Learn More
             </Button>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-8">
             <div className="flex items-center gap-1">
-              <span className="text-yellow-400 text-lg">⭐</span>
-              <span className="text-sm sm:text-base text-muted-foreground dark:text-white/80">4.9/5 Rating</span>
+              <span className="text-yellow-400">⭐</span>
+              <span className="text-muted-foreground dark:text-white/80">4.9/5 Rating</span>
             </div>
           </div>
         </div>
