@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import { signIn, getSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
@@ -12,11 +11,13 @@ export default function SignIn() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState("") // ✅ New: error state
   const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
+    setError("") // Clear previous errors
 
     try {
       const result = await signIn("credentials", {
@@ -26,7 +27,7 @@ export default function SignIn() {
       })
 
       if (result?.error) {
-        // setError("Invalid credentials")
+        setError("Invalid email or password.") // ✅ Set error message
       } else {
         const session = await getSession()
         if (session?.user?.userType === "JOB_SEEKER") {
@@ -36,7 +37,7 @@ export default function SignIn() {
         }
       }
     } catch {
-      // setError("Something went wrong")
+      setError("Something went wrong. Please try again.") // ✅ Catch other errors
     } finally {
       setIsLoading(false)
     }
@@ -49,6 +50,12 @@ export default function SignIn() {
           <h1 className="text-2xl font-bold text-foreground">Sign In to CareerLinker</h1>
           <p className="text-foreground/80 mt-2">Welcome back!</p>
         </div>
+
+        {error && (
+          <div className="mb-4 text-sm text-red-600 bg-red-100 p-2 rounded">
+            {error}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
