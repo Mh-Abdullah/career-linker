@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
@@ -15,14 +14,19 @@ export default function SignUp() {
     confirmPassword: "",
     userType: "JOB_SEEKER",
   })
+
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState("") // ✅ Error state
   const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setError("") // Clear old error
     setIsLoading(true)
 
+    // ✅ Password mismatch check
     if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match.")
       setIsLoading(false)
       return
     }
@@ -44,9 +48,19 @@ export default function SignUp() {
       if (response.ok) {
         router.push("/auth/signin?message=Registration successful")
       } else {
+        const data = await response.json()
+
+        // ✅ Email already exists error
+        if (data.message === "Email already exists") {
+          setError("An account with this email already exists.")
+        } else {
+          setError(data.message || "Registration failed.")
+        }
+
         setIsLoading(false)
       }
     } catch {
+      setError("Something went wrong. Please try again.")
       setIsLoading(false)
     }
   }
@@ -58,6 +72,13 @@ export default function SignUp() {
           <h1 className="text-2xl font-bold text-foreground">Join CareerLinker</h1>
           <p className="text-foreground/80 mt-2">Create your account</p>
         </div>
+
+        {/* ✅ Error Display */}
+        {error && (
+          <div className="mb-4 text-sm text-red-600 bg-red-100 p-2 rounded">
+            {error}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
