@@ -118,7 +118,7 @@ export default function EditJobModal({ isOpen, onClose, onJobUpdated, job }: Edi
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-border">
           <div>
-            <h2 className="text-2xl font-bold text-foreground dark:text-[#009494]">Edit Job</h2>
+            <h2 className="text-2xl font-bold text-foreground dark:text-purple-600">Edit Job</h2>
             <p className="text-muted-foreground dark:text-white mt-1">Update your job posting details</p>
           </div>
           <Button variant="ghost" size="icon" onClick={onClose}>
@@ -149,7 +149,7 @@ export default function EditJobModal({ isOpen, onClose, onJobUpdated, job }: Edi
                     value={formData.title}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A8A8] bg-background text-foreground placeholder:text-foreground/60 dark:placeholder:text-white/60"
+                    className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 bg-background text-foreground placeholder:text-foreground/60 dark:placeholder:text-white/60"
                     placeholder="e.g. Senior React Developer"
                   />
                 </div>
@@ -162,7 +162,7 @@ export default function EditJobModal({ isOpen, onClose, onJobUpdated, job }: Edi
                     value={formData.company}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A8A8] bg-background text-foreground placeholder:text-foreground/60 dark:placeholder:text-white/60"
+                    className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 bg-background text-foreground placeholder:text-foreground/60 dark:placeholder:text-white/60"
                     placeholder="e.g. TechCorp Solutions"
                   />
                 </div>
@@ -175,7 +175,7 @@ export default function EditJobModal({ isOpen, onClose, onJobUpdated, job }: Edi
                     value={formData.location}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A8A8] bg-background text-foreground placeholder:text-foreground/60 dark:placeholder:text-white/60"
+                    className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 bg-background text-foreground placeholder:text-foreground/60 dark:placeholder:text-white/60"
                     placeholder="e.g. San Francisco, CA"
                   />
                 </div>
@@ -187,7 +187,7 @@ export default function EditJobModal({ isOpen, onClose, onJobUpdated, job }: Edi
                     name="salary"
                     value={formData.salary}
                     onChange={handleInputChange}
-                    className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A8A8] bg-background text-foreground placeholder:text-foreground/60 dark:placeholder:text-white/60"
+                    className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 bg-background text-foreground placeholder:text-foreground/60 dark:placeholder:text-white/60"
                     placeholder="e.g. $80,000 - $120,000"
                   />
                 </div>
@@ -199,7 +199,7 @@ export default function EditJobModal({ isOpen, onClose, onJobUpdated, job }: Edi
                     value={formData.jobType}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A8A8] bg-background text-foreground"
+                    className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 bg-background text-foreground"
                   >
                     <option value="FULL_TIME">Full Time</option>
                     <option value="PART_TIME">Part Time</option>
@@ -217,7 +217,7 @@ export default function EditJobModal({ isOpen, onClose, onJobUpdated, job }: Edi
                     name="experience"
                     value={formData.experience}
                     onChange={handleInputChange}
-                    className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A8A8] bg-background text-foreground placeholder:text-foreground/60 dark:placeholder:text-white/60"
+                    className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 bg-background text-foreground placeholder:text-foreground/60 dark:placeholder:text-white/60"
                     placeholder="e.g. 3-5 years"
                   />
                 </div>
@@ -230,7 +230,7 @@ export default function EditJobModal({ isOpen, onClose, onJobUpdated, job }: Edi
                     name="isRemote"
                     checked={formData.isRemote}
                     onChange={handleInputChange}
-                    className="h-4 w-4 text-[#00A8A8] focus:ring-[#00A8A8] border-gray-300 rounded"
+                    className="h-4 w-4 text-purple-600 focus:ring-purple-600 border-gray-300 rounded"
                   />
                   <label className="ml-2 block text-sm text-foreground">This is a remote position</label>
                 </div>
@@ -249,7 +249,7 @@ export default function EditJobModal({ isOpen, onClose, onJobUpdated, job }: Edi
                   onChange={handleInputChange}
                   required
                   rows={6}
-                  className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A8A8] bg-background text-foreground placeholder:text-foreground/60 dark:placeholder:text-white/60"
+                  className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 bg-background text-foreground placeholder:text-foreground/60 dark:placeholder:text-white/60"
                   placeholder="Describe the role, responsibilities, and what makes this opportunity exciting..."
                 />
               </div>
@@ -261,7 +261,7 @@ export default function EditJobModal({ isOpen, onClose, onJobUpdated, job }: Edi
                   name="skills"
                   value={formData.skills}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A8A8] bg-background text-foreground placeholder:text-foreground/60 dark:placeholder:text-white/60"
+                  className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 bg-background text-foreground placeholder:text-foreground/60 dark:placeholder:text-white/60"
                   placeholder="e.g. React, TypeScript, Node.js, JavaScript (comma separated)"
                 />
               </div>
@@ -273,7 +273,7 @@ export default function EditJobModal({ isOpen, onClose, onJobUpdated, job }: Edi
                   value={formData.requirements}
                   onChange={handleInputChange}
                   rows={4}
-                  className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A8A8] bg-background text-foreground placeholder:text-foreground/60 dark:placeholder:text-white/60"
+                  className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 bg-background text-foreground placeholder:text-foreground/60 dark:placeholder:text-white/60"
                   placeholder="List the key requirements and qualifications..."
                 />
               </div>
@@ -285,7 +285,7 @@ export default function EditJobModal({ isOpen, onClose, onJobUpdated, job }: Edi
                   value={formData.benefits}
                   onChange={handleInputChange}
                   rows={4}
-                  className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A8A8] bg-background text-foreground placeholder:text-foreground/60 dark:placeholder:text-white/60"
+                  className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 bg-background text-foreground placeholder:text-foreground/60 dark:placeholder:text-white/60"
                   placeholder="Describe the benefits, perks, and what makes your company great..."
                 />
               </div>
@@ -297,7 +297,7 @@ export default function EditJobModal({ isOpen, onClose, onJobUpdated, job }: Edi
                   name="applicationDeadline"
                   value={formData.applicationDeadline}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A8A8] bg-background text-foreground"
+                  className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 bg-background text-foreground"
                 />
               </div>
             </div>
@@ -307,7 +307,7 @@ export default function EditJobModal({ isOpen, onClose, onJobUpdated, job }: Edi
               <Button type="button" variant="outline" onClick={onClose} disabled={isSubmitting}>
                 Cancel
               </Button>
-              <Button type="submit" disabled={isSubmitting} className="bg-[#00A8A8] hover:bg-[#009494] text-white">
+              <Button type="submit" disabled={isSubmitting} className="bg-purple-600 hover:bg-purple-700 text-white">
                 <Save className="h-4 w-4 mr-2" />
                 {isSubmitting ? "Updating..." : "Update Job"}
               </Button>

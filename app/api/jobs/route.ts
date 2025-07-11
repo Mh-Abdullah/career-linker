@@ -120,6 +120,14 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Validate applicationDeadline format if provided
+    if (applicationDeadline && applicationDeadline.trim() !== "") {
+      const deadlineDate = new Date(applicationDeadline)
+      if (isNaN(deadlineDate.getTime())) {
+        return NextResponse.json({ error: "Invalid application deadline format" }, { status: 400 })
+      }
+    }
+
     // Create the job
     const job = await prisma.job.create({
       data: {
@@ -135,7 +143,9 @@ export async function POST(request: NextRequest) {
         benefits: benefits || null,
         isActive: true,
         isRemote: isRemote || false,
-        applicationDeadline: applicationDeadline ? new Date(applicationDeadline) : null,
+        applicationDeadline: applicationDeadline && applicationDeadline.trim() !== "" 
+          ? new Date(applicationDeadline) 
+          : null,
         postedById: session.user.id,
       },
       include: {
@@ -200,6 +210,14 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: "Job ID is required" }, { status: 400 })
     }
 
+    // Validate applicationDeadline format if provided
+    if (updateData.applicationDeadline && updateData.applicationDeadline.trim() !== "") {
+      const deadlineDate = new Date(updateData.applicationDeadline)
+      if (isNaN(deadlineDate.getTime())) {
+        return NextResponse.json({ error: "Invalid application deadline format" }, { status: 400 })
+      }
+    }
+
     // Check if the job exists and belongs to the user
     const existingJob = await prisma.job.findUnique({
       where: { id },
@@ -220,9 +238,9 @@ export async function PUT(request: NextRequest) {
       data: {
         ...updateData,
         updatedAt: new Date(),
-        ...(updateData.applicationDeadline && {
-          applicationDeadline: new Date(updateData.applicationDeadline),
-        }),
+        applicationDeadline: updateData.applicationDeadline && updateData.applicationDeadline.trim() !== "" 
+          ? new Date(updateData.applicationDeadline) 
+          : null,
       },
       include: {
         postedBy: {
