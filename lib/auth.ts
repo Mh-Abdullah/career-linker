@@ -52,16 +52,80 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt",
   },
   callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.userType = user.userType
+    async signIn({ user, account, profile }) {
+      return true // Allow all sign-ins, handle user type logic in JWT callback
+    },
+    async jwt({ token, user, account, trigger }) {
+      // Handle session update (when user selects their type)
+      if (trigger === "update") {
+        // Simply refresh the token from database
+        if (token.email) {
+          const dbUser = await prisma.user.findUnique({
+            where: { email: token.email! },
+            select: { 
+              id: true,
+              userType: true,
+              password: true
+            },
+          })
+          
+          if (dbUser) {
+            token.id = dbUser.id
+            token.userType = dbUser.userType
+            token.needsUserType = false // User has made their selection
+          }
+        }
+        return token
       }
+
+      // For initial sign-in or token refresh
+      if (token.email) {
+        const dbUser = await prisma.user.findUnique({
+          where: { email: token.email! },
+          select: { 
+            id: true,
+            userType: true,
+            password: true // Use password field as indicator of manual signup
+          },
+        })
+        
+        if (dbUser) {
+          // Set the user ID
+          token.id = dbUser.id
+          
+          if (dbUser.password) {
+            // User signed up manually (has password), they chose their type during signup
+            token.userType = dbUser.userType
+            token.needsUserType = false
+          } else {
+            // User signed up with Google
+            // Check if they still have the default JOB_SEEKER and it's their first time
+            // We'll assume if they're not JOB_SEEKER, they've made a choice
+            if (dbUser.userType === 'JOB_SEEKER' && !token.userType) {
+              // First time Google user with default type
+              token.needsUserType = true
+            } else {
+              // They've either selected a type or it's not their first login
+              token.userType = dbUser.userType
+              token.needsUserType = false
+            }
+          }
+        }
+      }
+      
+      // For credentials login
+      if (user && account?.provider === "credentials") {
+        token.userType = user.userType
+        token.needsUserType = false
+      }
+      
       return token
     },
     async session({ session, token }) {
       if (token) {
-        session.user.id = token.sub!
-        session.user.userType = token.userType as string
+        session.user.id = (token.id as string) || token.sub!
+        session.user.userType = (token.userType as string) || null
+        session.user.needsUserType = token.needsUserType as boolean || false
       }
       return session
     },
