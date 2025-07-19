@@ -14,7 +14,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const variantClasses = {
       default: "bg-purple-600 text-white hover:bg-purple-700",
       outline: "border border-purple-600 bg-white text-[#2B2D42] hover:bg-purple-100",
-      ghost: "text-[#2B2D42] dark:text-white hover:bg-[#D8F5F5]",
+      ghost: "text-[#2B2D42] dark:text-white hover:bg-[#D8F5F5] dark:hover:bg-white dark:hover:text-[#2B2D42]",
       secondary: "bg-[#D8F5F5] text-[#2B2D42] hover:bg-[#c5e8e8]",
       accent: "bg-[#3B3B98] text-white hover:bg-[#323280]",
       destructive: "bg-red-600 text-white hover:bg-red-700", // ← added
