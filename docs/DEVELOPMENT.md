@@ -1,6 +1,6 @@
 # Development Guide
 
-This guide helps developers understand the Career Linker codebase and contribute effectively.
+This comprehensive guide helps developers understand the Career Linker codebase and contribute effectively to the project.
 
 ## Table of Contents
 
@@ -10,9 +10,12 @@ This guide helps developers understand the Career Linker codebase and contribute
 - [Database Management](#database-management)
 - [Authentication Flow](#authentication-flow)
 - [File Upload System](#file-upload-system)
+- [API Development](#api-development)
+- [Frontend Development](#frontend-development)
 - [Testing](#testing)
 - [Code Style & Standards](#code-style--standards)
 - [Contributing Guidelines](#contributing-guidelines)
+- [Deployment](#deployment)
 
 ## Project Architecture
 
@@ -20,34 +23,95 @@ Career Linker is built using modern web development practices with a focus on ty
 
 ### Tech Stack Overview
 
-- **Frontend Framework**: Next.js 15 with App Router
-- **Language**: TypeScript for full type safety
-- **Styling**: Tailwind CSS with custom design system
-- **UI Components**: Radix UI primitives with custom styling
-- **Database**: PostgreSQL with Prisma ORM
-- **Authentication**: NextAuth.js with JWT tokens
-- **File Processing**: PDF.js for resume text extraction
-- **Charts**: Recharts for data visualization
+- **Frontend Framework**: Next.js 15 with App Router and React 19
+- **Language**: TypeScript with strict configurations for full type safety
+- **Styling**: Tailwind CSS v4 with custom design system and CSS variables
+- **UI Components**: Radix UI primitives with custom styling and Lucide React icons
+- **Database**: PostgreSQL with Prisma ORM for type-safe database operations
+- **Authentication**: NextAuth.js with JWT tokens, Google OAuth, and credential-based auth
+- **File Processing**: PDF.js for resume text extraction, Formidable for file uploads
+- **Charts**: Recharts for data visualization and analytics
+- **Development Tools**: Turbopack for fast development, ESLint for code quality
 
 ### Architecture Patterns
 
 - **Component-Based**: Reusable UI components with clear separation of concerns
-- **API-First**: RESTful API design with consistent error handling
-- **Type-Safe**: End-to-end TypeScript with strict configurations
+- **API-First**: RESTful API design with consistent error handling and validation
+- **Type-Safe**: End-to-end TypeScript with strict configurations and comprehensive type definitions
 - **Responsive Design**: Mobile-first approach with dark/light theme support
+- **Role-Based Access**: Comprehensive permission system for different user types
+- **Middleware Protection**: Route-level authentication and authorization
 
 ## Development Setup
 
 ### Prerequisites
 
-- Node.js 18 or higher
-- PostgreSQL database
-- Git for version control
+- **Node.js 18 or higher** - Latest LTS version recommended
+- **PostgreSQL database** - Local installation or cloud service
+- **Git** for version control
+- **VS Code** (recommended) with TypeScript and Tailwind CSS extensions
 
 ### Initial Setup
 
 1. **Clone and Install**
    ```bash
+   git clone https://github.com/Mh-Abdullah/career-linker.git
+   cd career-linker
+   npm install
+   ```
+
+2. **Environment Configuration**
+   Create `.env.local` file:
+   ```env
+   # Database
+   DATABASE_URL="postgresql://username:password@localhost:5432/career_linker"
+   
+   # NextAuth Configuration
+   NEXTAUTH_URL="http://localhost:3000"
+   NEXTAUTH_SECRET="your-32-character-secret-key"
+   
+   # Google OAuth (Optional)
+   GOOGLE_CLIENT_ID="your-google-client-id"
+   GOOGLE_CLIENT_SECRET="your-google-client-secret"
+   ```
+
+3. **Database Setup**
+   ```bash
+   # Generate Prisma client
+   npx prisma generate
+   
+   # Run database migrations
+   npx prisma migrate dev
+   
+   # View database in Prisma Studio (optional)
+   npx prisma studio
+   ```
+
+4. **Start Development Server**
+   ```bash
+   npm run dev
+   # Uses Turbopack for faster builds and hot reloading
+   ```
+
+### Development Scripts
+
+```bash
+# Development
+npm run dev          # Start dev server with Turbopack
+npm run build        # Build for production
+npm run start        # Start production server
+npm run lint         # Run ESLint
+
+# Database
+npx prisma generate     # Generate Prisma client
+npx prisma migrate dev  # Create and apply new migration
+npx prisma studio      # Open Prisma Studio
+npx prisma db push     # Push schema changes (dev only)
+npx prisma db seed     # Seed database (if configured)
+
+# Production
+npm run vercel-build   # Build with automatic migrations
+```
    git clone https://github.com/your-username/career-linker.git
    cd career-linker
    npm install

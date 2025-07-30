@@ -1,6 +1,6 @@
 # User Guide
 
-This guide helps users understand how to use Career Linker effectively, whether you're looking for a job or hiring talent.
+This comprehensive guide helps users understand how to use Career Linker effectively, whether you're looking for a job or hiring talent.
 
 ## Table of Contents
 
@@ -8,46 +8,108 @@ This guide helps users understand how to use Career Linker effectively, whether 
 - [For Job Seekers](#for-job-seekers)
 - [For Job Providers](#for-job-providers)
 - [Features Overview](#features-overview)
+- [Dashboard Navigation](#dashboard-navigation)
+- [Application Management](#application-management)
 - [Tips & Best Practices](#tips--best-practices)
 - [Troubleshooting](#troubleshooting)
+- [Privacy & Security](#privacy--security)
 
 ## Getting Started
 
 ### Creating Your Account
 
 1. **Visit Career Linker**: Navigate to the application homepage
-2. **Sign Up**: Click "Sign Up" and choose your account type:
+2. **Sign Up**: Click "Register" in the top navigation and choose your preferred method:
+   - **Email & Password**: Create account with email and secure password
+   - **Google OAuth**: Sign up with your Google account for quick access
+3. **Choose Account Type**: Select your user type:
    - **Job Seeker**: Looking for employment opportunities
    - **Job Provider**: Posting jobs and hiring candidates
-3. **Complete Registration**: Fill in your details and verify your email
-4. **Set Up Profile**: Complete your profile information for better matches
+4. **Complete Profile**: Fill in your profile information for better experience
+5. **Email Verification**: Verify your email address if using email signup
 
-### Account Types
+### Account Types & Capabilities
 
 #### Job Seeker Account
-- Search and apply for jobs
-- Track application status
-- Build detailed professional profile
-- Upload and manage resume
-- Get job recommendations
+- **Job Search**: Browse and search through available job postings
+- **Advanced Filtering**: Filter jobs by location, type, company, and keywords
+- **Application Management**: Apply for jobs and track application status
+- **Profile Building**: Create comprehensive professional profile
+- **Resume Management**: Upload and manage PDF resumes
+- **Dashboard Analytics**: View application statistics and job recommendations
 
 #### Job Provider Account
-- Post and manage job listings
-- Review and filter applications
-- Contact candidates directly
-- Access hiring analytics
-- Manage company profile
+- **Job Posting**: Create and manage detailed job listings
+- **Application Review**: Review and manage candidate applications
+- **Candidate Communication**: Access candidate contact information
+- **Hiring Analytics**: Track job performance and application metrics
+- **Company Profile**: Manage company information and branding
+- **Application Status Management**: Update application status throughout hiring process
 
 ## For Job Seekers
 
 ### Setting Up Your Profile
 
 1. **Personal Information**
-   - Complete your basic details (name, location, contact)
-   - Add a professional bio highlighting your strengths
-   - Upload a current profile photo (optional)
+   - Complete your basic details (name, location, contact information)
+   - Add a professional bio highlighting your strengths and career goals
+   - Set your availability status and salary expectations
 
 2. **Professional Details**
+   - **Skills**: List your technical and soft skills
+   - **Experience**: Add your work experience and years in the field
+   - **Education**: Include educational background and certifications
+   - **Portfolio Links**: Add LinkedIn, GitHub, and personal portfolio URLs
+
+3. **Resume Management**
+   - Upload your latest resume in PDF format (max 10MB)
+   - Ensure your resume is up-to-date and relevant
+   - The system will extract text for job matching algorithms
+
+### Finding and Applying for Jobs
+
+1. **Job Search**
+   - Use the search bar to find jobs by keywords, company, or location
+   - Apply filters to narrow down results:
+     - **Job Type**: Full-time, Part-time, Contract, Freelance, Internship
+     - **Location**: Filter by city, state, or remote options
+     - **Company**: Search for specific companies
+   - Browse the main job feed for new opportunities
+
+2. **Job Details**
+   - Click on any job card to view detailed information
+   - Review job requirements, benefits, and company information
+   - Check application deadline and job posting date
+   - View company profile and other job postings
+
+3. **Applying for Jobs**
+   - Click "Apply Now" button on job details page
+   - Write a compelling cover letter specific to the role
+   - Select your most relevant resume
+   - Submit your application
+   - Receive confirmation of successful submission
+
+### Managing Applications
+
+1. **Application Dashboard**
+   - Access your applications from the main dashboard
+   - View all applications with current status
+   - Filter applications by status (Pending, Reviewed, Interview, etc.)
+   - Sort applications by date or company
+
+2. **Application Status Tracking**
+   - **Pending**: Application submitted and awaiting review
+   - **Reviewed**: Employer has reviewed your application
+   - **Interview**: You've been selected for an interview
+   - **Accepted**: Congratulations! You got the job
+   - **Rejected**: Application was not successful
+   - **Withdrawn**: You withdrew your application
+
+3. **Application History**
+   - View detailed application timeline
+   - Access submitted cover letters and resumes
+   - Review employer feedback (if provided)
+   - Track interview dates and notes
    - **Skills**: List your technical and soft skills
    - **Experience**: Add your work history and experience level
    - **Education**: Include your educational background
